@@ -7,9 +7,9 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes')
 
-const { enviroment } = require('./config');
+const { environment } = require('./config');
 const { HostNotFoundError } = require('sequelize');
-const isProduction = enviroment === 'production';
+const isProduction = environment === 'production';
 const { ValidationError } = require('sequelize');
 
 const app = express();
@@ -73,15 +73,12 @@ app.use(
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
     console.error(err);
-    // res.json({
-    //   title: err.title || 'Server Error',
-    //   message: err.message,
-    //   errors: err.errors,
-    //   stack: isProduction ? null : err.stack
-    // });
     res.json({
-      message: process.env.NODE_ENV
-    })
+      title: err.title || 'Server Error',
+      message: err.message,
+      errors: err.errors,
+      stack: isProduction ? null : err.stack
+    });
   });
 
 
