@@ -57,6 +57,7 @@ app.use(
 
   // for catching sequelize errors
   app.use((err, req, res, next) => {
+    console.log('in sequelize errors')
     if (err instanceof ValidationError) {
       let errors = {};
       for (let error of err.errors) {
@@ -68,7 +69,7 @@ app.use(
     next(err);
   });
 
-  console.log(isProduction);
+
   // for formatting all errors
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
