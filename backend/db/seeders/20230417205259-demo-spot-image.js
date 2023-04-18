@@ -22,7 +22,7 @@ module.exports = {
         preview: true
       },
       {
-        spotId: 1,
+        spotId: 3,
         url: 'fake3',
         preview: true
       }

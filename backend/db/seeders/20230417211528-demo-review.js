@@ -25,9 +25,21 @@ module.exports = {
       },
       {
         spotId: 3,
-        userId: 2,
+        userId: 3,
         review: 'The botanical gardens were incredible!',
         stars: 5
+      },
+      {
+        spotId: 1,
+        userId: 3,
+        review: 'It was too granola...',
+        stars: 3
+      },
+      {
+        spotId: 3,
+        userId: 1,
+        review: 'Piedmont Park was amazing',
+        stars: 4
       }
 
     ], {});

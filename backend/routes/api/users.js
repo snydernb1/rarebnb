@@ -8,7 +8,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
-
+// console.log('in users');
 
 const validateSignup = [
     check('email')
