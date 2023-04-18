@@ -2,14 +2,76 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAith } = require('../../utils/auth');
-const { Spot, Review, SpotImage } = require('../../db/models');
+const { Spot, Review, SpotImage, User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
 // console.log('in spots router');
+// Helper function to get avgRating and numReviews
+const avgRating = async (id) => {
 
+    const avgObj = {}
+
+    let revData = await Review.findAll({
+        where: {
+            spotId: id
+        }
+    });
+
+    let ratingTotal = 0;
+    revData.forEach(ele => {
+        ratingTotal = ratingTotal + ele.stars
+    });
+
+    let avgRating = ratingTotal / revData.length;
+    avgObj.numReviews = revData.length;
+    avgObj.avgStarRating = avgRating;
+
+    return avgObj;
+};
+
+//GET spot by id
+router.get('/:spotId', async (req, res, next) => {
+
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+
+    if (spot) {
+        const objSpot = spot.toJSON();
+
+        const avgObj = await avgRating(spotId);
+        // console.log('avgobj test', avgObj);
+
+        const SpotImages = await SpotImage.findAll({
+            where: {
+                spotId: spotId
+            },
+            attributes: ['id', 'url', 'preview']
+        });
+
+        const Owner = await User.findOne({
+            where: {
+                id: spot.ownerId
+            },
+            attributes: ['id', 'firstName', 'lastName']
+        });
+
+        return res.json({
+            ...objSpot,
+            ...avgObj,
+            SpotImages,
+            Owner
+        });
+    } else {
+        const err = new Error();
+        err.status = 404;
+        err.message = "Spot couldn't be found";
+        return next(err);
+    }
+
+});
 
 //GET all spots by owner
 router.get('/current', async (req, res) => {
