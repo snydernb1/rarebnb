@@ -46,7 +46,7 @@ module.exports = {
         name: 'City Hive',
         description: 'Sleeps 4 people and walking distance to Piedmont Park.',
         price: 1000
-      },
+      }
     ], {})
     /**
      * Add seed commands here.

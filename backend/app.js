@@ -43,7 +43,7 @@ app.use(
   );
 
   app.use(routes); // all routes go here
-  console.log('in app');
+  // console.log('in app');
 
 
   // Error Handlers ----------------------------------------------

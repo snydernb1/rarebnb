@@ -8,7 +8,7 @@ const { User } = require('../../db/models');
 
 router.use(restoreUser);
 
-console.log('in api router');
+// console.log('in api router');
 
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
