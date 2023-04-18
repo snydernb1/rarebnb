@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, reqSpotAuth } = require('../../utils/auth');
 const { Spot, Review, SpotImage, User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -219,11 +219,24 @@ router.get('/', async (req, res) => {
     });
 });
 
+//POST add image by spot id
+router.post('/:spotId/images', requireAuth, reqSpotAuth, async (req, res) => {
 
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
 
-// router.use(requireAuth(req, res, next));
+        const { url, preview } = req.body;
 
+        const img = await spot.createSpotImage({
+            url, preview
+        });
 
+        return res.json({
+            id: img.id,
+            url,
+            preview
+        });
+});
 
 //POST create a spot
 router.post('/', requireAuth, validateSpot, async (req, res) => {
