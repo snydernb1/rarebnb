@@ -68,16 +68,20 @@ app.use(
     next(err);
   });
 
+  console.log(isProduction);
   // for formatting all errors
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
     console.error(err);
+    // res.json({
+    //   title: err.title || 'Server Error',
+    //   message: err.message,
+    //   errors: err.errors,
+    //   stack: isProduction ? null : err.stack
+    // });
     res.json({
-      title: err.title || 'Server Error',
-      message: err.message,
-      errors: err.errors,
-      stack: isProduction ? null : err.stack
-    });
+      message: process.env.NODE_ENV
+    })
   });
 
 
