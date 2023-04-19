@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth, reqSpotAuth } = require('../../utils/auth');
-const { Spot, Review, SpotImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -132,6 +132,7 @@ router.get('/:spotId', async (req, res, next) => {
     const spotId = req.params.spotId;
     const spot = await Spot.findByPk(spotId);
 
+    console.log(spot)
     if (spot) {
         const objSpot = spot.toJSON();
 
@@ -237,6 +238,53 @@ router.post('/:spotId/images', requireAuth, reqSpotAuth, async (req, res) => {
             url,
             preview
         });
+});
+
+//GET all reviews by spot id
+router.get('/:spotId/reviews', async (req, res, next) => {
+
+    // console.log("in /:spotId/reviews")
+    const spotId = req.params.spotId;
+    let reviews = []
+
+    const spot = await Spot.findByPk(spotId);
+
+    // console.log(data)
+    if (spot) {
+
+        //-------------------------------- Get User
+        for (let i = 0; i < spot.length; i++) {
+            let Spotid = spot[i].id;
+            let newSpot = data[i].toJSON();
+
+            let userData = await User.findByPk(data[i].ownerId, {
+                attributes: ['id', 'firstName', 'lastName']
+            });
+
+            console.log(newReview)
+       newReview.User = userData;
+
+       //-------------------------------- Get ReviewImages
+        let reviewImages = await ReviewImage.findAll({
+            where: {
+                reviewId: data[i].id
+            },
+            attributes: ['id','url']
+        });
+
+        newReview.ReviewImages = reviewImages
+        reviews.push(newReview)
+    };
+
+        return res.json({
+            Reviews: reviews
+        });
+    } else {
+        const err = new Error();
+        err.status = 404;
+        err.message = "Spot couldn't be found";
+        return next(err);
+    };
 });
 
 //POST create a spot
