@@ -2,6 +2,7 @@ const router = require('express').Router();
 const sessionRouter = require('./session');
 const usersRouter = require('./users');
 const spotsRouter = require('./spots'); //need to change the require path dumby
+const reviewsRouter = require('./reviews'); //need to change the require path dumby
 const { setTokenCookie,restoreUser,requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
@@ -13,6 +14,7 @@ router.use(restoreUser);
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
+router.use('/reviews', reviewsRouter);
 
 
 // router.get('/restore-user', (req, res) => {
