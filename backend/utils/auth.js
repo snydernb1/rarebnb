@@ -109,4 +109,23 @@ const reqReviewAuth = async function (req, res, next) {
     return next(err);
 }
 
-module.exports = {setTokenCookie, restoreUser, requireAuth, reqSpotAuth, reqReviewAuth};
+const reqBookAuth = async function (req, res, next) {
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+        const err = new Error();
+        err.status = 404;
+        err.message = "Spot couldn't be found";
+        return next(err);
+    }
+
+    if (Number(req.user.id) !== Number(spot.ownerId)) return next();
+
+    const err = new Error('Authorization required');
+    err.title = 'Authorization required';
+    err.errors = { message: 'Forbidden'};
+    err.status = 403;
+    return next(err);
+}
+module.exports = {setTokenCookie, restoreUser, requireAuth, reqSpotAuth, reqReviewAuth, reqBookAuth};

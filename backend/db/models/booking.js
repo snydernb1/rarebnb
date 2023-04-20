@@ -19,19 +19,19 @@ module.exports = (sequelize, DataTypes) => {
     spotId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     startDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
         isDate: true,
-        isBefore: this.endDate
+        // isBefore: this.endDate
       }
     },
     endDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
         isDate: true,
-        isAfter: this.startDate
+        // isAfter: this.startDate
       }
     }
   }, {
