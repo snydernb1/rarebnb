@@ -249,32 +249,41 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 
     const spot = await Spot.findByPk(spotId);
 
-    // console.log(data)
     if (spot) {
 
-        //-------------------------------- Get User
-        for (let i = 0; i < spot.length; i++) {
-            let Spotid = spot[i].id;
-            let newSpot = data[i].toJSON();
+        //-------------------------------- Get Reviews
+        let reviewData = await Review.findAll({
+            where: {
+                spotId: spot.id
+            }
+        });
+        for (let i = 0; i < reviewData.length; i++) {
+            let reviewId = reviewData[i].id;
+            let newReview = reviewData[i].toJSON();
 
-            let userData = await User.findByPk(data[i].ownerId, {
+        console.log("test", newReview)
+
+    //     //-------------------------------- Get User
+            console.log('for loop')
+
+            let userData = await User.findByPk(reviewData[i].userId, {
                 attributes: ['id', 'firstName', 'lastName']
             });
 
-            console.log(newReview)
+            console.log(userData)
        newReview.User = userData;
 
        //-------------------------------- Get ReviewImages
         let reviewImages = await ReviewImage.findAll({
             where: {
-                reviewId: data[i].id
+                reviewId: reviewData[i].id
             },
             attributes: ['id','url']
         });
 
         newReview.ReviewImages = reviewImages
         reviews.push(newReview)
-    };
+        };
 
         return res.json({
             Reviews: reviews
