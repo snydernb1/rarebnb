@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, requireAuth, reqSpotAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, reqSpotAuth, reqReviewAuth } = require('../../utils/auth');
 const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -63,6 +63,36 @@ reviews.push(newReview)
     });
 });
 
+//POST add image to review by review id
+router.post('/:reviewId/images', requireAuth, reqReviewAuth, async (req, res, next) => {
+
+    const reviewId = req.params.reviewId;
+    const review = await Review.findByPk(reviewId);
+    const  { url } = req.body;
+
+    const reviewImages = await ReviewImage.findAll({
+        where: {
+            reviewId: review.id
+        }
+    });
+    // console.log(reviewImages)
+
+    if (reviewImages.length > 10) {
+        const err = new Error();
+        err.status = 403;
+        err.message = "Maximum number of images for this resource was reached";
+        return next(err);
+    }
+
+    const img = await review.createReviewImage({
+        url
+    });
+
+    res.json({
+        id: img.id,
+        url
+    });
+});
 
 
 
