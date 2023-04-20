@@ -317,13 +317,14 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
 
     if (spot) {
 
-        const review = await Review.findOne({
+        const existingReview = await Review.findOne({
             where: {
-                userId: user.id
+                userId: user.id,
+                spotId: spotId
             }
         });
 
-        if (review) {
+        if (existingReview) {
             const err = new Error();
             err.status = 500;
             err.message = "User already has a review for this spot";
