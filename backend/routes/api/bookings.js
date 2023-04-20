@@ -37,6 +37,7 @@ router.get('/current', requireAuth, async (req, res) => {
     for (let i = 0; i < data.length; i++) {
         let id = data[i].spotId;
         let newBooking = data[i].toJSON();
+        console.log(newBooking)
 
         const spot = await Spot.findByPk(id, {
             attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price']
