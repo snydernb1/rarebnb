@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth, reqSpotAuth, restoreUser } = require('../../utils/auth');
-const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -307,6 +307,58 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     };
 });
 
+//GET all bookings by spot id
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+    const { user } = req;
+
+    if (spot) {
+        if (user.id == spot.ownerId) {
+            let bookings = [];
+            const bookingData = await Booking.findAll({
+                where: {
+                    spotId: spotId
+                }
+            });
+
+            for (let i = 0; i < bookingData.length; i++) {
+               let newBooking = bookingData[i].toJSON();
+
+               const user = await User.findByPk(bookingData[i].userId, {
+                attributes: ['id', 'firstName', 'lastName']
+               });
+
+               newBooking.User = user;
+               bookings.push(newBooking);
+            }
+
+            return res.json({
+                Bookings: bookings
+            });
+        } else if (user.id !== spot.ownerId) {
+            let bookings = [];
+            const Bookings = await Booking.findAll({
+                where: {
+                    spotId: spotId
+                },
+                attributes: ['spotId', 'startDate', 'endDate']
+            });
+            return res.json({
+                Bookings
+            });
+    }
+    } else {
+        const err = new Error();
+        err.status = 404;
+        err.message = "Spot couldn't be found";
+        return next(err);
+    }
+
+
+});
+
 //POST create review by spot id
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
 
@@ -343,6 +395,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         return next(err);
     }
 });
+
 
 //POST create a spot
 router.post('/', requireAuth, validateSpot, async (req, res) => {
