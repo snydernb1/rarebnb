@@ -89,6 +89,7 @@ router.post('/:reviewId/images', requireAuth, reqReviewAuth, async (req, res, ne
 
     if (reviewImages.length > 10) {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 403;
         err.message = "Maximum number of images for this resource was reached";
         return next(err);

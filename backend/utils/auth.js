@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Spot, Review } = require('../db/models');
+const { User, Spot, Review, Booking, SpotImage, ReviewImage } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -75,6 +75,7 @@ const reqSpotAuth = async function (req, res, next) {
 
     if (!spot) {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 404;
         err.message = "Spot couldn't be found";
         return next(err);
@@ -87,7 +88,7 @@ const reqSpotAuth = async function (req, res, next) {
     err.errors = { message: 'Forbidden'};
     err.status = 403;
     return next(err);
-}
+};
 
 const reqReviewAuth = async function (req, res, next) {
     const reviewId = req.params.reviewId;
@@ -95,6 +96,7 @@ const reqReviewAuth = async function (req, res, next) {
 
     if (!review) {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 404;
         err.message = "Review couldn't be found";
         return next(err);
@@ -107,6 +109,117 @@ const reqReviewAuth = async function (req, res, next) {
     err.errors = { message: 'Forbidden'};
     err.status = 403;
     return next(err);
-}
+};
 
-module.exports = {setTokenCookie, restoreUser, requireAuth, reqSpotAuth, reqReviewAuth};
+const reqBookAuth = async function (req, res, next) {
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+        const err = new Error();
+        err.title = 'Bad Request';
+        err.status = 404;
+        err.message = "Spot couldn't be found";
+        return next(err);
+    }
+
+    if (Number(req.user.id) !== Number(spot.ownerId)) return next();
+
+    const err = new Error('Authorization required');
+    err.title = 'Authorization required';
+    err.errors = { message: 'Forbidden'};
+    err.status = 403;
+    return next(err);
+};
+
+const reqBookEditAuth = async function (req, res, next) {
+    const bookingId = req.params.bookingId;
+    const booking = await Booking.findByPk(bookingId);
+
+    if (!booking) {
+        const err = new Error();
+        err.title = 'Bad Request';
+        err.status = 404;
+        err.message = "Booking couldn't be found";
+        return next(err);
+    }
+
+    if (Number(req.user.id) === Number(booking.userId)) return next();
+
+    const err = new Error('Authorization required');
+    err.title = 'Authorization required';
+    err.errors = { message: 'Forbidden'};
+    err.status = 403;
+    return next(err);
+};
+
+const reqBookDeleteAuth = async function (req, res, next) {
+    const bookingId = req.params.bookingId;
+    const booking = await Booking.findByPk(bookingId);
+
+    if (!booking) {
+        const err = new Error();
+        err.title = 'Bad Request';
+        err.status = 404;
+        err.message = "Booking couldn't be found";
+        return next(err);
+    }
+    const spot = await Spot.findByPk(booking.spotId);
+
+    if (Number(req.user.id) === Number(booking.userId) || Number(req.user.id) === Number(spot.ownerId)) return next();
+
+    const err = new Error('Authorization required');
+    err.title = 'Authorization required';
+    err.errors = { message: 'Forbidden'};
+    err.status = 403;
+    return next(err);
+};
+
+const reqBookSpotImageAuth = async function (req, res, next) {
+    const imageId = req.params.imageId;
+    const img = await SpotImage.findByPk(imageId);
+    const spot = await Spot.findByPk(img.spotId);
+
+    if (!img) {
+        const err = new Error();
+        err.title = 'Bad Request';
+        err.status = 404;
+        err.message = "Spot Image couldn't be found";
+        return next(err);
+    }
+
+
+    if (Number(req.user.id) === Number(spot.ownerId)) return next();
+
+    const err = new Error('Authorization required');
+    err.title = 'Authorization required';
+    err.errors = { message: 'Forbidden'};
+    err.status = 403;
+    return next(err);
+};
+
+const reqBookReviewImageAuth = async function (req, res, next) {
+    const imageId = req.params.imageId;
+    const img = await ReviewImage.findByPk(imageId);
+
+    if (!img) {
+        const err = new Error();
+        err.title = 'Bad Request';
+        err.status = 404;
+        err.message = "Spot Image couldn't be found";
+        return next(err);
+    }
+
+    const review = await Review.findByPk(img.reviewId);
+
+    if (Number(req.user.id) === Number(review.userId)) return next();
+
+    const err = new Error('Authorization required');
+    err.title = 'Authorization required';
+    err.errors = { message: 'Forbidden'};
+    err.status = 403;
+    return next(err);
+};
+
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, reqSpotAuth, reqReviewAuth, reqBookAuth, reqBookEditAuth, reqBookDeleteAuth, reqBookSpotImageAuth, reqBookReviewImageAuth };

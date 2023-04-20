@@ -1,8 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, requireAuth, reqSpotAuth, restoreUser } = require('../../utils/auth');
-const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
+const { setTokenCookie, requireAuth, reqSpotAuth, restoreUser, reqBookAuth } = require('../../utils/auth');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -53,6 +53,17 @@ const validateReview = [
         .withMessage('Stars must be an integer from 1 to 5'),
     handleValidationErrors
 ];
+
+const validateBooking = [
+    check('endDate')
+        .custom((value, { req }) => {
+        let start = new Date(req.body.startDate)
+        let end =  new Date(req.body.endDate)
+        return Date.parse(end) > Date.parse(start)
+        })
+      .withMessage('endDate cannot be on or before startDate'),
+      handleValidationErrors
+]
 
 // console.log('in spots router');
 // Helper function to get avgRating and numReviews
@@ -172,6 +183,7 @@ router.get('/:spotId', async (req, res, next) => {
         });
     } else {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 404;
         err.message = "Spot couldn't be found";
         return next(err);
@@ -301,10 +313,64 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         });
     } else {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 404;
         err.message = "Spot couldn't be found";
         return next(err);
     };
+});
+
+//GET all bookings by spot id
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+    const { user } = req;
+
+    if (spot) {
+        if (user.id == spot.ownerId) {
+            let bookings = [];
+            const bookingData = await Booking.findAll({
+                where: {
+                    spotId: spotId
+                }
+            });
+
+            for (let i = 0; i < bookingData.length; i++) {
+               let newBooking = bookingData[i].toJSON();
+
+               const user = await User.findByPk(bookingData[i].userId, {
+                attributes: ['id', 'firstName', 'lastName']
+               });
+
+               newBooking.User = user;
+               bookings.push(newBooking);
+            }
+
+            return res.json({
+                Bookings: bookings
+            });
+        } else if (user.id !== spot.ownerId) {
+            let bookings = [];
+            const Bookings = await Booking.findAll({
+                where: {
+                    spotId: spotId
+                },
+                attributes: ['spotId', 'startDate', 'endDate']
+            });
+            return res.json({
+                Bookings
+            });
+    }
+    } else {
+        const err = new Error();
+        err.title = 'Bad Request';
+        err.status = 404;
+        err.message = "Spot couldn't be found";
+        return next(err);
+    }
+
+
 });
 
 //POST create review by spot id
@@ -338,10 +404,60 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         return res.json(newReview)
     } else {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 404;
         err.message = "Spot couldn't be found";
         return next(err);
     }
+});
+
+//POST create booking by spot id
+router.post('/:spotId/bookings', requireAuth, reqBookAuth, validateBooking, async (req, res, next) => {
+
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+    const { startDate, endDate } = req.body;
+    const { user } = req;
+
+    const bookings = await Booking.findAll({
+        where: {
+            spotId: spotId
+        }
+    });
+
+    if (bookings) {
+        for (let i = 0; i < bookings.length; i++) {
+
+            let existingstart = new Date(bookings[i].startDate);
+            let existingend =  new Date(bookings[i].endDate);
+            let start = new Date(startDate);
+            let end =  new Date(endDate);
+
+            if ((Date.parse(start) >= Date.parse(existingstart) && Date.parse(start) <= Date.parse(existingend)) || (Date.parse(end) >= Date.parse(existingstart) && Date.parse(end) <= Date.parse(existingend)) || (Date.parse(start) < Date.parse(existingstart) && Date.parse(end) > Date.parse(existingend))) {
+                const err = new Error();
+                err.title = 'Bad Request';
+                err.status = 403;
+                err.message = "Sorry, this spot is already booked for the specified dates";
+                err.errors = {
+                    startDate: "Start date conflicts with an existing booking",
+                    endDate: "End date conflicts with an existing booking"
+                }
+                return next(err);
+            }
+        }
+    }
+
+    // (Date.parse(existingstart) <= Date.parse(end) || (Date.parse(existingend) >= Date.parse(start)))
+
+    const booking = await spot.createBooking({
+        startDate, endDate, userId: user.id
+    });
+
+    return res.json(booking);
+    // return res.json({startDate, endDate, userId: user.id});
+
+
+
 });
 
 //POST create a spot
