@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, requireAuth, reqSpotAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, reqSpotAuth, restoreUser } = require('../../utils/auth');
 const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -40,6 +40,17 @@ const validateSpot = [
     check('price')
         .exists({ checkFalsy: true })
         .withMessage('Price per day is required'),
+    handleValidationErrors
+];
+
+const validateReview = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage('Review text is required'),
+    check('stars')
+        .exists( {checkFalsy: true } )
+        .isInt( { min: 1, max: 5 } )
+        .withMessage('Stars must be an integer from 1 to 5'),
     handleValidationErrors
 ];
 
@@ -294,6 +305,42 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         err.message = "Spot couldn't be found";
         return next(err);
     };
+});
+
+//POST create review by spot id
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
+
+    const spotId = req.params.spotId;
+    const { review, stars } = req.body;
+    const { user } = req;
+    const spot = await Spot.findByPk(spotId);
+
+    if (spot) {
+
+        const review = await Review.findOne({
+            where: {
+                userId: user.id
+            }
+        });
+
+        if (review) {
+            const err = new Error();
+            err.status = 500;
+            err.message = "User already has a review for this spot";
+            return next(err);
+        }
+
+        const newReview = await spot.createReview({
+            review, stars, userId: user.id
+        });
+
+        return res.json(newReview)
+    } else {
+        const err = new Error();
+        err.status = 404;
+        err.message = "Spot couldn't be found";
+        return next(err);
+    }
 });
 
 //POST create a spot
