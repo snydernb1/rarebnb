@@ -8,6 +8,16 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
+const validateReview = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage('Review text is required'),
+    check('stars')
+        .exists( {checkFalsy: true } )
+        .isInt( { min: 1, max: 5 } )
+        .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+];
 
 //GET all reviews by current user
 router.get('/current', requireAuth, async (req, res) => {
@@ -94,8 +104,32 @@ router.post('/:reviewId/images', requireAuth, reqReviewAuth, async (req, res, ne
     });
 });
 
+//PUT edit a review
+router.put('/:reviewId', requireAuth, reqReviewAuth, validateReview, async (req, res) => {
 
+    const reviewId = req.params.reviewId;
+    const existingReview = await Review.findByPk(reviewId);
+    const { review, stars } =  req.body;
 
+    existingReview.review = review;
+    existingReview.stars = stars;
+
+    await existingReview.save();
+
+    return res.json(existingReview);
+});
+
+//DELETE delete a review
+router.delete('/:reviewId', requireAuth, reqReviewAuth, async (req, res) => {
+    const reviewId = req.params.reviewId;
+    const review = await Review.findByPk(reviewId);
+
+    await review.destroy();
+
+    res.json({
+        message: "Successfully deleted"
+    });
+});
 
 
 module.exports = router;
