@@ -183,6 +183,7 @@ router.get('/:spotId', async (req, res, next) => {
         });
     } else {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 404;
         err.message = "Spot couldn't be found";
         return next(err);
@@ -312,6 +313,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         });
     } else {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 404;
         err.message = "Spot couldn't be found";
         return next(err);
@@ -362,6 +364,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     }
     } else {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 404;
         err.message = "Spot couldn't be found";
         return next(err);
@@ -401,6 +404,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         return res.json(newReview)
     } else {
         const err = new Error();
+        err.title = 'Bad Request';
         err.status = 404;
         err.message = "Spot couldn't be found";
         return next(err);
@@ -431,6 +435,7 @@ router.post('/:spotId/bookings', requireAuth, reqBookAuth, validateBooking, asyn
 
             if ((Date.parse(start) >= Date.parse(existingstart) && Date.parse(start) <= Date.parse(existingend)) || (Date.parse(end) >= Date.parse(existingstart) && Date.parse(end) <= Date.parse(existingend)) || (Date.parse(start) < Date.parse(existingstart) && Date.parse(end) > Date.parse(existingend))) {
                 const err = new Error();
+                err.title = 'Bad Request';
                 err.status = 403;
                 err.message = "Sorry, this spot is already booked for the specified dates";
                 err.errors = {
