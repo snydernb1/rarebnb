@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Spot, Review } = require('../db/models');
+const { User, Spot, Review, Booking } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -87,7 +87,7 @@ const reqSpotAuth = async function (req, res, next) {
     err.errors = { message: 'Forbidden'};
     err.status = 403;
     return next(err);
-}
+};
 
 const reqReviewAuth = async function (req, res, next) {
     const reviewId = req.params.reviewId;
@@ -107,7 +107,7 @@ const reqReviewAuth = async function (req, res, next) {
     err.errors = { message: 'Forbidden'};
     err.status = 403;
     return next(err);
-}
+};
 
 const reqBookAuth = async function (req, res, next) {
     const spotId = req.params.spotId;
@@ -127,5 +127,27 @@ const reqBookAuth = async function (req, res, next) {
     err.errors = { message: 'Forbidden'};
     err.status = 403;
     return next(err);
-}
-module.exports = {setTokenCookie, restoreUser, requireAuth, reqSpotAuth, reqReviewAuth, reqBookAuth};
+};
+
+const reqBookEditAuth = async function (req, res, next) {
+    const bookingId = req.params.bookingId;
+    const booking = await Booking.findByPk(bookingId);
+
+    if (!booking) {
+        const err = new Error();
+        err.status = 404;
+        err.message = "Booking couldn't be found";
+        return next(err);
+    }
+
+    if (Number(req.user.id) === Number(booking.userId)) return next();
+
+    const err = new Error('Authorization required');
+    err.title = 'Authorization required';
+    err.errors = { message: 'Forbidden'};
+    err.status = 403;
+    return next(err);
+};
+
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, reqSpotAuth, reqReviewAuth, reqBookAuth, reqBookEditAuth };
