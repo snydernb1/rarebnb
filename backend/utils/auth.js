@@ -178,7 +178,6 @@ const reqBookDeleteAuth = async function (req, res, next) {
 const reqBookSpotImageAuth = async function (req, res, next) {
     const imageId = req.params.imageId;
     const img = await SpotImage.findByPk(imageId);
-    const spot = await Spot.findByPk(img.spotId);
 
     if (!img) {
         const err = new Error();
@@ -188,6 +187,7 @@ const reqBookSpotImageAuth = async function (req, res, next) {
         return next(err);
     }
 
+    const spot = await Spot.findByPk(img.spotId);
 
     if (Number(req.user.id) === Number(spot.ownerId)) return next();
 
@@ -206,7 +206,7 @@ const reqBookReviewImageAuth = async function (req, res, next) {
         const err = new Error();
         err.title = 'Bad Request';
         err.status = 404;
-        err.message = "Spot Image couldn't be found";
+        err.message = "Review Image couldn't be found";
         return next(err);
     }
 
