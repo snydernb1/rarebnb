@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Spot, Review, Booking } = require('../db/models');
+const { User, Spot, Review, Booking, SpotImage } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -175,4 +175,26 @@ const reqBookDeleteAuth = async function (req, res, next) {
     return next(err);
 };
 
-module.exports = { setTokenCookie, restoreUser, requireAuth, reqSpotAuth, reqReviewAuth, reqBookAuth, reqBookEditAuth, reqBookDeleteAuth };
+const reqBookSpotImageAuth = async function (req, res, next) {
+    const imageId = req.params.imageId;
+    const img = await SpotImage.findByPk(imageId);
+    const spot = await Spot.findByPk(img.spotId);
+
+    if (!img) {
+        const err = new Error();
+        err.title = 'Bad Request';
+        err.status = 404;
+        err.message = "Spot Image couldn't be found";
+        return next(err);
+    }
+
+
+    if (Number(req.user.id) === Number(spot.ownerId)) return next();
+
+    const err = new Error('Authorization required');
+    err.title = 'Authorization required';
+    err.errors = { message: 'Forbidden'};
+    err.status = 403;
+    return next(err);
+};
+module.exports = { setTokenCookie, restoreUser, requireAuth, reqSpotAuth, reqReviewAuth, reqBookAuth, reqBookEditAuth, reqBookDeleteAuth, reqBookSpotImageAuth };
