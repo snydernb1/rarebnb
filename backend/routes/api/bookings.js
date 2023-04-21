@@ -53,8 +53,13 @@ router.get('/current', requireAuth, async (req, res) => {
             }
         });
 
-        console.log(imgData);
-        newSpot.previewImage = imgData.url
+
+        if (imgData) {
+            console.log(imgData);
+            newSpot.previewImage = imgData.url
+        } else {
+            newSpot.previewImage = "No preview image available at this time"
+        }
 
         newBooking.Spot = newSpot;
         bookings.push(newBooking);
