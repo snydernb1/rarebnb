@@ -70,7 +70,7 @@ router.delete('/', (req, res) => {
 
 
 //get session user
-router.get('/', requireAuth, (req, res) => {
+router.get('/', (req, res) => {
     const { user } = req;
 
     if (user) {
