@@ -5,6 +5,7 @@ const { setTokenCookie, requireAuth, reqSpotAuth, restoreUser, reqBookAuth } = r
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { Op } = require('sequelize');
 
 const router = express.Router();
 //auto redeploy test
@@ -64,6 +65,7 @@ const validateBooking = [
       .withMessage('endDate cannot be on or before startDate'),
       handleValidationErrors
 ]
+
 
 // console.log('in spots router');
 // Helper function to get avgRating and numReviews
@@ -192,9 +194,115 @@ router.get('/:spotId', async (req, res, next) => {
 });
 
 //GET all spots
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
 
-    let data = await Spot.findAll();
+    let query = {
+        where: {},
+    }
+
+//------------------------------------------------------------ Query filters
+    let {page, size, minLat, minLng, minPrice, maxLat, maxLng, maxPrice} = req.query
+
+
+    let errCount = 0;
+
+
+    page = Number(page);
+    size = Number(size);
+
+    const err = new Error();
+    err.title = 'Bad Request';
+    err.status = 400;
+    err.message = "Bad Request";
+    err.errors = {};
+
+
+
+
+    if (page <= 0) {
+        err.errors.page = "Page must be greater than or equal to 1"
+        errCount += 1;
+    }
+    if (size <= 0) {
+        err.errors.size = "Size must be greater than or equal to 1"
+        errCount += 1;
+    }
+    if (minPrice <= 0) {
+        err.errors.minPrice = "Minimum price must be greater than or equal to 0"
+        errCount += 1;
+    }
+    if (maxPrice <= 0) {
+        err.errors.maxPrice = "Maximum price must be greater than or equal to 0"
+        errCount += 1;
+    }
+    if (isNaN(minLat) && minLat !== undefined) {
+        err.errors.minLat = "Minimum latitude is invalid"
+        errCount += 1;
+    }
+    if (isNaN(maxLat) && maxLat !== undefined) {
+        err.errors.maxLat = "Maximum latitude is invalid"
+        errCount += 1;
+    }
+    if (isNaN(minLng) && minLng !== undefined) {
+        err.errors.minLng = "Minimum longitude is invalid"
+        errCount += 1;
+    }
+    if (isNaN(maxLng) && maxLng !== undefined) {
+        err.errors.maxLng = "Maximum longitude is invalid"
+        errCount += 1;
+    }
+
+
+
+    if (errCount > 0) {
+        return next(err);
+    }
+
+    if (isNaN(page) || page < 0) page = 1;
+    if (isNaN(size) || size < 0) size = 20;
+    if (isNaN(size) || size > 20) size = 20;
+    if (isNaN(page) || page > 10) page = 10;
+
+    query.limit = size
+    query.offset = size * (page - 1)
+
+console.log('minprice', minPrice)
+
+    if (minLat) {
+        query.where.lat = { [Op.gte]: `${minLat}`}
+    }
+    if (maxLat) {
+        query.where.lat = { [Op.lte]: `${maxLat}`}
+    }
+    if (minLat && maxLat) {
+        query.where.lat = { [Op.gte]: `${minLat}`, [Op.lte]: `${maxLat}`}
+    }
+
+
+    if (minLng) {
+        query.where.lng = { [Op.gte]: `${minLng}`}
+    }
+    if (maxLng) {
+        query.where.lng = { [Op.lte]: `${maxLng}`}
+    }
+    if (maxLng && minLng) {
+        query.where.lng = { [Op.gte]: `${minLng}`, [Op.lte]: `${maxLng}`}
+    }
+
+
+    if (minPrice) {
+        query.where.price = { [Op.gte]: `${minPrice}`}
+    }
+    if (maxPrice) {
+        query.where.price = { [Op.lte]: `${maxPrice}`}
+    }
+    if (maxPrice && minPrice) {
+        query.where.price = { [Op.gte]: `${minPrice}`, [Op.lte]: `${maxPrice}`}
+    }
+
+
+    //---------------------------------------------- Find all spots
+    let data = await Spot.findAll(query);
 
     let spots = []
 
@@ -240,7 +348,9 @@ router.get('/', async (req, res) => {
 
 
     return res.json({
-        Spots: spots
+        Spots: spots,
+        page: page,
+        size: size
     });
 });
 
