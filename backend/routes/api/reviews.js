@@ -41,7 +41,7 @@ router.get('/current', requireAuth, async (req, res) => {
     newReview.User = userData;
 //-------------------------------- Get Spot
 let spotData = await Spot.findByPk(data[i].spotId, {
-    attributes: ['id', 'ownerId', 'address', 'city', 'country', 'lat', 'lng', 'name', 'price']
+    attributes: ['id', 'ownerId', 'address', 'city', 'country', 'lat', 'lng', 'name', 'price', 'state']
 });
 
 let newSpot = spotData.toJSON();
