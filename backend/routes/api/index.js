@@ -47,6 +47,7 @@ router.use('/review-images', reviewImagesRouter);
 
 
 router.post('/test', (req, res) => {
+    console.log('are we hitting test')
     res.json({ requestBody: req.body });
 });
 
