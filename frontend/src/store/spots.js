@@ -27,9 +27,8 @@ export const fetchSpots = () => async (dispatch) => {
 
     if (response.ok) {
     const spots = await response.json()
-    // console.log('spots from thunk')
     dispatch(getSpots(spots));
-    } //might need an else for errors?
+} //might need an else for errors?
 }
 
 export const fetchSpot = (id) => async (dispatch) => {
@@ -37,7 +36,6 @@ export const fetchSpot = (id) => async (dispatch) => {
 
     if (response.ok) {
     const spot = await response.json()
-    // console.log('spots from thunk')
     dispatch(getSpot(spot));
     } //might need an else for errors?
 }
@@ -65,10 +63,12 @@ const spotsReducer = (state = initialState, action) => {
             return spotState;
 
         case SINGLE_SPOT:
-            const singleSpot = action.spots.Spot //need to log this
-            console.log('reducer single spot action', singleSpot)
+            // console.log('spot action', action)
+            const singleSpot = action.spot //need to log this
+            // console.log('reducer single spot action', singleSpot)
             spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
 
+            spotState.singleSpot = singleSpot
             // need to pass single spot action into new spot state.
             return spotState
         default:

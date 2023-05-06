@@ -23,6 +23,7 @@ function Spots() {
         {spots.map((spot)=> (
             <SpotCard
             spot={spot}
+            id={spot.id}
             />
         ))}
     </div>);

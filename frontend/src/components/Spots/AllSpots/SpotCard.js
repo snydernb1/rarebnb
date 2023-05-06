@@ -1,11 +1,16 @@
+import { Link } from 'react-router-dom'
+
 import './SpotCard.css'
 
 
-export default function SpotCard ({spot}) {
+export default function SpotCard ({spot, id}) {
 
     // console.log('spot from SpotCard', spot)
     return (<>
-    <div className="spotCard">
+    <Link
+    className="spotCard"
+    to={`/${id}`}
+    >
 
         <div className='imgDiv'>
         <img src={spot.previewImage} />
@@ -21,6 +26,6 @@ export default function SpotCard ({spot}) {
         <p>night</p>
         </div>
 
-    </div>
+    </Link>
     </>)
 };
