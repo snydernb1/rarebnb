@@ -3,7 +3,7 @@ import './SpotCard.css'
 
 export default function SpotCard ({spot}) {
 
-    console.log('spot from SpotCard', spot)
+    // console.log('spot from SpotCard', spot)
     return (<>
     <div className="spotCard">
 
