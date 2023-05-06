@@ -19,7 +19,7 @@ export const fetchSpots = () => async (dispatch) => {
 
     if (response.ok) {
     const spots = await response.json()
-    // console.log('spots from thunk',)
+    // console.log('spots from thunk')
     dispatch(getSpots(spots));
     } //might need an else for errors?
 }
@@ -32,18 +32,18 @@ const initialState = {
 };
 
 const spotsReducer = (state = initialState, action) => {
-    let newState;
+    // let newState;
     switch (action.type) {
 
         case ALL_SPOTS:
             // console.log('spots from reducer', action.spots.Spots)
-            // console.log('state from reducer', state)
             const allSpots = action.spots.Spots
-            newState = {...state}
+            const spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
+            // console.log('state from reducer', spotState)
             allSpots.forEach((spot) => {
-                newState.allSpots[spot.id] = spot;
+                spotState.allSpots[spot.id] = spot;
               });
-            return newState;
+            return spotState;
 
 
         default:

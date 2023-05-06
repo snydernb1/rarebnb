@@ -2,30 +2,30 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpots } from "../../store/spots";
 import SpotCard from "./SpotCard";
+import './Spots.css'
 
 function Spots() {
+    const spotsObj = useSelector(state => state.spots.allSpots);
     const dispatch = useDispatch();
-    const spotsObj = useSelector(state=> state.spots.allSpots)
 
-    // console.log('Spots from spot component', spots)
     const spots = Object.values(spotsObj);
+    // console.log('Spots from spot component', spots)
 
+    // console.log('is spots running?')
 
-
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(fetchSpots());
-    }, [dispatch])
+    }, [dispatch]);
 
 
     return (
-    <>
-        <h1>Hello From SPots</h1>
+    <div className="cards">
         {spots.map((spot)=> (
             <SpotCard
             spot={spot}
             />
         ))}
-    </>);
+    </div>);
 };
 
 export default Spots;
