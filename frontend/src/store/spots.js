@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const ALL_SPOTS = "spots/getSpots";
 const SINGLE_SPOT = "spots/getSpot";
 const CREATE_SPOT = "spots/createSpot"
+const OWNER_SPOTS = "spots/ownerSpots"
 
 
 //====ACTION CREATORS=======================================
@@ -25,6 +26,13 @@ const createSpot = (data) => {
     return {
         type: CREATE_SPOT,
         data
+    }
+}
+
+const getOwnerSpots = (spots) => {
+    return {
+        type: OWNER_SPOTS,
+        spots
     }
 }
 
@@ -77,6 +85,18 @@ export const fetchNewSpotImgs = (data) => async (dispatch) => {
     } //might need an else for errors?
 }
 
+export const fetchUserSpots = () => async (dispatch) => {
+    // console.log('in the thunk for user spots')
+    const response = await csrfFetch(`/api/spots/current`)
+
+    if (response.ok) {
+    const ownerSpots = await response.json()
+    // console.log(ownerSpots)
+    dispatch(getOwnerSpots(ownerSpots));
+    // return ownerSpots;
+    } //might need an else for errors?
+}
+
 //====REDUCER===============================================
 
 const initialState = {
@@ -111,13 +131,24 @@ const spotsReducer = (state = initialState, action) => {
 
         case CREATE_SPOT:
             //console.log to determine data after component is set up
-            console.log('are we in the reducer? ActionObj', action.data)
+            // console.log('are we in the reducer? ActionObj', action.data)
             spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
 
             spotState.allSpots[action.data.id] = action.data
-            console.log('reducer spotState', spotState)
+            // console.log('reducer spotState', spotState)
 
             return spotState;
+
+        case OWNER_SPOTS:
+            console.log('spots from reducer', action)
+            const userSpots = action.spots.Spots
+            spotState = {allSpots: {}, singleSpot: {...state.singleSpot}}
+            // console.log('state from reducer', spotState)
+            userSpots.forEach((spot) => {
+                spotState.allSpots[spot.id] = spot;
+                });
+            return spotState;
+
 
         default:
             return state;

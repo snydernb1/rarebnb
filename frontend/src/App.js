@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation";
 import Spots from './components/Spots/AllSpots/index'
 import GetSingleSpot from "./components/Spots/SingleSpot";
 import CreateSpot from "./components/Spots/CreateSpot";
+import ManageSpots from "./components/Spots/ManageSpots";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,10 @@ function App() {
 
           <Route path='/new'>
             <CreateSpot />
+          </Route>
+
+          <Route path='/users/:userId'>
+            <ManageSpots />
           </Route>
 
           <Route path='/:spotId'>

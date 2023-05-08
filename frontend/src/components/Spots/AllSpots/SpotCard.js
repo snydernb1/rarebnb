@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom'
 import './SpotCard.css'
 
 
-export default function SpotCard ({spot, id}) {
+export default function SpotCard ({spot, id, owner}) {
+
+    const handleUpdate = () => {
+        return
+    }
+
+    const handleDelete = () => {
+        return
+    }
 
     // console.log('spot from SpotCard', spot)
     return (<>
@@ -25,6 +33,11 @@ export default function SpotCard ({spot, id}) {
         <p className='boldText'>${spot.price}</p>
         <p>night</p>
         </div>
+
+        {owner?.id === spot.ownerId && <div>
+            <button onClick={handleUpdate}>Update</button>
+            <button onClick={handleDelete}>Delete</button>
+            </div>}
 
     </Link>
     </>)
