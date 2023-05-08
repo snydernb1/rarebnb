@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const ALL_SPOTS = "spots/getSpots";
 const SINGLE_SPOT = "spots/getSpot";
+const CREATE_SPOT = "spots/createSpot"
 
 
 //====ACTION CREATORS=======================================
@@ -17,6 +18,13 @@ const getSpot = (spot) => {
     return {
         type: SINGLE_SPOT,
         spot
+    }
+}
+
+const createSpot = (data) => {
+    return {
+        type: CREATE_SPOT,
+        data
     }
 }
 
@@ -37,6 +45,19 @@ export const fetchSpot = (id) => async (dispatch) => {
     if (response.ok) {
     const spot = await response.json()
     dispatch(getSpot(spot));
+    } //might need an else for errors?
+}
+
+export const fetchNewSpot = (data) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+
+    if (response.ok) {
+    const newSpot = await response.json()
+    dispatch(createSpot(newSpot));
     } //might need an else for errors?
 }
 
@@ -71,6 +92,13 @@ const spotsReducer = (state = initialState, action) => {
             spotState.singleSpot = singleSpot
             // need to pass single spot action into new spot state.
             return spotState
+
+        case CREATE_SPOT:
+              //console.log to determine data after component is set up
+            spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
+
+            return state;
+
         default:
             return state;
     }
