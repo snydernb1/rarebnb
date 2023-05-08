@@ -13,6 +13,9 @@ function Navigation({ isLoaded }){
       <NavLink className="navlink" exact to="/">rarebnb</NavLink>
 
       <div>
+
+      {sessionUser && <NavLink to='/new'>Create a New Spot</NavLink>}
+
       {isLoaded && (
       <ProfileButton user={sessionUser} />
       )}

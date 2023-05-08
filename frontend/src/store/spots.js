@@ -58,6 +58,7 @@ export const fetchNewSpot = (data) => async (dispatch) => {
     if (response.ok) {
     const newSpot = await response.json()
     dispatch(createSpot(newSpot));
+    return newSpot;
     } //might need an else for errors?
 }
 
