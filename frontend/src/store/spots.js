@@ -4,6 +4,7 @@ const ALL_SPOTS = "spots/getSpots";
 const SINGLE_SPOT = "spots/getSpot";
 const CREATE_SPOT = "spots/createSpot"
 const OWNER_SPOTS = "spots/ownerSpots"
+const DELETE_SPOT = "spots/deleteSpot"
 
 
 //====ACTION CREATORS=======================================
@@ -33,6 +34,13 @@ const getOwnerSpots = (spots) => {
     return {
         type: OWNER_SPOTS,
         spots
+    }
+}
+
+const deleteSpot = (spot) => {
+    return {
+        type: DELETE_SPOT,
+        spot
     }
 }
 
@@ -97,6 +105,20 @@ export const fetchUserSpots = () => async (dispatch) => {
     } //might need an else for errors?
 }
 
+export const fetchDeleteSpot = (id) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+    })
+
+    console.log('in fetch delete spot', response)
+    if (response.ok) {
+    const deletedSpot = await response.json()
+    // console.log("deleted spot thunk", deletedSpot)
+    dispatch(deleteSpot(id));
+    } //might need an else for errors?
+}
+
 //====REDUCER===============================================
 
 const initialState = {
@@ -140,7 +162,7 @@ const spotsReducer = (state = initialState, action) => {
             return spotState;
 
         case OWNER_SPOTS:
-            console.log('spots from reducer', action)
+            // console.log('spots from reducer', action)
             const userSpots = action.spots.Spots
             spotState = {allSpots: {}, singleSpot: {...state.singleSpot}}
             // console.log('state from reducer', spotState)
@@ -149,6 +171,18 @@ const spotsReducer = (state = initialState, action) => {
                 });
             return spotState;
 
+            case DELETE_SPOT:
+                console.log('spots from delete reducer', state)
+                // const userSpots = action.spots.Spots
+                spotState = {allSpots: {}, singleSpot: {...state.singleSpot}}
+                const currState = Object.values(state.allSpots)
+                currState.forEach((spot) => {
+                    if (spot.id !== action.spot) {
+                        spotState.allSpots[spot.id] = spot;
+
+                    }
+                });
+                return spotState;
 
         default:
             return state;

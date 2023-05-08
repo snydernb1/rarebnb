@@ -1,16 +1,21 @@
 import { Link } from 'react-router-dom'
 
 import './SpotCard.css'
+import { useDispatch } from 'react-redux'
+import { fetchDeleteSpot } from '../../../store/spots';
 
 
 export default function SpotCard ({spot, id, owner}) {
+    const dispatch = useDispatch();
 
     const handleUpdate = () => {
         return
     }
 
-    const handleDelete = () => {
-        return
+    const handleDelete = (e) => {
+        e.preventDefault();
+
+        dispatch(fetchDeleteSpot(id));
     }
 
     // console.log('spot from SpotCard', spot)
