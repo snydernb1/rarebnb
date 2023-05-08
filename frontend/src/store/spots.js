@@ -49,7 +49,7 @@ export const fetchSpot = (id) => async (dispatch) => {
 }
 
 export const fetchNewSpot = (data) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/`, {
+    const response = await csrfFetch(`/api/spots`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
@@ -59,6 +59,21 @@ export const fetchNewSpot = (data) => async (dispatch) => {
     const newSpot = await response.json()
     dispatch(createSpot(newSpot));
     return newSpot;
+    } //might need an else for errors?
+}
+
+export const fetchNewSpotImgs = (data) => async (dispatch) => {
+    console.log('in the thunki for imgs')
+    const response = await csrfFetch(`/api/spots/${data.spotId}/images`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+
+    if (response.ok) {
+    const newSpot = await response.json()
+    // dispatch(createSpot(newSpot));
+    // return newSpot;
     } //might need an else for errors?
 }
 
@@ -95,10 +110,14 @@ const spotsReducer = (state = initialState, action) => {
             return spotState
 
         case CREATE_SPOT:
-              //console.log to determine data after component is set up
+            //console.log to determine data after component is set up
+            console.log('are we in the reducer? ActionObj', action.data)
             spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
 
-            return state;
+            spotState.allSpots[action.data.id] = action.data
+            console.log('reducer spotState', spotState)
+
+            return spotState;
 
         default:
             return state;

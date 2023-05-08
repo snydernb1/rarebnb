@@ -12,7 +12,7 @@ export default function GetSingleSpot() {
 
 
 
-    console.log('back in comp for single spot',spot)
+    // console.log('back in comp for single spot',spot)
 
     useEffect(() => {
         const loadingTimeout = setTimeout(()=>{
@@ -34,7 +34,7 @@ export default function GetSingleSpot() {
     }
 
 
-    const images = spot.SpotImages.slice(0)
+    const images = spot.SpotImages.slice(1)
 
         if (images.length < 4) {
             for (let i = 0; i < 4; i++) {

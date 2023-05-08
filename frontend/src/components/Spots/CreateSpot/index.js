@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchNewSpot } from "../../../store/spots";
+import { fetchNewSpotImgs } from "../../../store/spots";
+import { useHistory } from "react-router-dom";
 
 
 
@@ -14,13 +16,15 @@ export default function CreateSpot() {
     const [name, setName] = useState("")
     const [price, setPrice] = useState("")
     const [prevImg, setPrevImg] = useState("")
-    const [imgTwo, setImgTwo] = useState("")
-    const [imgThree, setImgThree] = useState("")
-    const [imgFour, setImgFour] = useState("")
-    const [imgFive, setImgFive] = useState("")
+    const [imgs, setImgs] = useState({})
+    // const [imgTwo, setImgTwo] = useState("")
+    // const [imgThree, setImgThree] = useState("")
+    // const [imgFour, setImgFour] = useState("")
+    // const [imgFive, setImgFive] = useState("")
     const [submit, setSubmit] = useState(false)
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
 
     // console.log(sessionUser.id);
@@ -28,12 +32,27 @@ export default function CreateSpot() {
 //====Checking for Errors=======================================
     useEffect(() => {
         const errors = {}
-        if (country.length < 4) errors.country = "Country is required"
+        if (!country.length) errors.country = "Country is required"
+        if (!address.length) errors.address = "Address is required"
+        if (!city.length) errors.city = "City is required"
+        if (!state.length) errors.state = "State is required"
+        if (description.length < 30) errors.description = "Description needs a minimum of 30 characters"
+        if (!name.length) errors.name = "Title is required"
+        if (!price.length ) errors.price = "Price is required"
+        if (!prevImg.length ) errors.prevImg = "Preview image is required"
 
+        const images = Object.values(imgs) // this might mess up img order, can revisit later
 
+        for (let image of images) {
+            if (image.length === 0 || image.endsWith('.png') || image.endsWith('.jpg') || image.endsWith('.jpeg')) {} else{errors.image = "Image URL must end in .png, .jpg, or .jpeg"}
+        }
 
         setErrors(errors)
-      }, [country])
+      }, [country, address, city, state, description, name, price, prevImg, imgs])
+
+      useEffect(()=> {
+        setSubmit(false)
+      }, [])
 
 
 
@@ -48,17 +67,35 @@ export default function CreateSpot() {
         }
 
 
+
         if (Object.values(errors).length === 0) {
+
             const newSpot = await dispatch(fetchNewSpot(spotData))
+            // console.log('new Spot from component',newSpot)
+
+            const preview = {
+                spotId: newSpot.id, url: prevImg, preview: true
+            }
+
+            await dispatch(fetchNewSpotImgs(preview))
+
+            const images = Object.values(imgs)
+            for (let image of images) {
+
+                if (image.length > 0) {
+                    const tileImg = {
+                        spotId: newSpot.id, url: image, preview: false
+                    }
+
+                    await dispatch(fetchNewSpotImgs(tileImg))
+                }
+            }
+
+            //redirect here i think
+            history.push(`/${newSpot.id}`)
+
+
         }
-
-
-
-
-        const imgData = {
-
-        }
-
     }
 
 
@@ -84,7 +121,9 @@ export default function CreateSpot() {
                 />
             </label>
 
-        <div className="errors">{errors.address}</div>
+            {submit && errors.address && (
+            <div className="error">* {errors.address}</div>
+          )}
             <label>
                 Street Address:
                 <input
@@ -95,7 +134,9 @@ export default function CreateSpot() {
             </label>
 
         <div>
-            <div className="errors">{errors.city}</div>
+            {submit && errors.city && (
+                <div className="error">* {errors.city}</div>
+            )}
                 <label>
                     City:
                     <input
@@ -105,7 +146,9 @@ export default function CreateSpot() {
                     />
                 </label>
 
-            <div className="errors">{errors.state}</div>
+            {submit && errors.state && (
+                <div className="error">* {errors.state}</div>
+            )}
                 <label>
                     State:
                     <input
@@ -120,7 +163,9 @@ export default function CreateSpot() {
         <h4>Mention the best features of your space, any special amentities like
         fast wifi or parking, and what you love about the neighborhood.</h4>
 
-        <div className="errors">{errors.description}</div>
+        {submit && errors.description && (
+            <div className="error">* {errors.description}</div>
+        )}
             <textarea
             type="text"
             value={description}
@@ -131,7 +176,9 @@ export default function CreateSpot() {
         <h4>Catch guests' attention with a spot title that highlights what makes
         your place special.</h4>
 
-        <div className="errors">{errors.name}</div>
+        {submit && errors.name && (
+            <div className="error">* {errors.name}</div>
+        )}
             <input
             type="text"
             value={name}
@@ -142,7 +189,9 @@ export default function CreateSpot() {
         <h4>Competitive pricing can help your listing stand out and rank higher
         in search results.</h4>
 
-        <div className="errors">{errors.price}</div>
+        {submit && errors.price && (
+            <div className="error">* {errors.price}</div>
+        )}
             <label>
                 $
                 <input
@@ -155,39 +204,49 @@ export default function CreateSpot() {
         <h3>Liven up your spot with photos</h3>
         <h4>Submit a link to at least one photo to publish your spot.</h4>
 
-        <div className="errors">{errors.prevImg}</div>
+        {submit && errors.prevImg && (
+            <div className="error">* {errors.prevImg}</div>
+        )}
             <input
-            type="url"
+            type="text"
             value={prevImg}
             onChange={(e) => setPrevImg(e.target.value)}
             />
 
-        <div className="errors">{errors.imgTwo}</div>
+        {submit && errors.image && (
+            <div className="error">* {errors.image}</div>
+        )}
             <input
-            type="url"
-            value={imgTwo}
-            onChange={(e) => setImgTwo(e.target.value)}
+            type="text"
+            value={imgs.two}
+            onChange={(e) => setImgs({...imgs, two: e.target.value})}
             />
 
-        <div className="errors">{errors.imgThree}</div>
+        {/* {submit && errors.image && (
+            <div className="error">* {errors.image}</div>
+        )} */}
             <input
-            type="url"
-            value={imgThree}
-            onChange={(e) => setImgThree(e.target.value)}
+            type="text"
+            value={imgs.three}
+            onChange={(e) => setImgs({...imgs, three: e.target.value})}
             />
 
-        <div className="errors">{errors.imgFour}</div>
+        {/* {submit && errors.image && (
+            <div className="error">* {errors.image}</div>
+        )} */}
             <input
-            type="url"
-            value={imgFour}
-            onChange={(e) => setImgFour(e.target.value)}
+            type="text"
+            value={imgs.four}
+            onChange={(e) => setImgs({...imgs, four: e.target.value})}
             />
 
-        <div className="errors">{errors.imgFive}</div>
+        {/* {submit && errors.image && (
+            <div className="error">* {errors.image}</div>
+        )} */}
             <input
-            type="url"
-            value={imgFive}
-            onChange={(e) => setImgFive(e.target.value)}
+            type="text"
+            value={imgs.five}
+            onChange={(e) => setImgs({...imgs, five: e.target.value})}
             />
 
         <button
