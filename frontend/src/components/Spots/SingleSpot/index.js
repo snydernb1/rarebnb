@@ -74,7 +74,7 @@ export default function GetSingleSpot() {
                     <section className='rightData'>
                         <h3>${spot.price} night</h3>
                         <h4>{spot.avgStarRating}</h4>
-                        <h4>{spot.numReviews} reviews</h4>
+                        {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews} reviews</h4>}
                     </section>
                     <button className='reserveButton' onClick={handleReserve}>Reserve</button>
                 </div>
@@ -82,7 +82,7 @@ export default function GetSingleSpot() {
             </div>
 
             <div>
-                <h3>{spot.avgStarRating} {spot.numReviews} reviews</h3>
+                {spot.numReviews === 0 ? <h4>New</h4> : <h3>{spot.avgStarRating} {spot.numReviews} reviews</h3>}
 
 
 
