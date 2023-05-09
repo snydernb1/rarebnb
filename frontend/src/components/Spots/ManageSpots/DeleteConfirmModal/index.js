@@ -10,6 +10,7 @@ export default function DeleteConfirm({id}) {
     const handleDelete = (e) => {
         e.preventDefault();
         dispatch(fetchDeleteSpot(id));
+        closeModal();
     }
 
     return (<>
