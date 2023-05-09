@@ -16,48 +16,50 @@ export default function GetSingleSpot() {
     const sessionUser = useSelector(state => state.session.user);
     const [loading, setLoading] = useState(true)
     const [showMenu, setShowMenu] = useState(false);
-    const [hasReview, setHasReview] = useState(false)
 
     const reviews = Object.values(reviewsObj);
 
-    console.log('get single spot spotId', sessionUser)
 
 
     const closeMenu = () => setShowMenu(false);
 
-
-    useEffect(() => {
-        const loadingTimeout = setTimeout(()=>{
-            setLoading(false)
-        }, 500)
-
-        return ()=>clearTimeout(loadingTimeout)
-    }, [spot])
-
     useEffect(() => {
         dispatch(fetchSpot(spotId))
         dispatch(fetchReviews(spotId))
-        if (sessionUser) {
-            reviews.forEach((review) => {if(review.userId === sessionUser.id) setHasReview(true)})
-        }
-    }, [dispatch, spotId, reviews.length])
+        // console.log('inside of useEffect if', id)
+        // console.log('inside of useEffect, has review', hasReview)
+        // if (sessionUser) {
+        //     reviews.forEach((review) => {if(review.userId === sessionUser.id) {
+        //     setHasReview(true)
+        //     }  else {
+        //         setHasReview(false)
+        //         console.log('in the else statement')
+        //     }})
 
-    if (loading) return <h1>Loading ...</h1>
+
+        //     console.log('inside of useEffect session user loop, has review', hasReview)
+        // }
+    }, [dispatch])
+
+    // if (loading) return <h1>Loading ...</h1>
 
     const handleReserve = () => {
         alert(`Feature coming soon...`)
     }
 
+    if (!spot.SpotImages) return false
+        const images = spot.SpotImages.slice(1)
 
-    const images = spot.SpotImages.slice(1)
-
-        if (images.length < 4) {
-            for (let i = 0; i < 4; i++) {
-                images[i] = {
-                    url: 'blank'
+            if (images.length < 4) {
+                for (let i = 0; i < 4; i++) {
+                    images[i] = {
+                        url: 'blank'
+                    }
                 }
             }
-        }
+
+
+    const hasReview = reviews.find((review) => review.userId === sessionUser.id)
 
     return(
         <section className='spot'>
@@ -71,7 +73,7 @@ export default function GetSingleSpot() {
                 </div>
 
                 <div className='tileImages'>
-                    {images.map((image, i)=> (
+                    { images.map((image, i)=> (
                         image.url !== 'blank' ? <img className='tileImg' key={i} src={image.url} /> : <img className='tileImg' key={i} src='https://digitalcommons.georgiasouthern.edu/jesuit-gallery205/1000/preview.jpg' />
                     ))}
                 </div>
