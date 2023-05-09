@@ -19,7 +19,6 @@ export async function csrfFetch(url, options = {}) {
   // console.log('is csrf fetch running?')
   // console.log(url, options)
   const res = await window.fetch(url, options);
-  // console.log(res)
 
   // if the response status code is 400 or above, then throw an error with the
     // error being the response

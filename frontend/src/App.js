@@ -6,6 +6,9 @@ import Navigation from "./components/Navigation";
 
 import Spots from './components/Spots/AllSpots/index'
 import GetSingleSpot from "./components/Spots/SingleSpot";
+import CreateSpot from "./components/Spots/CreateSpot";
+import ManageSpots from "./components/Spots/ManageSpots";
+import EditSpot from "./components/Spots/EditSpot";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,9 +27,23 @@ function App() {
             <Spots />
           </Route>
 
+          <Route path='/new'>
+            <CreateSpot />
+          </Route>
+
+          <Route path='/users/:userId'>
+            <ManageSpots />
+          </Route>
+
+          <Route path='/:spotId/edit'>
+            <EditSpot />
+          </Route>
+
           <Route path='/:spotId'>
             <GetSingleSpot />
           </Route>
+
+
 
         </Switch>
       )}

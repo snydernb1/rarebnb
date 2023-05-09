@@ -1,11 +1,26 @@
-import { Link } from 'react-router-dom'
+import OpenModalMenuItem from '../../Navigation/OpenModalMenuItem';
+import DeleteConfirm from '../ManageSpots/DeleteConfirmModal';
+
+import { useDispatch } from 'react-redux'
+import { fetchDeleteSpot } from '../../../store/spots';
+import { useHistory, Link } from 'react-router-dom';
+import { useState } from 'react';
 
 import './SpotCard.css'
 
+export default function SpotCard ({spot, id, owner}) {
+    const [showMenu, setShowMenu] = useState(false);
+    const dispatch = useDispatch();
+    const history = useHistory()
 
-export default function SpotCard ({spot, id}) {
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        history.push(`/${id}/edit`)
+    }
 
-    // console.log('spot from SpotCard', spot)
+    const closeMenu = () => setShowMenu(false);
+
+    console.log('spot from SpotCard', spot)
     return (<>
     <Link
     className="spotCard"
@@ -18,7 +33,7 @@ export default function SpotCard ({spot, id}) {
 
         <div className='rating'>
             <p className='boldText'>{spot.city}, {spot.state}</p>
-            <p>{spot.avgRating}</p>
+            <p>{spot.avgRating !== null ? spot.avgRating : 'New'}</p>
         </div>
 
         <div className='price'>
@@ -26,6 +41,16 @@ export default function SpotCard ({spot, id}) {
         <p>night</p>
         </div>
 
+
     </Link>
+        {owner?.id === spot.ownerId && <div>
+            <button onClick={handleUpdate}>Update</button>
+            {/* <button onClick={handleDelete}>Delete</button> */}
+            <OpenModalMenuItem
+              itemText="Delete"
+              onItemClick={closeMenu}
+              modalComponent={<DeleteConfirm id={id} />}
+            />
+            </div>}
     </>)
 };
