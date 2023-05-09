@@ -5,6 +5,7 @@ const SINGLE_SPOT = "spots/getSpot";
 const CREATE_SPOT = "spots/createSpot"
 const OWNER_SPOTS = "spots/ownerSpots"
 const DELETE_SPOT = "spots/deleteSpot"
+const EDIT_SPOT = "spots/editSpot"
 
 
 //====ACTION CREATORS=======================================
@@ -40,6 +41,13 @@ const getOwnerSpots = (spots) => {
 const deleteSpot = (spot) => {
     return {
         type: DELETE_SPOT,
+        spot
+    }
+}
+
+const editSpot = (spot) => {
+    return {
+        type: EDIT_SPOT,
         spot
     }
 }
@@ -119,6 +127,21 @@ export const fetchDeleteSpot = (id) => async (dispatch) => {
     } //might need an else for errors?
 }
 
+export const fetchEditSpot = (spot) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spot.id}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(spot)
+    })
+
+    if (response.ok) {
+    const newEditSpot = await response.json()
+    // console.log('spot data from thunk', newEditSpot)
+    dispatch(editSpot(newEditSpot));
+    return newEditSpot;
+    } //might need an else for errors?
+}
+
 //====REDUCER===============================================
 
 const initialState = {
@@ -172,7 +195,6 @@ const spotsReducer = (state = initialState, action) => {
             return spotState;
 
             case DELETE_SPOT:
-                console.log('spots from delete reducer', state)
                 // const userSpots = action.spots.Spots
                 spotState = {allSpots: {}, singleSpot: {...state.singleSpot}}
                 const currState = Object.values(state.allSpots)
@@ -182,6 +204,16 @@ const spotsReducer = (state = initialState, action) => {
 
                     }
                 });
+                return spotState;
+
+            case EDIT_SPOT:
+                //console.log to determine data after component is set up
+                console.log('are we in the reducer? ActionObj', action.spot)
+                spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
+
+                spotState.allSpots[action.spot.id] = action.spot
+                // console.log('reducer spotState', spotState)
+
                 return spotState;
 
         default:

@@ -2,38 +2,35 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchNewSpot } from "../../../store/spots";
 import { fetchNewSpotImgs } from "../../../store/spots";
+import { fetchEditSpot } from "../../../store/spots";
 import { useHistory } from "react-router-dom";
 
 
 
 export default function SpotForm({spot, formType}) {
 
-    let existPrevImg;
-    const imgObj = {
-        2: {url: ""},
-        3: {url: ""},
-        4: {url: ""},
-        5: {url: ""},
-    }
-    // console.log('non preview imgs', Object.keys(spot).length)
-    let i = 2;
+    //=====================================Old Code For Edit Image
+    // let existPrevImg;
+    // const imgObj = {
+    //     2: {url: ""},
+    //     3: {url: ""},
+    //     4: {url: ""},
+    //     5: {url: ""},
+    // }
 
-    if (formType === "Edit") {
-        for (let img of spot.SpotImages) {
-        // spot.SpotImages.forEach(img => {
-            if (img.preview === true) {
-                existPrevImg = img.url;
-            } else {
-                console.log('img in loop', img)
-                imgObj[i] = img;
-                i++;
-            }
-            console.log('what is i',i)
-        };
+    // let i = 2;
 
-        console.log('non preview imgs', imgObj)
-    }
-
+    // if (formType === "Edit") {
+    //     for (let img of spot.SpotImages) {
+    //         if (img.preview === true) {
+    //             existPrevImg = img.url;
+    //         } else {
+    //             imgObj[i] = img;
+    //             i++;
+    //         }
+    //     };
+    // };
+    //=====================================Old Code For Edit Image
 
     const [errors, setErrors] = useState({})
     const [country, setCountry] = useState(spot?.country)
@@ -44,12 +41,9 @@ export default function SpotForm({spot, formType}) {
     const [name, setName] = useState(spot?.name)
     const [price, setPrice] = useState(spot?.price)
     const [prevImg, setPrevImg] = useState("")
-    const [imgs, setImgs] = useState({...imgObj})
+    const [imgs, setImgs] = useState({})
     const [submit, setSubmit] = useState(false)
 
-
-
-    // console.log('formType',spot)
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -64,15 +58,16 @@ export default function SpotForm({spot, formType}) {
         if (!state.length) errors.state = "State is required"
         if (description.length < 30) errors.description = "Description needs a minimum of 30 characters"
         if (!name.length) errors.name = "Title is required"
-        if (!price.length ) errors.price = "Price is required"
-        if (!prevImg.length ) errors.prevImg = "Preview image is required"
+        if (!price.toString().length) errors.price = "Price is required"
 
-        const images = Object.values(imgs) // this might mess up img order, can revisit later
-        console.log('imgs obj', imgs)
-        console.log('images in error catcher', images)
 
-        for (let image of images) {
-            if (image.url.length === 0 || image.url.endsWith('.png') || image.url.endsWith('.jpg') || image.url.endsWith('.jpeg')) {} else{errors.image = "Image URL must end in .png, .jpg, or .jpeg"}
+        if (formType === "Create") {
+            if (!prevImg.length ) errors.prevImg = "Preview image is required"
+
+            const images = Object.values(imgs) // this might mess up img order, can revisit later
+            for (let image of images) {
+                if (image.url.length === 0 || image.url.endsWith('.png') || image.url.endsWith('.jpg') || image.url.endsWith('.jpeg')) {} else{errors.image = "Image URL must end in .png, .jpg, or .jpeg"}
+            }
         }
 
         setErrors(errors)
@@ -80,9 +75,6 @@ export default function SpotForm({spot, formType}) {
 
       useEffect(()=> {
         setSubmit(false)
-        if (existPrevImg) {
-            setPrevImg(existPrevImg)
-        }
       }, [])
 
 
@@ -97,11 +89,11 @@ export default function SpotForm({spot, formType}) {
             ...spot, ownerId: sessionUser.id, country, address, city, state, description, name, price, lat: 12.23523, lng:13.43567
         }
 
-        console.log('edit spot data', spotData)
 
-
+        console.log("test?", errors)
 
         if (Object.values(errors).length === 0) {
+
 
             if (formType === 'Create') {
                             const newSpot = await dispatch(fetchNewSpot(spotData))
@@ -125,11 +117,14 @@ export default function SpotForm({spot, formType}) {
                                 }
                             }
                             history.push(`/${newSpot.id}`)
-            } else if (formType === 'Edit') {
 
+            } else if (formType === 'Edit') {
+                console.log("are we getting to update dispatch?")
+                const editSpot = await dispatch(fetchEditSpot(spotData))
+                history.push(`/${editSpot.id}`)
             }
 
-            //redirect here i think
+
 
 
         }
@@ -139,7 +134,7 @@ export default function SpotForm({spot, formType}) {
     return (
       <section>
 
-        <h1>Create a new Spot</h1>
+        <h1>{formType === 'Create' ? 'Create a new Spot': 'Update your Spot'}</h1>
         <h3>Where's your place located?</h3>
         <h4>Guests will only get your exact address once they booked a
         reservation.</h4>
@@ -237,59 +232,56 @@ export default function SpotForm({spot, formType}) {
                 onChange={(e) => setPrice(e.target.value)}
                 />
             </label>
+        { formType === 'Create' ?
 
-        <h3>Liven up your spot with photos</h3>
-        <h4>Submit a link to at least one photo to publish your spot.</h4>
+        <div>
+            <h3>Liven up your spot with photos</h3>
+            <h4>Submit a link to at least one photo to publish your spot.</h4>
 
-        {submit && errors.prevImg && (
-            <div className="error">* {errors.prevImg}</div>
-        )}
-            <input
-            type="text"
-            value={prevImg}
-            onChange={(e) => setPrevImg(e.target.value)}
-            />
+            {submit && errors.prevImg && (
+                <div className="error">* {errors.prevImg}</div>
+            )}
+                <input
+                type="text"
+                value={prevImg}
+                onChange={(e) => setPrevImg(e.target.value)}
+                />
 
-        {submit && errors.image && (
-            <div className="error">* {errors.image}</div>
-        )}
-            <input
-            type="text"
-            value={imgs[2].url}
-            onChange={(e) => setImgs({...imgs, 2: {url: e.target.value}})}
-            />
+            {submit && errors.image && (
+                <div className="error">* {errors.image}</div>
+            )}
+                <input
+                type="text"
+                value={imgs[2]?.url}
+                onChange={(e) => setImgs({...imgs, 2: {url: e.target.value}})}
+                />
 
-        {/* {submit && errors.image && (
-            <div className="error">* {errors.image}</div>
-        )} */}
-            <input
-            type="text"
-            value={imgs[3].url}
-            onChange={(e) => setImgs({...imgs, 3: {url: e.target.value}})}
-            />
+                <input
+                type="text"
+                value={imgs[3]?.url}
+                onChange={(e) => setImgs({...imgs, 3: {url: e.target.value}})}
+                />
 
-        {/* {submit && errors.image && (
-            <div className="error">* {errors.image}</div>
-        )} */}
-            <input
-            type="text"
-            value={imgs[4].url}
-            onChange={(e) => setImgs({...imgs, 4: {url: e.target.value}})}
-            />
+                <input
+                type="text"
+                value={imgs[4]?.url}
+                onChange={(e) => setImgs({...imgs, 4: {url: e.target.value}})}
+                />
 
-        {/* {submit && errors.image && (
-            <div className="error">* {errors.image}</div>
-        )} */}
-            <input
-            type="text"
-            value={imgs[5].url}
-            onChange={(e) => setImgs({...imgs, 5: {url: e.target.value}})}
-            />
+                <input
+                type="text"
+                value={imgs[5]?.url}
+                onChange={(e) => setImgs({...imgs, 5: {url: e.target.value}})}
+                />
+        </div>
+            :
+            false
+        }
 
         <button
         type="submit"
         >
-           Create Spot
+           {formType === "Create" ? 'Create Spot' : 'Update Spot'}
         </button>
 
         </form>
