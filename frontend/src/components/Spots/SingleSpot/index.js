@@ -14,34 +14,18 @@ export default function GetSingleSpot() {
     const spot = useSelector(state => state.spots.singleSpot);
     const reviewsObj = useSelector(state => state.reviews.spot);
     const sessionUser = useSelector(state => state.session.user);
-    const [loading, setLoading] = useState(true)
     const [showMenu, setShowMenu] = useState(false);
 
     const reviews = Object.values(reviewsObj);
-
-
 
     const closeMenu = () => setShowMenu(false);
 
     useEffect(() => {
         dispatch(fetchSpot(spotId))
         dispatch(fetchReviews(spotId))
-        // console.log('inside of useEffect if', id)
-        // console.log('inside of useEffect, has review', hasReview)
-        // if (sessionUser) {
-        //     reviews.forEach((review) => {if(review.userId === sessionUser.id) {
-        //     setHasReview(true)
-        //     }  else {
-        //         setHasReview(false)
-        //         console.log('in the else statement')
-        //     }})
+        console.log('did this run on length change?')
+    }, [dispatch, reviews.length])
 
-
-        //     console.log('inside of useEffect session user loop, has review', hasReview)
-        // }
-    }, [dispatch])
-
-    // if (loading) return <h1>Loading ...</h1>
 
     const handleReserve = () => {
         alert(`Feature coming soon...`)
@@ -58,7 +42,8 @@ export default function GetSingleSpot() {
                 }
             }
 
-
+    console.log('log after new review in single spot', reviews)
+    if (!reviews) return false
     const hasReview = reviews.find((review) => review.userId === sessionUser.id)
 
     return(

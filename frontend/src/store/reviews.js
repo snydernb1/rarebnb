@@ -31,7 +31,6 @@ export const fetchReviews = (id) => async (dispatch) => {
 }
 
 export const fetchNewReview = (data) => async (dispatch) => {
-    console.log('data in thunk pre fetch', data)
     const response = await csrfFetch(`/api/spots/${data.spotId}/reviews`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -40,6 +39,7 @@ export const fetchNewReview = (data) => async (dispatch) => {
 
     if (response.ok) {
     const newUserReview = await response.json()
+    console.log('thunk new user review', newUserReview)
     dispatch(newReview(newUserReview));
     return newUserReview;
     } //might need an else for errors?
