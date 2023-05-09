@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.filled {
+    color: saddlebrown;
+    width: min-content;
+    height: min-content;
+}
+
+.empty {
+    color: burlywood;
+    width: min-content;
+    height: min-content;
+}

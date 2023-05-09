@@ -1,6 +1,5 @@
 export default function ReviewTiles ({review}) {
 
-    console.log("what is a review?",review.createdAt)
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     const date = new Date(review.createdAt)

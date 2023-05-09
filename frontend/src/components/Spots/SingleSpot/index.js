@@ -5,16 +5,24 @@ import { fetchSpot } from '../../../store/spots'
 import './Spot.css'
 import { fetchReviews } from '../../../store/reviews'
 import ReviewTiles from './ReviewTiles.js'
+import OpenModalMenuItem from '../../Navigation/OpenModalMenuItem'
+import CreateReview from './CreateReviewModal'
 
 export default function GetSingleSpot() {
     const {spotId} = useParams();
     const dispatch = useDispatch();
     const spot = useSelector(state => state.spots.singleSpot);
     const reviewsObj = useSelector(state => state.reviews.spot);
+    const sessionUser = useSelector(state => state.session.user);
     const [loading, setLoading] = useState(true)
+    const [showMenu, setShowMenu] = useState(false);
+    const [hasReview, setHasReview] = useState(false)
 
     const reviews = Object.values(reviewsObj);
 
+    console.log('get single spot session user', reviews)
+
+    const closeMenu = () => setShowMenu(false);
 
     useEffect(() => {
         const loadingTimeout = setTimeout(()=>{
@@ -27,6 +35,9 @@ export default function GetSingleSpot() {
     useEffect(() => {
         dispatch(fetchSpot(spotId))
         dispatch(fetchReviews(spotId))
+        if (sessionUser) {
+            reviews.forEach((review) => {if(review.userId === sessionUser.id) setHasReview(true)})
+        }
     }, [dispatch, spotId])
 
     if (loading) return <h1>Loading ...</h1>
@@ -84,8 +95,18 @@ export default function GetSingleSpot() {
             </div>
 
             <div>
-                {spot.numReviews === 0 ? <h4>New</h4> : <h3>{spot.avgStarRating} {spot.numReviews} reviews</h3>}
+                {spot.numReviews === 0 ? <h3>New</h3> : <h3>{spot.avgStarRating} {spot.numReviews} reviews</h3>}
             </div>
+            {
+            sessionUser && sessionUser.id !== spot.ownerId && !hasReview &&
+            <OpenModalMenuItem
+              itemText="Post Your Review"
+              onItemClick={closeMenu}
+              modalComponent={<CreateReview />}
+            />
+            }
+
+            {!reviews.length && <h4>Be the first to post a review!</h4>}
 
             <div className="cards">
                 {reviews.map((review)=> (

@@ -40,7 +40,6 @@ const reviewsReducer = (state = initialState, action) => {
             allReviews.forEach((review) => {
                 reviewState.spot[review.id] = review;
             });
-            console.log('reviews from reducer', reviewState)
             return reviewState;
 
         default:
