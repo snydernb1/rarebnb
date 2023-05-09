@@ -3,16 +3,18 @@ import {useParams} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { fetchSpot } from '../../../store/spots'
 import './Spot.css'
+import { fetchReviews } from '../../../store/reviews'
+import ReviewTiles from './ReviewTiles.js'
 
 export default function GetSingleSpot() {
     const {spotId} = useParams();
     const dispatch = useDispatch();
     const spot = useSelector(state => state.spots.singleSpot);
+    const reviewsObj = useSelector(state => state.reviews.spot);
     const [loading, setLoading] = useState(true)
 
+    const reviews = Object.values(reviewsObj);
 
-
-    // console.log('back in comp for single spot',spot)
 
     useEffect(() => {
         const loadingTimeout = setTimeout(()=>{
@@ -24,13 +26,13 @@ export default function GetSingleSpot() {
 
     useEffect(() => {
         dispatch(fetchSpot(spotId))
+        dispatch(fetchReviews(spotId))
     }, [dispatch, spotId])
 
     if (loading) return <h1>Loading ...</h1>
 
     const handleReserve = () => {
         alert(`Feature coming soon...`)
-
     }
 
 
@@ -83,9 +85,15 @@ export default function GetSingleSpot() {
 
             <div>
                 {spot.numReviews === 0 ? <h4>New</h4> : <h3>{spot.avgStarRating} {spot.numReviews} reviews</h3>}
+            </div>
 
-
-
+            <div className="cards">
+                {reviews.map((review)=> (
+                    <ReviewTiles
+                    review={review}
+                    key={review.id}
+                    />
+                    ))}
             </div>
 
         </section>
