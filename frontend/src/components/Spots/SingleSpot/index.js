@@ -24,7 +24,7 @@ export default function GetSingleSpot() {
         dispatch(fetchSpot(spotId))
         dispatch(fetchReviews(spotId))
         console.log('did this run on length change?')
-    }, [dispatch, reviews.length])
+    }, [dispatch])
 
 
     const handleReserve = () => {
@@ -44,7 +44,8 @@ export default function GetSingleSpot() {
 
     console.log('log after new review in single spot', reviews)
     if (!reviews) return false
-    const hasReview = reviews.find((review) => review.userId === sessionUser.id)
+
+    const hasReview = reviews.find((review) => review.userId === sessionUser?.id)
 
     return(
         <section className='spot'>
@@ -76,7 +77,7 @@ export default function GetSingleSpot() {
                     <section className='rightData'>
                         <h3>${spot.price} night</h3>
                         <h4>{spot.avgStarRating}</h4>
-                        {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews} reviews</h4>}
+                        {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h4>}
                     </section>
                     <button className='reserveButton' onClick={handleReserve}>Reserve</button>
                 </div>
@@ -84,7 +85,7 @@ export default function GetSingleSpot() {
             </div>
 
             <div>
-                {spot.numReviews === 0 ? <h3>New</h3> : <h3>{spot.avgStarRating} {spot.numReviews} reviews</h3>}
+                {spot.numReviews === 0 ? <h3>New</h3> : <h3>{spot.avgStarRating} {spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h3>}
             </div>
             {
             sessionUser && sessionUser.id !== spot.ownerId && !hasReview &&
