@@ -1,11 +1,15 @@
 import { useDispatch } from "react-redux";
 import { useModal } from "../../../../context/Modal";
 import { useEffect, useState } from "react";
+
+import { fetchNewReview } from "../../../../store/reviews";
+
 import './ReviewModal.css'
 
 
-export default function CreateReview() {
+export default function CreateReview({spotId}) {
     const dispatch = useDispatch();
+    const { closeModal } = useModal();
 
     const [review, setReview] = useState("");
     const [rating, setRating] = useState(0);
@@ -21,8 +25,16 @@ export default function CreateReview() {
         setErrors(errors)
     }, [rating, review]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        const reviewData = {
+            spotId: spotId,
+            reviewData: {review, stars: rating}
+        }
+
+        const newReview = await dispatch(fetchNewReview(reviewData))
+        closeModal();
     }
 
     function starRating (num) {

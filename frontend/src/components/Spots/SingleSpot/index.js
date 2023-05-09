@@ -20,9 +20,11 @@ export default function GetSingleSpot() {
 
     const reviews = Object.values(reviewsObj);
 
-    console.log('get single spot session user', reviews)
+    console.log('get single spot spotId', sessionUser)
+
 
     const closeMenu = () => setShowMenu(false);
+
 
     useEffect(() => {
         const loadingTimeout = setTimeout(()=>{
@@ -38,7 +40,7 @@ export default function GetSingleSpot() {
         if (sessionUser) {
             reviews.forEach((review) => {if(review.userId === sessionUser.id) setHasReview(true)})
         }
-    }, [dispatch, spotId])
+    }, [dispatch, spotId, reviews.length])
 
     if (loading) return <h1>Loading ...</h1>
 
@@ -102,14 +104,14 @@ export default function GetSingleSpot() {
             <OpenModalMenuItem
               itemText="Post Your Review"
               onItemClick={closeMenu}
-              modalComponent={<CreateReview />}
+              modalComponent={<CreateReview spotId={spotId}/>}
             />
             }
 
             {!reviews.length && <h4>Be the first to post a review!</h4>}
 
             <div className="cards">
-                {reviews.map((review)=> (
+                {reviews.length && reviews.map((review)=> (
                     <ReviewTiles
                     review={review}
                     key={review.id}
