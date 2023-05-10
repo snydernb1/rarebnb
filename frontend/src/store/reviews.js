@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const ALL_REVIEWS = "spots/getReviews";
 const NEW_REVIEW = "spots/newReview";
+const DELETE_REVIEW = "spots/deleteReview";
 
 //====ACTION CREATORS=======================================
 
@@ -15,6 +16,13 @@ const getReviews = (reviews) => {
 const newReview = (review) => {
     return {
         type: NEW_REVIEW,
+        review
+    };
+};
+
+const deleteReview = (review) => {
+    return {
+        type: DELETE_REVIEW,
         review
     };
 };
@@ -39,9 +47,20 @@ export const fetchNewReview = (data) => async (dispatch) => {
 
     if (response.ok) {
     const newUserReview = await response.json()
-    console.log('thunk new user review', newUserReview)
     dispatch(newReview(newUserReview));
     return newUserReview;
+    } //might need an else for errors?
+}
+
+export const fetchDeleteReview = (id) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+    })
+
+    if (response.ok) {
+    const deletedMsg = await response.json()
+    dispatch(deleteReview(id));
     } //might need an else for errors?
 }
 
@@ -66,12 +85,21 @@ const reviewsReducer = (state = initialState, action) => {
             return reviewState;
 
         case NEW_REVIEW:
-            console.log('action in reducer',action.review)
             const newUserReview = action.review
             reviewState = {...state, spot: {...state.spot}, user: {...state.user}}
 
             reviewState.spot[newUserReview.id] = newUserReview
 
+            return reviewState;
+
+        case DELETE_REVIEW:
+            const currState = Object.values(state.spot)
+            reviewState = {spot: {}, user: {...state.user}}
+            currState.forEach((review) => {
+                if (review.id !== action.review)
+                reviewState.spot[review.id] = review;
+            });
+            console.log('returned review state', reviewState)
             return reviewState;
 
         default:

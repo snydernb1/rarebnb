@@ -23,8 +23,7 @@ export default function GetSingleSpot() {
     useEffect(() => {
         dispatch(fetchSpot(spotId))
         dispatch(fetchReviews(spotId))
-        console.log('did this run on length change?')
-    }, [dispatch])
+    }, [dispatch, reviews.length])
 
 
     const handleReserve = () => {
@@ -42,7 +41,6 @@ export default function GetSingleSpot() {
                 }
             }
 
-    console.log('log after new review in single spot', reviews)
     if (!reviews) return false
 
     const hasReview = reviews.find((review) => review.userId === sessionUser?.id)
@@ -92,7 +90,7 @@ export default function GetSingleSpot() {
             <OpenModalMenuItem
               itemText="Post Your Review"
               onItemClick={closeMenu}
-              modalComponent={<CreateReview spotId={spotId} sessionUser={sessionUser}/>}
+              modalComponent={<CreateReview spotId={spotId}/>}
             />
             }
 
@@ -103,6 +101,7 @@ export default function GetSingleSpot() {
                     <ReviewTiles
                     review={review}
                     key={review.id}
+                    hasReview={hasReview}
                     />
                     ))}
             </div>

@@ -49,7 +49,7 @@ export default function SpotCard ({spot, id, owner}) {
             <OpenModalMenuItem
               itemText="Delete"
               onItemClick={closeMenu}
-              modalComponent={<DeleteConfirm id={id} />}
+              modalComponent={<DeleteConfirm id={id} deleteType='spot'/>}
             />
             </div>}
     </>)

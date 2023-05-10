@@ -14,43 +14,43 @@ const getSpots = (spots) => {
     return {
         type: ALL_SPOTS,
         spots
-    }
-}
+    };
+};
 
 const getSpot = (spot) => {
     return {
         type: SINGLE_SPOT,
         spot
-    }
-}
+    };
+};
 
 const createSpot = (data) => {
     return {
         type: CREATE_SPOT,
         data
-    }
-}
+    };
+};
 
 const getOwnerSpots = (spots) => {
     return {
         type: OWNER_SPOTS,
         spots
-    }
-}
+    };
+};
 
 const deleteSpot = (spot) => {
     return {
         type: DELETE_SPOT,
         spot
-    }
-}
+    };
+};
 
 const editSpot = (spot) => {
     return {
         type: EDIT_SPOT,
         spot
-    }
-}
+    };
+};
 
 //====THUNKS================================================
 

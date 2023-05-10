@@ -15,8 +15,6 @@ export default function CreateReview({spotId}) {
     const [rating, setRating] = useState(0);
     const [errors, setErrors] = useState({});
 
-    console.log('rating?', rating)
-
     useEffect(() => {
         const errors = {}
         if (review.length < 10) errors.review = "Review needs a minimum of 10 characters"
