@@ -92,7 +92,7 @@ export default function GetSingleSpot() {
             <OpenModalMenuItem
               itemText="Post Your Review"
               onItemClick={closeMenu}
-              modalComponent={<CreateReview spotId={spotId}/>}
+              modalComponent={<CreateReview spotId={spotId} sessionUser={sessionUser}/>}
             />
             }
 
