@@ -3,46 +3,47 @@ import {useParams} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { fetchSpot } from '../../../store/spots'
 import './Spot.css'
+import { fetchReviews } from '../../../store/reviews'
+import ReviewTiles from './ReviewTiles.js'
+import OpenModalMenuItem from '../../Navigation/OpenModalMenuItem'
+import CreateReview from './CreateReviewModal'
 
 export default function GetSingleSpot() {
     const {spotId} = useParams();
     const dispatch = useDispatch();
     const spot = useSelector(state => state.spots.singleSpot);
-    const [loading, setLoading] = useState(true)
+    const reviewsObj = useSelector(state => state.reviews.spot);
+    const sessionUser = useSelector(state => state.session.user);
+    const [showMenu, setShowMenu] = useState(false);
 
+    const reviews = Object.values(reviewsObj);
 
-
-    // console.log('back in comp for single spot',spot)
-
-    useEffect(() => {
-        const loadingTimeout = setTimeout(()=>{
-            setLoading(false)
-        }, 500)
-
-        return ()=>clearTimeout(loadingTimeout)
-    }, [spot])
+    const closeMenu = () => setShowMenu(false);
 
     useEffect(() => {
         dispatch(fetchSpot(spotId))
-    }, [dispatch, spotId])
+        dispatch(fetchReviews(spotId))
+    }, [dispatch, reviews.length])
 
-    if (loading) return <h1>Loading ...</h1>
 
     const handleReserve = () => {
         alert(`Feature coming soon...`)
-
     }
 
+    if (!spot.SpotImages) return false
+        const images = spot.SpotImages.slice(1)
 
-    const images = spot.SpotImages.slice(1)
-
-        if (images.length < 4) {
-            for (let i = 0; i < 4; i++) {
-                images[i] = {
-                    url: 'blank'
+            if (images.length < 4) {
+                for (let i = 0; i < 4; i++) {
+                    images[i] = {
+                        url: 'blank'
+                    }
                 }
             }
-        }
+
+    if (!reviews) return false
+
+    const hasReview = reviews.find((review) => review.userId === sessionUser?.id)
 
     return(
         <section className='spot'>
@@ -56,7 +57,7 @@ export default function GetSingleSpot() {
                 </div>
 
                 <div className='tileImages'>
-                    {images.map((image, i)=> (
+                    { images.map((image, i)=> (
                         image.url !== 'blank' ? <img className='tileImg' key={i} src={image.url} /> : <img className='tileImg' key={i} src='https://digitalcommons.georgiasouthern.edu/jesuit-gallery205/1000/preview.jpg' />
                     ))}
                 </div>
@@ -74,7 +75,7 @@ export default function GetSingleSpot() {
                     <section className='rightData'>
                         <h3>${spot.price} night</h3>
                         <h4>{spot.avgStarRating}</h4>
-                        {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews} reviews</h4>}
+                        {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h4>}
                     </section>
                     <button className='reserveButton' onClick={handleReserve}>Reserve</button>
                 </div>
@@ -82,10 +83,27 @@ export default function GetSingleSpot() {
             </div>
 
             <div>
-                {spot.numReviews === 0 ? <h4>New</h4> : <h3>{spot.avgStarRating} {spot.numReviews} reviews</h3>}
+                {spot.numReviews === 0 ? <h3>New</h3> : <h3>{spot.avgStarRating} {spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h3>}
+            </div>
+            {
+            sessionUser && sessionUser.id !== spot.ownerId && !hasReview &&
+            <OpenModalMenuItem
+              itemText="Post Your Review"
+              onItemClick={closeMenu}
+              modalComponent={<CreateReview spotId={spotId}/>}
+            />
+            }
 
+            {!reviews.length && <h4>Be the first to post a review!</h4>}
 
-
+            <div className="cards">
+                {reviews.length > 0 && reviews.map((review)=> (
+                    <ReviewTiles
+                    review={review}
+                    key={review.id}
+                    hasReview={hasReview}
+                    />
+                    ))}
             </div>
 
         </section>

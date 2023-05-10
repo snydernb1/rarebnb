@@ -20,7 +20,7 @@ export default function SpotCard ({spot, id, owner}) {
 
     const closeMenu = () => setShowMenu(false);
 
-    console.log('spot from SpotCard', spot)
+    // console.log('spot from SpotCard', spot)
     return (<>
     <Link
     className="spotCard"
@@ -49,7 +49,7 @@ export default function SpotCard ({spot, id, owner}) {
             <OpenModalMenuItem
               itemText="Delete"
               onItemClick={closeMenu}
-              modalComponent={<DeleteConfirm id={id} />}
+              modalComponent={<DeleteConfirm id={id} deleteType='spot'/>}
             />
             </div>}
     </>)
