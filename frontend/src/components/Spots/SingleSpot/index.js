@@ -97,7 +97,7 @@ export default function GetSingleSpot() {
             {!reviews.length && <h4>Be the first to post a review!</h4>}
 
             <div className="cards">
-                {reviews.length && reviews.map((review)=> (
+                {reviews.length > 0 && reviews.map((review)=> (
                     <ReviewTiles
                     review={review}
                     key={review.id}
