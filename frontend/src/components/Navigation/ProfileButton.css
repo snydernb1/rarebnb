@@ -2,6 +2,31 @@ li {
     font-family: 'Urbanist', sans-serif;
 }
 
+#logoutButton {
+    color: white;
+    border: 1px rgba(0, 0, 0, 0.336) solid;
+    width: 6em;
+    height: 3em;
+    border-radius: 4em;
+    background-color: rgb(88, 88, 88);
+    cursor: pointer;
+}
+
+#manageSpots {
+    padding-bottom: 1em;
+    border-bottom: 1px solid rgba(211, 211, 211, 0.6);
+    text-decoration: none;
+    font-family: 'Urbanist', sans-serif;
+    color: black;
+
+}
+
+#underlineEmail {
+    padding-bottom: 1em;
+    border-bottom: 1px solid rgba(211, 211, 211, 0.6);
+
+}
+
 .buttonDiv {
     display: flex;
     flex-direction: column;
@@ -27,7 +52,6 @@ li {
     top: 3.7em;
     background-color: white;
     box-shadow: 0px -1px 3px 3px rgba(211, 211, 211, 0.377);
-    border: 1 solid red;
     padding: 1.5em 1em 1.5em 1em;
     border-radius: 10px;
     position: fixed;
@@ -37,6 +61,7 @@ li {
     flex-direction: column;
     align-items: left;
     gap: 20px;
+    cursor: default;
 }
 
 .signupBold {
@@ -55,4 +80,5 @@ li {
     height: 3em;
     border-radius: 4em;
     background-color: white;
+    cursor: pointer;
 }

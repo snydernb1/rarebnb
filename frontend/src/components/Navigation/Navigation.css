@@ -24,6 +24,9 @@ ul {
     height: 70px;
     width: 100%;
     border-bottom: 1px rgba(211, 211, 211, 0.541) solid;
+    position: sticky;
+    top: 0;
+    background-color: white;
 }
 
 .navlink {

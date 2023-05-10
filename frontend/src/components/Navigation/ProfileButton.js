@@ -42,18 +42,6 @@ function ProfileButton({ user }) {
     history.push('/')
   };
 
-  const demoOne = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
-    closeMenu()
-  }
-
-  const demoTwo = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.login({ credential: 'FakeUser1', password: 'password1' }))
-    closeMenu()
-  }
-
   const ulClassName = "profile-dropdown" + (showMenu ? "show" : " hidden");
 
   return (
@@ -65,12 +53,12 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li><NavLink to={`/users/${user.id}`}>Manage Spots</NavLink></li>
+            {/* <li>{user.username}</li> */}
+            <li>Hello, {user.firstName}</li>
+            <li id="underlineEmail">{user.email}</li>
+            <li id='underlineEmail'><NavLink to={`/users/${user.id}`} id='manageSpots'>Manage Spots</NavLink></li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button onClick={logout} id='logoutButton'>Log Out</button>
             </li>
           </>
         ) : (
@@ -87,8 +75,6 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
             />
-            <li onClick={demoOne}>Demo User 01</li>
-            <li onClick={demoTwo}>Demo User 02</li>
           </>
         )}
       </ul>
