@@ -19,14 +19,17 @@ function Spots() {
 
 
     return (
-    <div className="cards">
-        {spots.map((spot)=> (
-            <SpotCard
-            spot={spot}
-            id={spot.id}
-            />
-        ))}
-    </div>);
+    <section id='cardSection'>
+        <div className="cards">
+            {spots.map((spot)=> (
+                <SpotCard
+                spot={spot}
+                id={spot.id}
+                />
+                ))}
+        </div>
+    </section>
+    );
 };
 
 export default Spots;

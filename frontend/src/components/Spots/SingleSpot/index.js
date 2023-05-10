@@ -67,14 +67,19 @@ export default function GetSingleSpot() {
             <div className='spotData'>
 
                 <div className='leftSpotData'>
-                    <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
+                    <h2  id='name'>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
                     <p>{spot.description}</p>
                 </div>
 
                 <div className='rightSpotData'>
                     <section className='rightData'>
-                        <h3>${spot.price} night</h3>
-                        <h4>{spot.avgStarRating}</h4>
+                        <h3>${spot.price.toFixed(2)} night</h3>
+
+                        <div className='starRating'>
+                            <i class="fa-sharp fa-solid fa-star"></i>
+                            <h4>{spot.avgStarRating.toFixed(1)}</h4>
+                        </div>
+
                         {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h4>}
                     </section>
                     <button className='reserveButton' onClick={handleReserve}>Reserve</button>
@@ -83,7 +88,8 @@ export default function GetSingleSpot() {
             </div>
 
             <div>
-                {spot.numReviews === 0 ? <h3>New</h3> : <h3>{spot.avgStarRating} {spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h3>}
+                <i class="fa-sharp fa-solid fa-star"></i>
+                {spot.numReviews === 0 ? <h3>New</h3> : <h3>{spot.avgStarRating.toFixed(1)} {spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h3>}
             </div>
             {
             sessionUser && sessionUser.id !== spot.ownerId && !hasReview &&

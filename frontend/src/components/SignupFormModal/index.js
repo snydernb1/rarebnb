@@ -41,10 +41,26 @@ function SignupFormModal() {
     });
   };
 
+  let makeDisabled = false;
+
+  if (username.length > 3 &&
+    password.length > 5 &&
+    email.length > 0 &&
+    firstName.length > 0 &&
+    lastName.length > 0 &&
+    confirmPassword.length > 0) {
+    makeDisabled = true
+  }
+
+
+
   return (
     <div className="signupDiv">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit} className="signupForm">
+        {errors.username && <p className="errors">* {errors.username}</p>}
+        {errors.email && <p className="errors">* {errors.email}</p>}
+        {errors.confirmPassword && (<p className="errors">* {errors.confirmPassword}</p>)}
         <label className="formLabel">
           Email
         </label>
@@ -54,7 +70,6 @@ function SignupFormModal() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        {errors.email && <p>{errors.email}</p>}
         <label className="formLabel">
           Username
         </label>
@@ -65,7 +80,6 @@ function SignupFormModal() {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        {errors.username && <p>{errors.username}</p>}
         <label className="formLabel">
           First Name
         </label>
@@ -106,10 +120,7 @@ function SignupFormModal() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
-        )}
-        <button type="submit" className="signupButton">Sign Up</button>
+        <button type="submit" className={makeDisabled === false ? "loginButtonDisabled" : "signupButton"} disabled={!makeDisabled}>Sign Up</button>
       </form>
     </div>
   );

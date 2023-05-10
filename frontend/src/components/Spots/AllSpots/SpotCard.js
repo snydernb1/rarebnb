@@ -28,16 +28,21 @@ export default function SpotCard ({spot, id, owner}) {
     >
 
         <div className='imgDiv'>
-        <img src={spot.previewImage} />
+            <img src={spot.previewImage} className='toolTip'/>
+            <span className='toolTipText'>{spot.name}</span>
         </div>
 
         <div className='rating'>
             <p className='boldText'>{spot.city}, {spot.state}</p>
-            <p>{spot.avgRating !== null ? spot.avgRating : 'New'}</p>
+
+            <div id='rating'>
+                <i class="fa-sharp fa-solid fa-star"></i>
+                <p>{spot.avgRating !== null ? spot.avgRating.toFixed(1) : 'New'}</p>
+            </div>
         </div>
 
         <div className='price'>
-        <p className='boldText'>${spot.price}</p>
+        <p className='boldText'>${spot.price.toFixed(2)}</p>
         <p>night</p>
         </div>
 
