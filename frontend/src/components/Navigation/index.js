@@ -10,15 +10,18 @@ function Navigation({ isLoaded }){
   return (
     <div className='nav'>
 
-      <NavLink className="navlink" exact to="/">rarebnb</NavLink>
 
-      <div>
+      <NavLink className="navlink" exact to="/">
+      <i class="fa-brands fa-airbnb"></i>
+        rarebnb</NavLink>
 
-      {sessionUser && <NavLink to='/new'>Create a New Spot</NavLink>}
 
-      {isLoaded && (
-      <ProfileButton user={sessionUser} />
-      )}
+      <div className='rightNav'>
+        {sessionUser && <NavLink to='/new'>Create a New Spot</NavLink>}
+
+        {isLoaded && (
+        <ProfileButton user={sessionUser} />
+        )}
       </div>
 
     </div>
