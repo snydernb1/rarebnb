@@ -16,7 +16,9 @@ export default function GetSingleSpot() {
     const sessionUser = useSelector(state => state.session.user);
     const [showMenu, setShowMenu] = useState(false);
 
-    const reviews = Object.values(reviewsObj);
+    const reviewsWrongOrder = Object.values(reviewsObj);
+
+    const reviews = reviewsWrongOrder.reverse()
 
     const closeMenu = () => setShowMenu(false);
 
