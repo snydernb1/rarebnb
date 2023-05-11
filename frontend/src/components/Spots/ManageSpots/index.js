@@ -25,7 +25,10 @@ export default function ManageSpots() {
 
     return (<section id="manageSpotsPage">
         <h1>Manage Your Spots</h1>
+        {
+        spots.length === 0 &&
         <button onClick={handleClick} id='manageSpotCreate'>Create a New Spot</button>
+        }
 
         <div className="manageCards">
             {spots.map((spot)=> (

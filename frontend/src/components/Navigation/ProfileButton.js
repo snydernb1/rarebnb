@@ -8,11 +8,13 @@ import SignupFormModal from '../SignupFormModal';
 import './ProfileButton.css';
 import { NavLink } from "react-router-dom";
 
+
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
   const history = useHistory()
+
 
   const openMenu = () => {
     if (showMenu) return;
@@ -56,7 +58,7 @@ function ProfileButton({ user }) {
             {/* <li>{user.username}</li> */}
             <li>Hello, {user.firstName}</li>
             <li id="underlineEmail">{user.email}</li>
-            <li id='underlineEmail'><NavLink to={`/users/${user.id}`} id='manageSpots'>Manage Spots</NavLink></li>
+            <li id='underlineEmail'><NavLink to={`/users/${user.id}`} onClick={closeMenu} id='manageSpots'>Manage Spots</NavLink></li>
             <li>
               <button onClick={logout} id='logoutButton'>Log Out</button>
             </li>
