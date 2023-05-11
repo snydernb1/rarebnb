@@ -5,7 +5,7 @@ import { fetchNewSpotImgs } from "../../../store/spots";
 import { fetchEditSpot } from "../../../store/spots";
 import { useHistory } from "react-router-dom";
 
-
+import './CreateSpot.css'
 
 export default function SpotForm({spot, formType}) {
 
@@ -89,9 +89,6 @@ export default function SpotForm({spot, formType}) {
             ...spot, ownerId: sessionUser.id, country, address, city, state, description, name, price, lat: 12.23523, lng:13.43567
         }
 
-
-        console.log("test?", errors)
-
         if (Object.values(errors).length === 0) {
 
 
@@ -106,11 +103,13 @@ export default function SpotForm({spot, formType}) {
                             await dispatch(fetchNewSpotImgs(preview))
 
                             const images = Object.values(imgs)
+                            console.log('there should be tile images here?', images)
                             for (let image of images) {
 
-                                if (image.length > 0) {
+                                console.log('what is image?', image)
+                                if (image.url.length > 0) {
                                     const tileImg = {
-                                        spotId: newSpot.id, url: image, preview: false
+                                        spotId: newSpot.id, url: image.url, preview: false
                                     }
 
                                     await dispatch(fetchNewSpotImgs(tileImg))
@@ -119,7 +118,6 @@ export default function SpotForm({spot, formType}) {
                             history.push(`/${newSpot.id}`)
 
             } else if (formType === 'Edit') {
-                console.log("are we getting to update dispatch?")
                 const editSpot = await dispatch(fetchEditSpot(spotData))
                 history.push(`/${editSpot.id}`)
             }
@@ -130,69 +128,82 @@ export default function SpotForm({spot, formType}) {
         }
     }
 
+//====Form ================================================
 
     return (
-      <section>
+      <section className="form">
 
-        <h1>{formType === 'Create' ? 'Create a new Spot': 'Update your Spot'}</h1>
+
+        <h1 id='formHeader'>{formType === 'Create' ? 'Create a new Spot': 'Update yourSpot'}</h1>
         <h3>Where's your place located?</h3>
-        <h4>Guests will only get your exact address once they booked a
+        <h4 className='formComments'>Guests will only get your exact address once they booked a
         reservation.</h4>
+
 
         <form onSubmit={handleSubmit}>
 
         {submit && errors.country && (
             <div className="error">* {errors.country}</div>
           )}
-            <label>
+            <label className='spotFormLabel'>
                 Country:
+            </label >
                 <input
                 type="text"
                 value={country}
+                placeholder="United States"
+                className='spotFormInput'
                 onChange={(e) => setCountry(e.target.value)}
                 />
-            </label>
 
             {submit && errors.address && (
             <div className="error">* {errors.address}</div>
           )}
-            <label>
+            <label className='spotFormLabel'>
                 Street Address:
                 <input
                 type="text"
                 value={address}
+                placeholder="1234 Example Ln"
+                className='spotFormInput'
                 onChange={(e) => setAddress(e.target.value)}
                 />
             </label>
 
-        <div>
+        <div id='cityState'>
             {submit && errors.city && (
                 <div className="error">* {errors.city}</div>
             )}
-                <label>
+                <label className='spotFormLabel'>
                     City:
                     <input
                     type="text"
                     value={city}
+                    placeholder="Dayton"
+                    className='spotFormInput'
                     onChange={(e) => setCity(e.target.value)}
                     />
                 </label>
+                    <p id="cityStateComma">,</p>
+
 
             {submit && errors.state && (
                 <div className="error">* {errors.state}</div>
             )}
-                <label>
+                <label className='spotFormLabel'>
                     State:
                     <input
                     type="text"
                     value={state}
+                    placeholder="Ohio"
+                    className='spotFormInput'
                     onChange={(e) => setState(e.target.value)}
                     />
                 </label>
         </div>
 
-        <h3>Describe your place to guests</h3>
-        <h4>Mention the best features of your space, any special amentities like
+        <h3 className='formSubHeading'>Describe your place to guests</h3>
+        <h4 className='formComments'>Mention the best features of your space, any special amentities like
         fast wifi or parking, and what you love about the neighborhood.</h4>
 
         {submit && errors.description && (
@@ -201,11 +212,13 @@ export default function SpotForm({spot, formType}) {
             <textarea
             type="text"
             value={description}
+            id='formDesc'
+            placeholder="Please write at least 30 characters"
             onChange={(e) => setDescription(e.target.value)}
             />
 
-        <h3>Create a title for your spot</h3>
-        <h4>Catch guests' attention with a spot title that highlights what makes
+        <h3 className='formSubHeading'>Create a title for your spot</h3>
+        <h4 className='formComments'>Catch guests' attention with a spot title that highlights what makes
         your place special.</h4>
 
         {submit && errors.name && (
@@ -214,11 +227,12 @@ export default function SpotForm({spot, formType}) {
             <input
             type="text"
             value={name}
+            placeholder="Name of your spot"
             onChange={(e) => setName(e.target.value)}
             />
 
-        <h3>Set a base price for your spot</h3>
-        <h4>Competitive pricing can help your listing stand out and rank higher
+        <h3 className='formSubHeading'>Set a base price for your spot</h3>
+        <h4 className='formComments'>Competitive pricing can help your listing stand out and rank higher
         in search results.</h4>
 
         {submit && errors.price && (
@@ -229,14 +243,15 @@ export default function SpotForm({spot, formType}) {
                 <input
                 type="number"
                 value={price}
+                placeholder="Price per night (USD)"
                 onChange={(e) => setPrice(e.target.value)}
                 />
             </label>
         { formType === 'Create' ?
 
         <div>
-            <h3>Liven up your spot with photos</h3>
-            <h4>Submit a link to at least one photo to publish your spot.</h4>
+            <h3 className='formSubHeading'>Liven up your spot with photos</h3>
+            <h4 className='formComments'>Submit a link to at least one photo to publish your spot.</h4>
 
             {submit && errors.prevImg && (
                 <div className="error">* {errors.prevImg}</div>
@@ -244,6 +259,7 @@ export default function SpotForm({spot, formType}) {
                 <input
                 type="text"
                 value={prevImg}
+                placeholder="Preview Image URL"
                 onChange={(e) => setPrevImg(e.target.value)}
                 />
 
@@ -253,24 +269,28 @@ export default function SpotForm({spot, formType}) {
                 <input
                 type="text"
                 value={imgs[2]?.url}
+                placeholder="Image URL"
                 onChange={(e) => setImgs({...imgs, 2: {url: e.target.value}})}
                 />
 
                 <input
                 type="text"
                 value={imgs[3]?.url}
+                placeholder="Image URL"
                 onChange={(e) => setImgs({...imgs, 3: {url: e.target.value}})}
                 />
 
                 <input
                 type="text"
                 value={imgs[4]?.url}
+                placeholder="Image URL"
                 onChange={(e) => setImgs({...imgs, 4: {url: e.target.value}})}
                 />
 
                 <input
                 type="text"
                 value={imgs[5]?.url}
+                placeholder="Image URL"
                 onChange={(e) => setImgs({...imgs, 5: {url: e.target.value}})}
                 />
         </div>
