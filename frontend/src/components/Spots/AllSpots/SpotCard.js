@@ -20,7 +20,7 @@ export default function SpotCard ({spot, id, owner}) {
 
     const closeMenu = () => setShowMenu(false);
 
-    return (<>
+    return (<section className='spotCardSection'>
     <Link
     className="spotCard"
     to={`/${id}`}
@@ -44,17 +44,21 @@ export default function SpotCard ({spot, id, owner}) {
         <p className='boldText'>${Number(spot.price).toFixed(2)}</p>
         <p>night</p>
         </div>
-
-
     </Link>
-        {owner?.id === spot.ownerId && <div>
-            <button onClick={handleUpdate}>Update</button>
+
+        {owner?.id === spot.ownerId &&
+        <div className='updateDelete'>
+            <button onClick={handleUpdate} id='updateButton'>Update</button>
             {/* <button onClick={handleDelete}>Delete</button> */}
-            <OpenModalMenuItem
-              itemText="Delete"
-              onItemClick={closeMenu}
-              modalComponent={<DeleteConfirm id={id} deleteType='spot'/>}
-            />
-            </div>}
-    </>)
+            <div id='deleteButton'>
+                <OpenModalMenuItem
+                itemText="Delete"
+                onItemClick={closeMenu}
+                modalComponent={<DeleteConfirm id={id} deleteType='spot'/>}
+                />
+            </div>
+        </div>
+        }
+
+    </section>)
 };

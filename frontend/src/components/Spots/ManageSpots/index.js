@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserSpots } from "../../../store/spots";
 
+import './ManageSpots.css'
+
 
 export default function ManageSpots() {
     const sessionUser = useSelector(state => state.session.user);
@@ -21,11 +23,11 @@ export default function ManageSpots() {
         dispatch(fetchUserSpots())
     }, [dispatch]);
 
-    return (<section>
+    return (<section id="manageSpotsPage">
         <h1>Manage Your Spots</h1>
-        <button onClick={handleClick}>Create a New Spot</button>
+        <button onClick={handleClick} id='manageSpotCreate'>Create a New Spot</button>
 
-        <div className="cards">
+        <div className="manageCards">
             {spots.map((spot)=> (
 
                     <SpotCard
@@ -35,7 +37,7 @@ export default function ManageSpots() {
                     />
 
             ))}
-        </div>;
+        </div>
 
     </section>)
 }

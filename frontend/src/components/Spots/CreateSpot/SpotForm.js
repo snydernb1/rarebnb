@@ -144,7 +144,7 @@ export default function SpotForm({spot, formType}) {
       <section className="form">
 
 
-        <h1 id='formHeader'>{formType === 'Create' ? 'Create a new Spot': 'Update yourSpot'}</h1>
+        <h1 id='formHeader'>{formType === 'Create' ? 'Create a new Spot': 'Update your Spot'}</h1>
         <h3>Where's your place located?</h3>
         <h4 className='formComments'>Guests will only get your exact address once they booked a
         reservation.</h4>
@@ -333,7 +333,7 @@ export default function SpotForm({spot, formType}) {
             id='createSpotButton'
             className={makeDisabled === false ? "loginButtonDisabled" : "loginButton"}
             >
-            {formType === "Create" ? 'Create Spot' : 'Update Spot'}
+            {formType === "Create" ? 'Create Spot' : 'Update your Spot'}
             </button>
         </div>
 
