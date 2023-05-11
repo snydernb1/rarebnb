@@ -41,24 +41,26 @@ export default function GetSingleSpot() {
                 }
             }
 
-    if (!reviews || !spot) return false
+    console.log('before if', Object.values(spot).length)
+    if (!reviews || Object.values(spot).length !== 17) return false
+    console.log('after if',spot)
 
     const hasReview = reviews.find((review) => review.userId === sessionUser?.id)
 
     return(
         <section className='spot'>
             <h1>{spot.name}</h1>
-            <h3>{spot.city}, {spot.state}, {spot.country}</h3>
+            <h3 id='location'>{spot.city}, {spot.state}, {spot.country}</h3>
 
             <div className='allImages'>
 
                 <div className='prevImage'>
-                    <img src={spot.SpotImages[0].url} />
+                    <img src={spot.SpotImages[0].url} id='prevImg'/>
                 </div>
 
                 <div className='tileImages'>
                     { images.map((image, i)=> (
-                        image.url !== 'blank' ? <img className='tileImg' key={i} src={image.url} /> : <img className='tileImg' key={i} src='https://digitalcommons.georgiasouthern.edu/jesuit-gallery205/1000/preview.jpg' />
+                        image.url !== 'blank' ? <img className='tileImg' key={i} id={`img${i}`} src={image.url} /> : <img className='tileImg' key={i} id={`img${i}`} src='https://digitalcommons.georgiasouthern.edu/jesuit-gallery205/1000/preview.jpg' />
                     ))}
                 </div>
 
@@ -73,36 +75,55 @@ export default function GetSingleSpot() {
 
                 <div className='rightSpotData'>
                     <section className='rightData'>
-                        <h3>${spot.price.toFixed(2)} night</h3>
+                        <div id='cost'>
+                            <h3>${spot.price.toFixed(2)}</h3>
+                            <p>night</p>
+                        </div>
 
                         <div className='starRating'>
                             <i class="fa-sharp fa-solid fa-star"></i>
                             <h4>{spot.avgStarRating?.toFixed(1)}</h4>
                         </div>
 
-                        {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h4>}
+                        <div className='review'>
+                            {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews}</h4>}
+                            <p>{spot.numReviews === 1 ? 'review' : 'reviews'}</p>
+                        </div>
+
                     </section>
-                    <button className='reserveButton' onClick={handleReserve}>Reserve</button>
+                    <button className='reserveButton' onClick={handleReserve}
+                    id='reserve'
+                    >Reserve</button>
                 </div>
 
             </div>
 
-            <div>
-                <i class="fa-sharp fa-solid fa-star"></i>
-                {spot.numReviews === 0 ? <h3>New</h3> : <h3>{spot.avgStarRating.toFixed(1)} {spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h3>}
+            <div className='reviewData'>
+                <div className='starRating'>
+                    <i class="fa-sharp fa-solid fa-star"></i>
+                    {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.avgStarRating.toFixed(1)}</h4>}
+                </div>
+
+                <div className='review'>
+                    <h4>{spot.numReviews}</h4>
+                    <p>{spot.numReviews === 1 ? 'review' : 'reviews'}</p>
+                </div>
             </div>
+
             {
-            sessionUser && sessionUser.id !== spot.ownerId && !hasReview &&
+                sessionUser && sessionUser.id !== spot.ownerId && !hasReview &&
+            <div id='createReview'>
             <OpenModalMenuItem
               itemText="Post Your Review"
               onItemClick={closeMenu}
               modalComponent={<CreateReview spotId={spotId}/>}
             />
+            </div>
             }
 
             {!reviews.length && <h4>Be the first to post a review!</h4>}
 
-            <div className="cards">
+            <div className="reviewCards">
                 {reviews.length > 0 && reviews.map((review)=> (
                     <ReviewTiles
                     review={review}
