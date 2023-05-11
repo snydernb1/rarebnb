@@ -41,9 +41,9 @@ export default function GetSingleSpot() {
                 }
             }
 
-    console.log('before if', Object.values(spot).length)
-    if (!reviews || Object.values(spot).length !== 17) return false
-    console.log('after if',spot)
+
+    if (!reviews) return false
+
 
     const hasReview = reviews.find((review) => review.userId === sessionUser?.id)
 
@@ -76,7 +76,7 @@ export default function GetSingleSpot() {
                 <div className='rightSpotData'>
                     <section className='rightData'>
                         <div id='cost'>
-                            <h3>${spot.price.toFixed(2)}</h3>
+                            <h3>${Number(spot.price).toFixed(2)}</h3>
                             <p>night</p>
                         </div>
 
