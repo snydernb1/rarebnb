@@ -41,7 +41,7 @@ export default function GetSingleSpot() {
                 }
             }
 
-    if (!reviews) return false
+    if (!reviews || !spot) return false
 
     const hasReview = reviews.find((review) => review.userId === sessionUser?.id)
 
