@@ -16,6 +16,10 @@ ul {
     cursor: pointer;
 }
 
+#createANewSpot {
+    color: black;
+}
+
 .nav {
     display: flex;
     align-items: center;
