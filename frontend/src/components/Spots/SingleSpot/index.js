@@ -75,7 +75,7 @@ export default function GetSingleSpot() {
 
                 <div className='leftSpotData'>
                     <h2  id='name'>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
-                    <p>{spot.description}</p>
+                    <p id='desc'>{spot.description}</p>
                 </div>
 
                 <div className='rightSpotData'>

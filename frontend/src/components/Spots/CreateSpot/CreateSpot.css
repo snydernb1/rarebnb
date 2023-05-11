@@ -1,8 +1,20 @@
+#createSpotDiv {
+    display: flex;
+    justify-content: center;
+    border-top: 2px solid black;
+}
+
+#createSpotButton {
+    width: 8em;
+    height: 2em;
+    margin-bottom: 4em;
+    margin-top: 1.5em;
+}
+
 #cityState {
     display: flex;
     width: 100%;
-    flex-direction: row;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
     padding: 0 0 .8em 0;
 }
 
@@ -18,12 +30,39 @@
     height: 10em;
     resize: none;
     padding-left: 4px;
+    border: 1px solid black;
+    margin-bottom: 1.2em;
 }
 
 #formHeader {
   padding: 1em 0 .6em 0;
 }
 
+#lasturlInput {
+    margin-bottom: 1.5em;
+}
+
+#priceField {
+    align-items: top;
+    display: flex;
+    gap: 5px;
+}
+
+.botBorderSpacing {
+    margin-bottom: 1.4em;
+    width: 100%;
+}
+
+.cityStateCol {
+    width: 100%;
+}
+
+.createSpotErrors{
+    color: red;
+    align-self: center;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 550;
+}
 
 .form {
     display: flex;
@@ -46,9 +85,20 @@
 .spotFormLabel {
     padding: 0;
     width: 100%;
+    display: flex;
+    gap: 1em;
 }
 
 .spotFormInput {
     width: 100%;
     margin: 0 0 .6em 0;
+}
+
+.textAreaBorder {
+    border-top: 2px solid black;
+}
+
+.urlLinks {
+    width: 100%;
+    margin: 0 0 1em 0;
 }
