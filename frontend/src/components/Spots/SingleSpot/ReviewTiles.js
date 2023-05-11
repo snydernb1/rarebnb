@@ -4,6 +4,8 @@ import DeleteConfirm from "../ManageSpots/DeleteConfirmModal";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
+import './ReviewTiles.css'
+
 export default function ReviewTiles ({review}) {
     const [showMenu, setShowMenu] = useState(false);
 
@@ -22,9 +24,15 @@ export default function ReviewTiles ({review}) {
     const month = monthNames[date.getMonth()]
     if (!review.User) return false //state changes and causes rerender but doesn't have user info like when request reviews from db so new review hits false here... || solved by re-fetching reviews on review length change
 
-    return (<>
+    return (
+    <section className="reviewTile">
     <h4>{review.User.firstName}</h4>
-    <h4>{month}{year}</h4>
+
+    <div id="date">
+        <h4>{month}</h4>
+        <h4>{year}</h4>
+    </div>
+
     <p>{review.review}</p>
     {hasReview &&
     <OpenModalMenuItem
@@ -33,5 +41,5 @@ export default function ReviewTiles ({review}) {
         modalComponent={<DeleteConfirm id={review.id} deleteType='review'/>}
         />
     }
-    </>);
+    </section>);
 };

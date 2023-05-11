@@ -20,7 +20,6 @@ export default function SpotCard ({spot, id, owner}) {
 
     const closeMenu = () => setShowMenu(false);
 
-    console.log('spot from SpotCard', spot)
     return (<>
     <Link
     className="spotCard"

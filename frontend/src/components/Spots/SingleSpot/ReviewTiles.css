@@ -1,0 +1,11 @@
+#date {
+    display: flex;
+    gap: 10px;
+    color: rgba(150, 150, 150, 0.801);
+}
+
+.reviewTile {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}

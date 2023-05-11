@@ -9,7 +9,6 @@
 img {
     width: 100%;
     height: 100%;
-    border-radius: 8px;
 }
 
 #rating {
@@ -70,4 +69,8 @@ img {
 
 .imgDiv:hover .toolTipText {
     visibility: visible;
+}
+
+.toolTip {
+    border-radius: 8px;
 }

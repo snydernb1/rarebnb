@@ -1,3 +1,5 @@
 .modalCursor {
     cursor: pointer;
+    text-decoration: none;
+    list-style-type: none;
 }

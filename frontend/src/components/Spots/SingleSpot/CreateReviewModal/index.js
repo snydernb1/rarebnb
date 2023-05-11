@@ -56,7 +56,6 @@ export default function CreateReview({spotId}) {
 
     <form onSubmit={handleSubmit}>
 
-
         <textarea
             type="text"
             value={review}
