@@ -2,13 +2,12 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Urbanist', sans-serif;
 }
 
-button {
-    border: 1;
-    width: 8em;
-    height: 3.5em;
-    border-radius: 4em;
+i {
+    padding-right: .25em;
+    scale: 145%;
 }
 
 ul {
@@ -17,22 +16,33 @@ ul {
     cursor: pointer;
 }
 
-.hidden {
-    display: none
-}
-
 .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px 0 20px;
+    padding: 0 3em 0 3em;
     height: 70px;
     width: 100%;
-    border-bottom: .5px rgba(211, 211, 211, 0.24) solid;
+    border-bottom: 1px rgba(211, 211, 211, 0.541) solid;
+    position: sticky;
+    top: 0;
+    background-color: white;
 }
 
 .navlink {
     list-style-type: none;
     text-decoration: none;
     cursor: pointer;
+    text-emphasis: none;
+    color: rgba(255, 56, 96, 1);
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 800;
+    font-size: 1.5em;
+}
+
+.rightNav {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    margin-left: 2em;
 }

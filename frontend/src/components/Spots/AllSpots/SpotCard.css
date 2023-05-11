@@ -2,7 +2,8 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Urbanist', sans-serif;
+    text-decoration: none;
 }
 
 img {
@@ -11,8 +12,19 @@ img {
     border-radius: 8px;
 }
 
+#rating {
+    display: flex;
+    gap: 3px;
+    font-weight: 600;
+}
+
 .boldText {
     font-weight: 600;
+}
+
+.fa-star {
+    height: 60%;
+    scale: 115%;
 }
 
 .imgDiv {
@@ -24,6 +36,7 @@ img {
 .price {
     display: inline-flex;
     gap: 6px;
+    align-items: center;
 }
 
 .rating {
@@ -31,6 +44,7 @@ img {
     align-items: center;
     justify-content: space-between;
     padding-bottom: 1em;
+    padding-top: .75em;
 }
 
 .spotCard {
@@ -38,4 +52,22 @@ img {
     flex-direction: column;
     width: 20em;
     height: 20em;
+    color: black;
+}
+
+.imgDiv .toolTipText {
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.836);
+    position: relative;
+    bottom: 2em;
+    left: 1em;
+    color: black;
+    padding: 3px;
+    font-family: 'Urbanist', sans-serif;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.imgDiv:hover .toolTipText {
+    visibility: visible;
 }

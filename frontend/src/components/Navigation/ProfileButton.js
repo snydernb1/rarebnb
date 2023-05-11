@@ -23,7 +23,7 @@ function ProfileButton({ user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
+      if (!ulRef.current?.contains(e.target)) {
         setShowMenu(false);
       }
     };
@@ -42,54 +42,43 @@ function ProfileButton({ user }) {
     history.push('/')
   };
 
-  const demoOne = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
-    closeMenu()
-  }
-
-  const demoTwo = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.login({ credential: 'FakeUser1', password: 'password1' }))
-    closeMenu()
-  }
-
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = "profile-dropdown" + (showMenu ? "show" : " hidden");
 
   return (
-    <>
-      <button onClick={openMenu}>
+    <div className="buttonDiv">
+      <button className='userButton' onClick={openMenu}>
+        <i className="fa-sharp fa-solid fa-bars"></i>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li><NavLink to={`/users/${user.id}`}>Manage Spots</NavLink></li>
+            {/* <li>{user.username}</li> */}
+            <li>Hello, {user.firstName}</li>
+            <li id="underlineEmail">{user.email}</li>
+            <li id='underlineEmail'><NavLink to={`/users/${user.id}`} id='manageSpots'>Manage Spots</NavLink></li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button onClick={logout} id='logoutButton'>Log Out</button>
             </li>
           </>
         ) : (
           <>
+          <div className="signupBold">
+            <OpenModalMenuItem
+              itemText="Sign Up"
+              onItemClick={closeMenu}
+              modalComponent={<SignupFormModal />}
+              />
+          </div>
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
             />
-            <OpenModalMenuItem
-              itemText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
-            <li onClick={demoOne}>Demo User 01</li>
-            <li onClick={demoTwo}>Demo User 02</li>
           </>
         )}
       </ul>
-    </>
+    </div>
   );
 }
 

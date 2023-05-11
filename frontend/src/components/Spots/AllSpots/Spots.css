@@ -4,10 +4,20 @@
     box-sizing: border-box;
 }
 
+#cardSection{
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    max-width: 1424px;
+    margin: auto;
+}
+
 .cards {
     width: 100%;
-    padding: 20px;
+    padding: 2em 4em 0 4em;
     display: inline-flex;
     flex-wrap: wrap;
     gap: 2em;
+    max-width: 1424px;
+    margin: auto;
 }

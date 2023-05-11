@@ -14,6 +14,7 @@ const handleValidationErrors = (req, res, next) => {
         err.errors = errors;
         err.status = 400;
         err.title = 'Bad request.';
+        console.log('errors from backend ===>',err.errors)
         next(err);
     };
 

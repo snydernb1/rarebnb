@@ -9,6 +9,10 @@ img {
     height: 100%;
 }
 
+#name {
+    padding-bottom: .5em;
+}
+
 .allImages {
     display: flex;
     width: 100%;
@@ -49,7 +53,10 @@ img {
 }
 
 .spot {
-    padding: 1em 3em 0 3em;
+    padding: 1em;
+    max-width: 1000px;
+    justify-self: center;
+    margin: auto;
 }
 
 .spotData {
