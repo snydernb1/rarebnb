@@ -32,7 +32,14 @@ export default function CreateReview({spotId}) {
         }
 
         const newReview = await dispatch(fetchNewReview(reviewData))
-        closeModal();
+
+        if (newReview.id) {
+            closeModal();
+        } else {
+            setErrors(newReview.errors)
+        }
+
+
     }
 
     function starRating (num) {
@@ -51,30 +58,40 @@ export default function CreateReview({spotId}) {
       }
 
 
-    return (<>
-    <h1>How was your stay?</h1>
+      let makeDisabled = false;
 
-    <form onSubmit={handleSubmit}>
+      if (!Object.values(errors).length > 0) {
+        makeDisabled = true
+      }
+
+    return (<section id="reviewModal">
+    <h1 id="reviewHeader">How was your stay?</h1>
+
+    <form onSubmit={handleSubmit} id='reviewForm'>
 
         <textarea
             type="text"
             value={review}
+            placeholder="Leave your review here..."
+            id='reviewText'
             onChange={(e) => setReview(e.target.value)}
             />
 
+        <div id='starDiv'>
+            {[1,2,3,4,5].map((num)=>starRating(num))}
+            <h4>Stars</h4>
+        </div>
 
-        {[1,2,3,4,5].map((num)=>starRating(num))}
-
-        <h4>Stars</h4>
 
         <button
         type="submit"
         disabled={Object.values(errors).length > 0} //add validations
+        className={makeDisabled === false ? "reviewButtonDisabled" : "reviewButton"}
         >
             Submit Your Review
            {/* {formType === "Create" ? 'Create Spot' : 'Update Spot'} */}
         </button>
 
     </form>
-    </>);
+    </section>);
 };

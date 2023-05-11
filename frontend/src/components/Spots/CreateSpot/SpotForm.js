@@ -5,7 +5,7 @@ import { fetchNewSpotImgs } from "../../../store/spots";
 import { fetchEditSpot } from "../../../store/spots";
 import { useHistory } from "react-router-dom";
 
-
+import './CreateSpot.css'
 
 export default function SpotForm({spot, formType}) {
 
@@ -64,6 +64,8 @@ export default function SpotForm({spot, formType}) {
         if (formType === "Create") {
             if (!prevImg.length ) errors.prevImg = "Preview image is required"
 
+        if (prevImg.length === 0 || prevImg.endsWith('.png') || prevImg.endsWith('.jpg') ||prevImg.endsWith('.jpeg')) {} else{errors.image = "Image URL must end in .png, .jpg, or .jpeg"}
+
             const images = Object.values(imgs) // this might mess up img order, can revisit later
             for (let image of images) {
                 if (image.url.length === 0 || image.url.endsWith('.png') || image.url.endsWith('.jpg') || image.url.endsWith('.jpeg')) {} else{errors.image = "Image URL must end in .png, .jpg, or .jpeg"}
@@ -89,9 +91,6 @@ export default function SpotForm({spot, formType}) {
             ...spot, ownerId: sessionUser.id, country, address, city, state, description, name, price, lat: 12.23523, lng:13.43567
         }
 
-
-        console.log("test?", errors)
-
         if (Object.values(errors).length === 0) {
 
 
@@ -106,11 +105,13 @@ export default function SpotForm({spot, formType}) {
                             await dispatch(fetchNewSpotImgs(preview))
 
                             const images = Object.values(imgs)
+                            console.log('there should be tile images here?', images)
                             for (let image of images) {
 
-                                if (image.length > 0) {
+                                console.log('what is image?', image)
+                                if (image.url.length > 0) {
                                     const tileImg = {
-                                        spotId: newSpot.id, url: image, preview: false
+                                        spotId: newSpot.id, url: image.url, preview: false
                                     }
 
                                     await dispatch(fetchNewSpotImgs(tileImg))
@@ -119,7 +120,6 @@ export default function SpotForm({spot, formType}) {
                             history.push(`/${newSpot.id}`)
 
             } else if (formType === 'Edit') {
-                console.log("are we getting to update dispatch?")
                 const editSpot = await dispatch(fetchEditSpot(spotData))
                 history.push(`/${editSpot.id}`)
             }
@@ -131,158 +131,211 @@ export default function SpotForm({spot, formType}) {
     }
 
 
-    return (
-      <section>
+    let makeDisabled = false;
 
-        <h1>{formType === 'Create' ? 'Create a new Spot': 'Update your Spot'}</h1>
+
+    if (name.length) {
+      makeDisabled = true
+    }
+
+//====Form ================================================
+
+    return (
+      <section className="form">
+
+
+        <h1 id='formHeader'>{formType === 'Create' ? 'Create a new Spot': 'Update your Spot'}</h1>
         <h3>Where's your place located?</h3>
-        <h4>Guests will only get your exact address once they booked a
+        <h4 className='formComments'>Guests will only get your exact address once they booked a
         reservation.</h4>
+
 
         <form onSubmit={handleSubmit}>
 
-        {submit && errors.country && (
-            <div className="error">* {errors.country}</div>
-          )}
-            <label>
+            <label className='spotFormLabel'>
                 Country:
+            {submit && errors.country && (
+                <div className="createSpotErrors">* {errors.country}</div>
+                )}
+            </label >
+
+
                 <input
                 type="text"
                 value={country}
+                placeholder="United States"
+                className='spotFormInput'
                 onChange={(e) => setCountry(e.target.value)}
                 />
-            </label>
 
-            {submit && errors.address && (
-            <div className="error">* {errors.address}</div>
-          )}
-            <label>
+            <label className='spotFormLabel'>
                 Street Address:
+            {submit && errors.address && (
+            <div className="createSpotErrors">* {errors.address}</div>
+          )}
+            </label>
                 <input
                 type="text"
                 value={address}
+                placeholder="1234 Example Ln"
+                className='spotFormInput'
                 onChange={(e) => setAddress(e.target.value)}
                 />
-            </label>
 
-        <div>
-            {submit && errors.city && (
-                <div className="error">* {errors.city}</div>
-            )}
-                <label>
+        <div id='cityState'>
+                <div className="cityStateCol">
+                <label className='spotFormLabel'>
                     City:
-                    <input
-                    type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    />
+                    {submit && errors.city && (
+                        <div className="createSpotErrors">* {errors.city}</div>
+                    )}
                 </label>
 
-            {submit && errors.state && (
-                <div className="error">* {errors.state}</div>
-            )}
-                <label>
+                <input
+                type="text"
+                value={city}
+                placeholder="Dayton"
+                className='spotFormInput'
+                onChange={(e) => setCity(e.target.value)}
+                />
+                </div>
+                <p id="cityStateComma">,</p>
+
+                <div className="cityStateCol">
+                <label className='spotFormLabel'>
                     State:
-                    <input
-                    type="text"
-                    value={state}
-                    onChange={(e) => setState(e.target.value)}
-                    />
+                    {submit && errors.state && (
+                        <div className="createSpotErrors">* {errors.state}</div>
+                        )}
                 </label>
+
+                <input
+                type="text"
+                value={state}
+                placeholder="Ohio"
+                className='spotFormInput'
+                onChange={(e) => setState(e.target.value)}
+                />
+                </div>
+
         </div>
 
-        <h3>Describe your place to guests</h3>
-        <h4>Mention the best features of your space, any special amentities like
+        <h3 className='formSubHeading'>Describe your place to guests</h3>
+        <h4 className='formComments'>Mention the best features of your space, any special amentities like
         fast wifi or parking, and what you love about the neighborhood.</h4>
 
-        {submit && errors.description && (
-            <div className="error">* {errors.description}</div>
-        )}
             <textarea
             type="text"
             value={description}
+            id='formDesc'
+            placeholder="Please write at least 30 characters"
             onChange={(e) => setDescription(e.target.value)}
             />
+            {submit && errors.description && (
+                <div className="createSpotErrors">* {errors.description}</div>
+            )}
 
-        <h3>Create a title for your spot</h3>
-        <h4>Catch guests' attention with a spot title that highlights what makes
+        <h3 className='formSubHeading textAreaBorder'>Create a title for your spot</h3>
+        <h4 className='formComments'>Catch guests' attention with a spot title that highlights what makes
         your place special.</h4>
 
-        {submit && errors.name && (
-            <div className="error">* {errors.name}</div>
-        )}
             <input
             type="text"
             value={name}
+            placeholder="Name of your spot"
+            className="botBorderSpacing"
             onChange={(e) => setName(e.target.value)}
             />
+            {submit && errors.name && (
+                <div className="createSpotErrors">* {errors.name}</div>
+            )}
 
-        <h3>Set a base price for your spot</h3>
-        <h4>Competitive pricing can help your listing stand out and rank higher
+        <h3 className='formSubHeading textAreaBorder'>Set a base price for your spot</h3>
+        <h4 className='formComments'>Competitive pricing can help your listing stand out and rank higher
         in search results.</h4>
 
-        {submit && errors.price && (
-            <div className="error">* {errors.price}</div>
-        )}
-            <label>
+            <div id='priceField'>
                 $
                 <input
                 type="number"
                 value={price}
+                placeholder="Price per night (USD)"
+                className="botBorderSpacing"
                 onChange={(e) => setPrice(e.target.value)}
                 />
-            </label>
+            </div>
+                {submit && errors.price && (
+                    <div className="createSpotErrors">* {errors.price}</div>
+                )}
         { formType === 'Create' ?
 
-        <div>
-            <h3>Liven up your spot with photos</h3>
-            <h4>Submit a link to at least one photo to publish your spot.</h4>
+        <section>
+            <h3 className='formSubHeading textAreaBorder' >Liven up your spot with photos</h3>
+            <h4 className='formComments'>Submit a link to at least one photo to publish your spot.</h4>
 
-            {submit && errors.prevImg && (
-                <div className="error">* {errors.prevImg}</div>
-            )}
-                <input
-                type="text"
-                value={prevImg}
-                onChange={(e) => setPrevImg(e.target.value)}
-                />
+                    <input
+                    type="text"
+                    value={prevImg}
+                    placeholder="Preview Image URL"
+                    className="urlLinks"
+                    onChange={(e) => setPrevImg(e.target.value)}
+                    />
 
-            {submit && errors.image && (
-                <div className="error">* {errors.image}</div>
-            )}
-                <input
-                type="text"
-                value={imgs[2]?.url}
-                onChange={(e) => setImgs({...imgs, 2: {url: e.target.value}})}
-                />
+                    <input
+                    type="text"
+                    value={imgs[2]?.url}
+                    placeholder="Image URL"
+                    className="urlLinks"
+                    onChange={(e) => setImgs({...imgs, 2: {url: e.target.value}})}
+                    />
 
-                <input
-                type="text"
-                value={imgs[3]?.url}
-                onChange={(e) => setImgs({...imgs, 3: {url: e.target.value}})}
-                />
+                    <input
+                    type="text"
+                    value={imgs[3]?.url}
+                    placeholder="Image URL"
+                    className="urlLinks"
+                    onChange={(e) => setImgs({...imgs, 3: {url: e.target.value}})}
+                    />
 
-                <input
-                type="text"
-                value={imgs[4]?.url}
-                onChange={(e) => setImgs({...imgs, 4: {url: e.target.value}})}
-                />
+                    <input
+                    type="text"
+                    value={imgs[4]?.url}
+                    placeholder="Image URL"
+                    className="urlLinks"
+                    onChange={(e) => setImgs({...imgs, 4: {url: e.target.value}})}
+                    />
 
-                <input
-                type="text"
-                value={imgs[5]?.url}
-                onChange={(e) => setImgs({...imgs, 5: {url: e.target.value}})}
-                />
-        </div>
+                    <input
+                    type="text"
+                    value={imgs[5]?.url}
+                    placeholder="Image URL"
+                    className="urlLinks"
+                    id='lasturlInput'
+                    onChange={(e) => setImgs({...imgs, 5: {url: e.target.value}})}
+                    />
+
+{submit && errors.prevImg && (
+                        <div className="createSpotErrors">* {errors.prevImg}</div>
+                        )}
+                    {submit && errors.image && (
+                        <div className="createSpotErrors">* {errors.image}</div>
+                        )}
+
+        </section>
             :
             false
         }
 
-        <button
-        type="submit"
-        >
-           {formType === "Create" ? 'Create Spot' : 'Update Spot'}
-        </button>
+        <div  id='createSpotDiv'>
+            <button
+            type="submit"
+            disabled={!makeDisabled}
+            id='createSpotButton'
+            className={makeDisabled === false ? "loginButtonDisabled" : "loginButton"}
+            >
+            {formType === "Create" ? 'Create Spot' : 'Update your Spot'}
+            </button>
+        </div>
 
         </form>
 

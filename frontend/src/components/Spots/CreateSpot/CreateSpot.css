@@ -1,0 +1,104 @@
+#createSpotDiv {
+    display: flex;
+    justify-content: center;
+    border-top: 2px solid black;
+}
+
+#createSpotButton {
+    width: 10em;
+    height: 2em;
+    margin: 1.5em 0em 4em 0em;
+
+}
+
+#cityState {
+    display: flex;
+    width: 100%;
+    border-bottom: 2px solid black;
+    padding: 0 0 .8em 0;
+}
+
+#cityStateComma {
+    position: relative;
+    padding-right: 1.4em;
+    padding-left: .5em;
+    top: 1.7em;
+}
+
+#formDesc {
+    width: 100%;
+    height: 10em;
+    resize: none;
+    padding-left: 4px;
+    border: 1px solid black;
+    margin-bottom: 1.2em;
+}
+
+#formHeader {
+  padding: 1em 0 .6em 0;
+}
+
+#lasturlInput {
+    margin-bottom: 1.5em;
+}
+
+#priceField {
+    align-items: top;
+    display: flex;
+    gap: 5px;
+}
+
+.botBorderSpacing {
+    margin-bottom: 1.4em;
+    width: 100%;
+}
+
+.cityStateCol {
+    width: 100%;
+}
+
+.createSpotErrors{
+    color: red;
+    align-self: center;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 550;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    max-width: 500px;
+    margin: auto;
+}
+
+.formComments {
+    padding: .2em 0 .6em 0;
+    font-weight: 500;
+}
+
+.formSubHeading {
+    padding-top: .8em;
+}
+
+.spotFormLabel {
+    padding: 0;
+    width: 100%;
+    display: flex;
+    gap: 1em;
+}
+
+.spotFormInput {
+    width: 100%;
+    margin: 0 0 .6em 0;
+}
+
+.textAreaBorder {
+    border-top: 2px solid black;
+}
+
+.urlLinks {
+    width: 100%;
+    margin: 0 0 1em 0;
+}

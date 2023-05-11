@@ -34,12 +34,14 @@ export default function ReviewTiles ({review}) {
     </div>
 
     <p>{review.review}</p>
-    {hasReview &&
-    <OpenModalMenuItem
-        itemText="Delete"
-        onItemClick={closeMenu}
-        modalComponent={<DeleteConfirm id={review.id} deleteType='review'/>}
-        />
+        {hasReview &&
+    <div id='deleteReview'>
+        <OpenModalMenuItem
+            itemText="Delete"
+            onItemClick={closeMenu}
+            modalComponent={<DeleteConfirm id={review.id} deleteType='review'/>}
+            />
+    </div>
     }
     </section>);
 };

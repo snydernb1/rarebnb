@@ -1,0 +1,30 @@
+#manageSpotsPage {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-self: center;
+    max-width: 1424px;
+    margin: auto;
+    padding: 2em 4em 0 4em;
+}
+
+#manageSpotCreate {
+    color: white;
+    border: 1px rgba(0, 0, 0, 0.336) solid;
+    width: 10em;
+    height: 2em;
+    background-color: rgb(88, 88, 88);
+    cursor: pointer;
+    box-shadow: 1px 1px 3px 1px grey;
+    margin-top: .5em;
+}
+
+.manageCards {
+    width: 100%;
+    padding: 2em 0em 0 0em;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    max-width: 1424px;
+    margin: auto;
+}

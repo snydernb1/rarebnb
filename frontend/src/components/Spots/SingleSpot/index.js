@@ -30,17 +30,22 @@ export default function GetSingleSpot() {
         alert(`Feature coming soon...`)
     }
 
+    // console.log('images in single spot before return false', spot.SpotImages)
     if (!spot.SpotImages) return false
-        const images = spot.SpotImages.slice(1)
 
-            if (images.length < 4) {
-                for (let i = 0; i < 4; i++) {
-                    images[i] = {
-                        url: 'blank'
-                    }
+        const images = spot.SpotImages.slice(1)
+        // console.log('images in single spot details', images)
+        // console.log('spot.SpotImages in single spot details', spot.SpotImages)
+
+        if (images.length < 4) {
+            for (let i = 0; i < 4; i++) {
+                images[i] = {
+                    url: 'blank'
                 }
             }
+        }
 
+        // console.log('images after loop', images)
 
     if (!reviews) return false
 
@@ -70,7 +75,7 @@ export default function GetSingleSpot() {
 
                 <div className='leftSpotData'>
                     <h2  id='name'>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
-                    <p>{spot.description}</p>
+                    <p id='desc'>{spot.description}</p>
                 </div>
 
                 <div className='rightSpotData'>
@@ -80,14 +85,24 @@ export default function GetSingleSpot() {
                             <p>night</p>
                         </div>
 
-                        <div className='starRating'>
+                        <div id='revInfoBox'>
+                        {
+                            spot.numReviews === 0 ? false :
+                            <div className='starRating'>
                             <i class="fa-sharp fa-solid fa-star"></i>
                             <h4>{spot.avgStarRating?.toFixed(1)}</h4>
                         </div>
+                        }
+
+                        {
+                        spot.numReviews === 0 ? false :
+                        <i class="fa-sharp fa-solid fa-circle"></i>
+                        }
 
                         <div className='review'>
-                            {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews}</h4>}
-                            <p>{spot.numReviews === 1 ? 'review' : 'reviews'}</p>
+                            {spot.numReviews === 0 ? <div className='noRevs'><i class="fa-sharp fa-solid fa-star"></i><h4>New</h4></div> : <h4>{spot.numReviews}</h4>}
+                            {spot.numReviews === 0 ? false : <p>{spot.numReviews === 1 ? 'Review' : 'Reviews'}</p>}
+                        </div>
                         </div>
 
                     </section>
@@ -104,10 +119,20 @@ export default function GetSingleSpot() {
                     {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.avgStarRating.toFixed(1)}</h4>}
                 </div>
 
+                {
+                spot.numReviews === 0 ? false :
+                <i class="fa-sharp fa-solid fa-circle"></i>
+                }
+
+                {
+                spot.numReviews === 0 ? false :
                 <div className='review'>
                     <h4>{spot.numReviews}</h4>
-                    <p>{spot.numReviews === 1 ? 'review' : 'reviews'}</p>
+                    <p>{spot.numReviews === 1 ? 'Review' : 'Reviews'}</p>
                 </div>
+                }
+
+
             </div>
 
             {
@@ -121,7 +146,7 @@ export default function GetSingleSpot() {
             </div>
             }
 
-            {!reviews.length && <h4>Be the first to post a review!</h4>}
+            {!reviews.length && sessionUser && sessionUser.id !== spot.ownerId && !hasReview && <h4>Be the first to post a review!</h4>}
 
             <div className="reviewCards">
                 {reviews.length > 0 && reviews.map((review)=> (

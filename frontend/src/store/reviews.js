@@ -43,13 +43,17 @@ export const fetchNewReview = (data) => async (dispatch) => {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data.reviewData)
-    })
+    });
+    console.log('is response okay?', response)
 
     if (response.ok) {
-    const newUserReview = await response.json()
-    dispatch(newReview(newUserReview));
-    return newUserReview;
-    } //might need an else for errors?
+        const newUserReview = await response.json();
+        dispatch(newReview(newUserReview));
+        return newUserReview;
+    } else {
+        const errors = await response.json();
+        return response;
+    }
 }
 
 export const fetchDeleteReview = (id) => async (dispatch) => {
@@ -99,7 +103,6 @@ const reviewsReducer = (state = initialState, action) => {
                 if (review.id !== action.review)
                 reviewState.spot[review.id] = review;
             });
-            console.log('returned review state', reviewState)
             return reviewState;
 
         default:
