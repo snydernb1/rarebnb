@@ -77,7 +77,7 @@ export default function GetSingleSpot() {
 
                         <div className='starRating'>
                             <i class="fa-sharp fa-solid fa-star"></i>
-                            <h4>{spot.avgStarRating.toFixed(1)}</h4>
+                            <h4>{spot.avgStarRating?.toFixed(1)}</h4>
                         </div>
 
                         {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}</h4>}

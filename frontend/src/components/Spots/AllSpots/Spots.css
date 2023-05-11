@@ -9,6 +9,7 @@
     justify-self: center;
     align-self: center;
     max-width: 1424px;
+    margin: auto;
 }
 
 .cards {
@@ -17,4 +18,6 @@
     display: inline-flex;
     flex-wrap: wrap;
     gap: 2em;
+    max-width: 1424px;
+    margin: auto;
 }

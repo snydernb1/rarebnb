@@ -20,7 +20,7 @@ export default function SpotCard ({spot, id, owner}) {
 
     const closeMenu = () => setShowMenu(false);
 
-    // console.log('spot from SpotCard', spot)
+    console.log('spot from SpotCard', spot)
     return (<>
     <Link
     className="spotCard"
@@ -37,12 +37,12 @@ export default function SpotCard ({spot, id, owner}) {
 
             <div id='rating'>
                 <i class="fa-sharp fa-solid fa-star"></i>
-                <p>{spot.avgRating !== null ? spot.avgRating.toFixed(1) : 'New'}</p>
+                <p>{spot.avgRating !== null ? spot.avgRating?.toFixed(1) : 'New'}</p>
             </div>
         </div>
 
         <div className='price'>
-        <p className='boldText'>${spot.price.toFixed(2)}</p>
+        <p className='boldText'>${Number(spot.price).toFixed(2)}</p>
         <p>night</p>
         </div>
 
