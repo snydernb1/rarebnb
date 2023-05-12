@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const ALL_REVIEWS = "spots/getReviews";
 const NEW_REVIEW = "spots/newReview";
 const DELETE_REVIEW = "spots/deleteReview";
+const CLEAR_REVIEWS = "spots/clearReviews";
 
 //====ACTION CREATORS=======================================
 
@@ -27,6 +28,12 @@ const deleteReview = (review) => {
     };
 };
 
+const clearSpotReviews = () => {
+    return {
+        type: CLEAR_REVIEWS
+    }
+}
+
 //====THUNKS=======================================
 
 export const fetchReviews = (id) => async (dispatch) => {
@@ -42,12 +49,13 @@ export const fetchNewReview = (data) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${data.spotId}/reviews`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data.reviewData)
+        body: JSON.stringify(data.reviewData.backend)
     });
-    console.log('is response okay?', response)
 
     if (response.ok) {
         const newUserReview = await response.json();
+        newUserReview.User = data.reviewData.frontend.user
+        console.log('is response okay?', newUserReview)
         dispatch(newReview(newUserReview));
         return newUserReview;
     } else {
@@ -66,6 +74,10 @@ export const fetchDeleteReview = (id) => async (dispatch) => {
     const deletedMsg = await response.json()
     dispatch(deleteReview(id));
     } //might need an else for errors?
+}
+
+export const fetchClearReviews = () => async (dispatch) => {
+    dispatch(clearSpotReviews())
 }
 
 //====REDUCER=======================================
@@ -104,6 +116,9 @@ const reviewsReducer = (state = initialState, action) => {
                 reviewState.spot[review.id] = review;
             });
             return reviewState;
+
+        case CLEAR_REVIEWS:
+            return initialState
 
         default:
             return state;

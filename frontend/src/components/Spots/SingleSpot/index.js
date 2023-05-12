@@ -7,6 +7,8 @@ import { fetchReviews } from '../../../store/reviews'
 import ReviewTiles from './ReviewTiles.js'
 import OpenModalMenuItem from '../../Navigation/OpenModalMenuItem'
 import CreateReview from './CreateReviewModal'
+import { fetchClearSpot } from '../../../store/spots'
+import { fetchClearReviews } from '../../../store/reviews'
 
 export default function GetSingleSpot() {
     const {spotId} = useParams();
@@ -22,10 +24,24 @@ export default function GetSingleSpot() {
 
     const closeMenu = () => setShowMenu(false);
 
+    // useEffect(() => {
+    //     dispatch(fetchReviews(spotId))
+
+    //     // return () => dispatch(fetchClearReviews())
+    // }, [dispatch, reviews.length])
+
     useEffect(() => {
         dispatch(fetchSpot(spotId))
         dispatch(fetchReviews(spotId))
-    }, [dispatch, reviews.length])
+
+
+        return () => {
+            dispatch(fetchClearSpot())
+            dispatch(fetchClearReviews())
+        }
+    }, [dispatch])
+
+
 
 
     const handleReserve = () => {
@@ -143,7 +159,7 @@ export default function GetSingleSpot() {
             <OpenModalMenuItem
               itemText="Post Your Review"
               onItemClick={closeMenu}
-              modalComponent={<CreateReview spotId={spotId}/>}
+              modalComponent={<CreateReview spotId={spotId} sessionUser={sessionUser}/>}
             />
             </div>
             }

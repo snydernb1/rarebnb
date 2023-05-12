@@ -276,7 +276,7 @@ export default function SpotForm({spot, formType}) {
                     <input
                     type="text"
                     value={prevImg}
-                    placeholder="Preview Image URL"
+                    placeholder="Preview Image URL  |  Example: https://a0.muscache.com/737b978b2b6a.jpg"
                     className="urlLinks"
                     onChange={(e) => setPrevImg(e.target.value)}
                     />

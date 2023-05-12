@@ -7,13 +7,15 @@ import { fetchNewReview } from "../../../../store/reviews";
 import './ReviewModal.css'
 
 
-export default function CreateReview({spotId}) {
+export default function CreateReview({spotId, sessionUser}) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
     const [review, setReview] = useState("");
     const [rating, setRating] = useState(0);
     const [errors, setErrors] = useState({});
+
+    // console.log('sessionUser', sessionUser)
 
     useEffect(() => {
         const errors = {}
@@ -28,7 +30,13 @@ export default function CreateReview({spotId}) {
 
         const reviewData = {
             spotId: spotId,
-            reviewData: {review, stars: rating}
+            reviewData: {
+                backend: {review, stars: rating},
+                frontend: {user: {
+                    id: sessionUser.id,
+                    firstName: sessionUser.firstName,
+                    lastName: sessionUser.lastName}}
+            }
         }
 
         const newReview = await dispatch(fetchNewReview(reviewData))

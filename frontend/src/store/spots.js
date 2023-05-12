@@ -6,6 +6,7 @@ const CREATE_SPOT = "spots/createSpot"
 const OWNER_SPOTS = "spots/ownerSpots"
 const DELETE_SPOT = "spots/deleteSpot"
 const EDIT_SPOT = "spots/editSpot"
+const CLEAR_SPOT = "spots/clearSpot"
 
 
 //====ACTION CREATORS=======================================
@@ -51,6 +52,12 @@ const editSpot = (spot) => {
         spot
     };
 };
+
+const clearSingleSpot = () => {
+    return {
+        type: CLEAR_SPOT
+    }
+}
 
 //====THUNKS================================================
 
@@ -142,6 +149,10 @@ export const fetchEditSpot = (spot) => async (dispatch) => {
     } //might need an else for errors?
 }
 
+export const fetchClearSpot = () => async (dispatch) => {
+    dispatch(clearSingleSpot())
+}
+
 //====REDUCER===============================================
 
 const initialState = {
@@ -215,6 +226,10 @@ const spotsReducer = (state = initialState, action) => {
                 // console.log('reducer spotState', spotState)
 
                 return spotState;
+
+            case CLEAR_SPOT:
+
+                return initialState
 
         default:
             return state;
