@@ -8,7 +8,6 @@
     display: flex;
     justify-self: center;
     align-self: center;
-    max-width: 1424px;
     margin: auto;
 }
 
@@ -16,8 +15,9 @@
     width: 100%;
     padding: 2em 4em 3em 4em;
     display: inline-flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 2em;
-    max-width: 1424px;
+    max-width: 1524px;
     margin: auto;
 }

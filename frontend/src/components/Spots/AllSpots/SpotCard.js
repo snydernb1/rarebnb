@@ -36,13 +36,13 @@ export default function SpotCard ({spot, id, owner}) {
 
             <div id='rating'>
                 <i class="fa-sharp fa-solid fa-star"></i>
-                <p>{spot.avgRating !== null ? spot.avgRating?.toFixed(1) : 'New'}</p>
+                <p className='boldText'>{spot.avgRating !== null ? spot.avgRating?.toFixed(1) : 'New'}</p>
             </div>
         </div>
 
         <div className='price'>
-        <p className='boldText'>${Number(spot.price).toFixed(2)}</p>
-        <p>night</p>
+        <p className='bolderText'>${Number(spot.price).toFixed(2)}</p>
+        <p >night</p>
         </div>
     </Link>
 
