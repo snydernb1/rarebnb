@@ -1,0 +1,18 @@
+#fourOhFour {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15em;
+    gap: 2em
+}
+
+#homeLinkDiv {
+    display: flex;
+    gap: 8px;
+}
+
+#homeLink {
+    color: rgba(255, 56, 96, 1);
+    cursor: pointer;
+}
