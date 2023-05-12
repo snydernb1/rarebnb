@@ -20,7 +20,7 @@ module.exports = {
         lat: 40.0150,
         lng: 105.2705,
         name: 'Villa Sierra',
-        description: `Minutes from Cape Town’s hottest attractions, this secluded mountain villa offers the perfect escape for those who prefer privacy. Spread across 4-stories, with beautiful indoor/outdoor entertaining areas, there’s no shortage of inspiring mountain views. Spend hot days by the pool. When the sun sets, throw a couple of logs on the fire and sip locally crafted wine under the stars.`,
+        description: `Minutes from Cape Town’s hottest attractions, this secluded mountain villa offers the perfect escape for those who prefer privacy. Spread across 4-stories, with beautiful indoor/outdoor entertaining areas, there’s no shortage of inspiring mountain views.`,
         price: 740
       },
       {
@@ -32,7 +32,7 @@ module.exports = {
         lat: 39.4335,
         lng: 82.5482,
         name: 'Sunset Ridge',
-        description: `A gentle stream feeds into the placid pond surrounding this designer mountain estate with panoramic views of the San Juan Mountains. Take a glass of vino across a foot bridge and sip around the sunken fire pit, or head inside the soaring interiors to admire the wild beauty of the West through floor-to-ceiling glass walls. You’re minutes from the slopes, with the Alta Lakes a short drive further.`,
+        description: `A gentle stream feeds into the placid pond surrounding this designer mountain estate with panoramic views of the San Juan Mountains. Take a glass of vino across a foot bridge and sip around the sunken fire pit, or head inside the soaring interiors to admire the wild beauty of the West through floor-to-ceiling glass walls.`,
         price: 13333
       },
       {
@@ -44,7 +44,7 @@ module.exports = {
         lat: 33.7488,
         lng: 84.3877,
         name: 'Four Pines 8',
-        description: `Just three minutes from Jackson Hole Mountain Resort, this luxuriously appointed four bedroom is the perfect home base for year-round mountain exploration. With world-class skiing in the winter, and golf and hiking in the summer, Wilson, Wyoming is an excellent source of scenic adventure tourism. Nearby, you’ll find the town of Jackson, Teton Village, and Yellowstone National Park.`,
+        description: `Just three minutes from Jackson Hole Mountain Resort, this luxuriously appointed four bedroom is the perfect home base for year-round mountain exploration.`,
         price: 2731
       },
       {
@@ -56,7 +56,7 @@ module.exports = {
         lat: 33.7488,
         lng: 84.3877,
         name: 'Villa David Chipperfield Nord',
-        description: `Architect David Chipperfield designed the airy interiors of this classic pergola-style house to celebrate the breathtaking surroundings of Lake Garda. From this prestigious position on the Eden Luxury Resort, you’ll enjoy endless views of the lake, as well as easy access to walking and biking trails. After a day on the lake, cool off in the pool or grab a drink at Eden’s gourmet restaurant.`,
+        description: `Architect David Chipperfield designed the airy interiors of this classic pergola-style house to celebrate the breathtaking surroundings of Lake Garda. From this prestigious position on the Eden Luxury Resort, you’ll enjoy endless views of the lake, as well as easy access to walking and biking trails.`,
         price: 10937
       },
       {
@@ -68,7 +68,7 @@ module.exports = {
         lat: 33.7488,
         lng: 84.3877,
         name: 'Lux Mare I',
-        description: `Set over two levels of palatial splendor, this villa offers a breathtaking view of the Algarve coast and the shining Atlantic beyond. A truly magnificent poolside terrace lets guests enjoy Algarve mornings with peace and serenity assured. With room after room of spacious, considered design, this villa provides smart outfitting and deep comfort, plus the charm of nearby Lagos and numerous hidden beaches.`,
+        description: `Set over two levels of palatial splendor, this villa offers a breathtaking view of the Algarve coast and the shining Atlantic beyond. A truly magnificent poolside terrace lets guests enjoy Algarve mornings with peace and serenity assured.`,
         price: 2051
       },
       {
@@ -92,7 +92,7 @@ module.exports = {
         lat: 33.7488,
         lng: 84.3877,
         name: 'Moorings Villa Naples',
-        description: 'Soaring palm trees and a manicured garden lead the way to this Naples, Florida mansion. Views of the glistening bay stretch beyond the backyard. The elegant interior features sumptuous décor and an airy ambiance. Explore the area, hopping between posh boutiques, quaint cafés, and waterfront eateries. Pristine golf courses sprawl nearby. Champagne is the perfect accompaniment to the vivid sunset.',
+        description: 'Soaring palm trees and a manicured garden lead the way to this Naples, Florida mansion. Views of the glistening bay stretch beyond the backyard. The elegant interior features sumptuous décor and an airy ambiance.',
         price: 1500
       },
       {
@@ -140,7 +140,7 @@ module.exports = {
         lat: 33.7488,
         lng: 84.3877,
         name: 'West Enclave 7',
-        description: `Loungers wait on the white-sand beach beyond the warm sandstone walls of this contemporary home on the Sea of Cortez. Floor-to-ceiling windows open the living areas to water on two sides: the sea on one, and a courtyard reflecting pool on the other. Surrounded by Ritz Carlton resort grounds, it’s close to golf and dining, plus art gallery walks in downtown San José del Cabo.`,
+        description: `Loungers wait on the white-sand beach beyond the warm sandstone walls of this contemporary home on the Sea of Cortez. Floor-to-ceiling windows open the living areas to water on two sides: the sea on one, and a courtyard reflecting pool on the other.`,
         price: 5951
       },
     ], {})
