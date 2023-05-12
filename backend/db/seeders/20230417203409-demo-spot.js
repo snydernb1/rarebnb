@@ -80,7 +80,7 @@ module.exports = {
         lat: 33.7488,
         lng: 84.3877,
         name: 'Villa Saint Antoine',
-        description: `Villa Saint Antoine is a fabulous modern home on the Greek island of Crete, about eight kilometers northeast of Chania. Enjoying a hillside vantage with sweeping views of Souda Bay, the three-story masterwork offers a graceful fusion of indoor and outdoor living, including a wrap-around terrace with infinity swimming pool and alfresco dining. A variety of high-end amenities will meet your desires and needs, including a sauna, exercise room, home office, excellent media features, and a gourmet kitchen. Five comfortable bedrooms with ensuite bathrooms offer ideal accommodations for families and groups of friends up to ten in size.`,
+        description: `Villa Saint Antoine is a fabulous modern home on the Greek island of Crete, about eight kilometers northeast of Chania. Enjoying a hillside vantage with sweeping views of Souda Bay, the three-story masterwork offers a graceful fusion of indoor and outdoor living, including a wrap-around terrace with infinity swimming pool and alfresco dining.`,
         price: 1205
       },
       {
@@ -116,7 +116,7 @@ module.exports = {
         lat: 33.7488,
         lng: 84.3877,
         name: 'Hidden Harbor',
-        description: `This oasis is tucked away in the trees on picturesque Lake Norman. The open-concept interior features ample space for the whole gang to spread out. A screened-in deck is the perfect place to savor an al fresco meal with a fresh breeze and the hum of nature. Vintage lights glow in the twilight as you soak in the hot tub. A games room keeps the fun rolling. Take the kayaks for a peaceful paddle.`,
+        description: `This oasis is tucked away in the trees on picturesque Lake Norman. The open-concept interior features ample space for the whole gang to spread out. A screened-in deck is the perfect place to savor an al fresco meal with a fresh breeze and the hum of nature.`,
         price: 1256
       },
       {
@@ -128,7 +128,7 @@ module.exports = {
         lat: 33.7488,
         lng: 84.3877,
         name: 'Saddle Peak',
-        description: `Located in the boho heart of Los Angeles, this secluded home is surrounded by nothing but wild, wide-open space. The ultra modern structure, perched at the edge of a lush escarpment, features an unimpeded view of the rugged countryside from its abundance of full-length windows. The iconic Santa Monica Pier and sprawling seaside at Venice Beach, as well as The Getty Villa, are a short drive away.`,
+        description: `Located in the boho heart of Los Angeles, this secluded home is surrounded by nothing but wild, wide-open space. The ultra modern structure, perched at the edge of a lush escarpment, features an unimpeded view of the rugged countryside from its abundance of full-length windows.`,
         price: 1296
       },
       {
