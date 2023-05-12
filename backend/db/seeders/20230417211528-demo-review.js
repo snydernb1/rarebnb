@@ -26,7 +26,7 @@ module.exports = {
       {
         spotId: 2,
         userId: 4,
-        review: 'Overall, great place to go with a large group and literally 100 steps away from the Gondola. When we first arrived, there were issues with the garage and a few items inside, however, they the had maintenance fix the issues right away. Very pleased with the management and love this spot for a big group ski trip.',
+        review: 'When we first arrived, there were issues with the garage and a few items inside, however, they the had maintenance fix the issues right away. Very pleased with the management and love this spot for a big group ski trip.',
         stars: 5
       },
       {
@@ -38,7 +38,7 @@ module.exports = {
       {
         spotId: 2,
         userId: 6,
-        review: `Four Pines 6 was an ideal house and location for our group of 12. There was plenty of room for everyone to spread out and great common areas where we could join up for TV watching, game playing, and dining. The villa management group was very helpful and accommodating.`,
+        review: `Four Pines 6 was an ideal house and location for our group of 12. There was plenty of room for everyone to spread out and great common areas where we could join up for TV watching, game playing, and dining.`,
         stars: 4
       },
       //===============================
@@ -57,22 +57,20 @@ module.exports = {
       {
         spotId: 7,
         userId: 6,
-        review: `Pros: Location, location, location! The view is breathtaking. I've stayed in other Hamilton Cove units and this unit has the best view. The place was clean.
-
-        Cons: This unit would be stellar if a few small touches/upgrades were made. For example, a few blinds were missing in the kitchen nook, and the ones that were there were old. There weren't any curtains in the living area where the sleeper sofa is located so it was hard to sleep once the sun started shining in.`,
+        review: `This unit would be stellar if a few small touches/upgrades were made. For example, a few blinds were missing in the kitchen nook, and the ones that were there were old.`,
         stars: 2
       },
       //===============================
       {
         spotId: 10,
         userId: 1,
-        review: `We had a lovely stay in this home. It was very comfortable for our family vacation with 4 adults, 2 kids and our dogs. The living spaces were perfect for playing games, watching movies and enjoying the beautiful ocean through all of the windows. The yard is incredible and the view is amazing!`,
+        review: `We had a lovely stay in this home. It was very comfortable for our family vacation with 4 adults, 2 kids and our dogs.`,
         stars: 4
       },
       {
         spotId: 10,
         userId: 7,
-        review: 'What a beautiful spot. Very comfortable home with the most gorgeous views and outdoor space. Very private and peaceful. Great location. My family of 5 had such a great time playing and relaxing here. Felt like heaven spending time in the pool, hot tub, yard, living space overlooking the ocean',
+        review: 'What a beautiful spot. Very comfortable home with the most gorgeous views and outdoor space. Very private and peaceful.',
         stars: 5
       },
       {
@@ -91,7 +89,7 @@ module.exports = {
       {
         spotId: 11,
         userId: 1,
-        review: `The beds SO uncomfortable we couldn't sleep. Big problem. Large jacuzzi tubs awesome except they don't work. Mold in the shower floor. Screens ripped and doors don't work well. Only two towels per bathroom. We are 4 what about the pool?? No dishwasher detergent had to handwash dishes. Some lights in kitchen didnt work. Bottomline can't sleep can't stay.`,
+        review: `The beds SO uncomfortable we couldn't sleep. Big problem. Large jacuzzi tubs awesome except they don't work. Mold in the shower floor.`,
         stars: 2
       },
       {
@@ -109,14 +107,14 @@ module.exports = {
       {
         spotId: 11,
         userId: 2,
-        review: `It was nice, very pretty views! No A/C or heating so be prepared. Kitchen is okay, slight lighting issues and minimal cook preparation utensils. Location is good, but side road is not the prettiest(very bumpy).`,
+        review: `It was nice, very pretty views! No A/C or heating so be prepared. Kitchen is okay, slight lighting issues and minimal cook preparation utensils.`,
         stars: 3
       },
       //===============================
       {
         spotId: 5,
         userId: 1,
-        review: `This mansion was great. The pictures really represent what is actually there. The bedrooms were large and complete with nice furnishings. Each bedroom had an attached full bathroom with everything you could need. The kitchen and living areas were also great.`,
+        review: `This mansion was great. The pictures really represent what is actually there. The bedrooms were large and complete with nice furnishings.`,
         stars: 5
       },
       {
@@ -134,7 +132,7 @@ module.exports = {
       {
         spotId: 5,
         userId: 2,
-        review: `It is a wonderful property in a privileged place by the sea. The house is not missing any details, luxury and modernity with film landscapes. The hosts are attentive and friendly people available at all times and make you feel at home.`,
+        review: `It is a wonderful property in a privileged place by the sea. The house is not missing any details, luxury and modernity with film landscapes.`,
         stars: 5
       },
       //===============================
