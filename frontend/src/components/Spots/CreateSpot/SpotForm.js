@@ -117,11 +117,11 @@ export default function SpotForm({spot, formType}) {
                                     await dispatch(fetchNewSpotImgs(tileImg))
                                 }
                             }
-                            history.push(`/${newSpot.id}`)
+                            history.push(`/spot/${newSpot.id}`)
 
             } else if (formType === 'Edit') {
                 const editSpot = await dispatch(fetchEditSpot(spotData))
-                history.push(`/${editSpot.id}`)
+                history.push(`/spot/${editSpot.id}`)
             }
 
 
@@ -164,6 +164,7 @@ export default function SpotForm({spot, formType}) {
                 type="text"
                 value={country}
                 placeholder="United States"
+                maxLength='20'
                 className='spotFormInput'
                 onChange={(e) => setCountry(e.target.value)}
                 />
@@ -177,6 +178,7 @@ export default function SpotForm({spot, formType}) {
                 <input
                 type="text"
                 value={address}
+                maxLength='30'
                 placeholder="1234 Example Ln"
                 className='spotFormInput'
                 onChange={(e) => setAddress(e.target.value)}
@@ -195,6 +197,7 @@ export default function SpotForm({spot, formType}) {
                 type="text"
                 value={city}
                 placeholder="Dayton"
+                maxLength='17'
                 className='spotFormInput'
                 onChange={(e) => setCity(e.target.value)}
                 />
@@ -213,6 +216,7 @@ export default function SpotForm({spot, formType}) {
                 type="text"
                 value={state}
                 placeholder="Ohio"
+                maxLength='13'
                 className='spotFormInput'
                 onChange={(e) => setState(e.target.value)}
                 />
@@ -243,6 +247,7 @@ export default function SpotForm({spot, formType}) {
             type="text"
             value={name}
             placeholder="Name of your spot"
+            maxLength='30'
             className="botBorderSpacing"
             onChange={(e) => setName(e.target.value)}
             />
@@ -259,6 +264,7 @@ export default function SpotForm({spot, formType}) {
                 <input
                 type="number"
                 value={price}
+                max='999999'
                 placeholder="Price per night (USD)"
                 className="botBorderSpacing"
                 onChange={(e) => setPrice(e.target.value)}
@@ -276,7 +282,7 @@ export default function SpotForm({spot, formType}) {
                     <input
                     type="text"
                     value={prevImg}
-                    placeholder="Preview Image URL"
+                    placeholder="Preview Image URL  |  Example: https://a0.muscache.com/737b978b2b6a.jpg"
                     className="urlLinks"
                     onChange={(e) => setPrevImg(e.target.value)}
                     />

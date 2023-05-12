@@ -15,7 +15,7 @@ export default function SpotCard ({spot, id, owner}) {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        history.push(`/${id}/edit`)
+        history.push(`/spot/${id}/edit`)
     }
 
     const closeMenu = () => setShowMenu(false);
@@ -23,7 +23,7 @@ export default function SpotCard ({spot, id, owner}) {
     return (<section className='spotCardSection'>
     <Link
     className="spotCard"
-    to={`/${id}`}
+    to={`/spot/${id}`}
     >
 
         <div className='imgDiv'>

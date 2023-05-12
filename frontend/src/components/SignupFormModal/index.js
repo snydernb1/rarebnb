@@ -76,6 +76,7 @@ function SignupFormModal() {
           <input
             type="text"
             className="inputPadding"
+            placeholder="Username must be at least 4 characters"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -107,6 +108,7 @@ function SignupFormModal() {
           <input
             type="password"
             value={password}
+            placeholder="Password must be at least 6 characters"
             onChange={(e) => setPassword(e.target.value)}
             required
           />

@@ -14,7 +14,7 @@
 
 .cards {
     width: 100%;
-    padding: 2em 4em 0 4em;
+    padding: 2em 4em 3em 4em;
     display: inline-flex;
     flex-wrap: wrap;
     gap: 2em;

@@ -2,7 +2,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import SpotCard from "../AllSpots/SpotCard";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserSpots } from "../../../store/spots";
+import { fetchUserSpots, fetchClearSpot } from "../../../store/spots";
 
 import './ManageSpots.css'
 
@@ -21,6 +21,8 @@ export default function ManageSpots() {
 
     useEffect(() => {
         dispatch(fetchUserSpots())
+
+        return () => dispatch(fetchClearSpot())
     }, [dispatch]);
 
     return (<section id="manageSpotsPage">
