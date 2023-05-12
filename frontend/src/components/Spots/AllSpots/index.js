@@ -9,9 +9,7 @@ function Spots() {
     const dispatch = useDispatch();
 
     const spots = Object.values(spotsObj);
-    // console.log('Spots from spot component', spots)
 
-    // console.log('is spots running?')
 
     useEffect(() => {
         dispatch(fetchSpots());

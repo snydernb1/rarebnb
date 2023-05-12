@@ -48,12 +48,11 @@ export default function GetSingleSpot() {
         alert(`Feature coming soon...`)
     }
 
-    // console.log('images in single spot before return false', spot.SpotImages)
+
     if (!spot.SpotImages) return false
 
         const images = spot.SpotImages.slice(1)
-        // console.log('images in single spot details', images)
-        // console.log('spot.SpotImages in single spot details', spot.SpotImages)
+
 
         if (images.length < 4) {
             for (let i = 0; i < 4; i++) {
@@ -62,8 +61,6 @@ export default function GetSingleSpot() {
                 }
             }
         }
-
-        // console.log('images after loop', images)
 
     if (!reviews) return false
 

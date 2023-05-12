@@ -94,7 +94,6 @@ export const fetchNewSpot = (data) => async (dispatch) => {
 }
 
 export const fetchNewSpotImgs = (data) => async (dispatch) => {
-    console.log('in the thunki for imgs')
     const response = await csrfFetch(`/api/spots/${data.spotId}/images`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -109,14 +108,11 @@ export const fetchNewSpotImgs = (data) => async (dispatch) => {
 }
 
 export const fetchUserSpots = () => async (dispatch) => {
-    // console.log('in the thunk for user spots')
     const response = await csrfFetch(`/api/spots/current`)
 
     if (response.ok) {
     const ownerSpots = await response.json()
-    // console.log(ownerSpots)
     dispatch(getOwnerSpots(ownerSpots));
-    // return ownerSpots;
     } //might need an else for errors?
 }
 
@@ -126,10 +122,8 @@ export const fetchDeleteSpot = (id) => async (dispatch) => {
         headers: {'Content-Type': 'application/json'}
     })
 
-    console.log('in fetch delete spot', response)
     if (response.ok) {
     const deletedSpot = await response.json()
-    // console.log("deleted spot thunk", deletedSpot)
     dispatch(deleteSpot(id));
     } //might need an else for errors?
 }
@@ -143,7 +137,6 @@ export const fetchEditSpot = (spot) => async (dispatch) => {
 
     if (response.ok) {
     const newEditSpot = await response.json()
-    // console.log('spot data from thunk', newEditSpot)
     dispatch(editSpot(newEditSpot));
     return newEditSpot;
     } //might need an else for errors?
@@ -166,19 +159,15 @@ const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case ALL_SPOTS:
-            // console.log('spots from reducer', action.spots.Spots)
             const allSpots = action.spots.Spots
             spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
-            // console.log('state from reducer', spotState)
             allSpots.forEach((spot) => {
                 spotState.allSpots[spot.id] = spot;
               });
             return spotState;
 
         case SINGLE_SPOT:
-            // console.log('spot action', action)
             const singleSpot = action.spot //need to log this
-            // console.log('reducer single spot action', singleSpot)
             spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
 
             spotState.singleSpot = singleSpot
@@ -186,20 +175,15 @@ const spotsReducer = (state = initialState, action) => {
             return spotState
 
         case CREATE_SPOT:
-            //console.log to determine data after component is set up
-            // console.log('are we in the reducer? ActionObj', action.data)
             spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
 
             spotState.allSpots[action.data.id] = action.data
-            // console.log('reducer spotState', spotState)
 
             return spotState;
 
         case OWNER_SPOTS:
-            // console.log('spots from reducer', action)
             const userSpots = action.spots.Spots
             spotState = {allSpots: {}, singleSpot: {...state.singleSpot}}
-            // console.log('state from reducer', spotState)
             userSpots.forEach((spot) => {
                 spotState.allSpots[spot.id] = spot;
                 });
@@ -218,12 +202,9 @@ const spotsReducer = (state = initialState, action) => {
                 return spotState;
 
             case EDIT_SPOT:
-                //console.log to determine data after component is set up
-                console.log('are we in the reducer? ActionObj', action.spot)
                 spotState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}}
 
                 spotState.allSpots[action.spot.id] = action.spot
-                // console.log('reducer spotState', spotState)
 
                 return spotState;
 

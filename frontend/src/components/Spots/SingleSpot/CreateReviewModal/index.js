@@ -15,7 +15,7 @@ export default function CreateReview({spotId, sessionUser}) {
     const [rating, setRating] = useState(0);
     const [errors, setErrors] = useState({});
 
-    // console.log('sessionUser', sessionUser)
+
 
     useEffect(() => {
         const errors = {}
