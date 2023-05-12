@@ -38,7 +38,7 @@ module.exports = {
       {
         spotId: 2,
         userId: 6,
-        review: `Four Pines 6 was an ideal house and location for our group of 12. There was plenty of room for everyone to spread out and great common areas where we could join up for TV watching, game playing, and dining. The villa management group was very helpful and accommodating. Usually with a home rental, someone gets a room they don't like, but each of the rooms in this house had its own bathroom and all of the rooms were comfortable. The master bedroom was beautiful and such a treat. I I have no complaints about the condition of the house or the amenities. Everyone in our group was very happy and we had such a great time. We spent lots of time walking around the property neighborhood, playing in the snow, and indoors watching the wildlife. The house's proximity to Teton Village was great for dining options. Would highly recommend!`,
+        review: `Four Pines 6 was an ideal house and location for our group of 12. There was plenty of room for everyone to spread out and great common areas where we could join up for TV watching, game playing, and dining. The villa management group was very helpful and accommodating.`,
         stars: 4
       },
       //===============================
@@ -57,18 +57,16 @@ module.exports = {
       {
         spotId: 7,
         userId: 6,
-        review: `Pros: Location, location, location! The view is breathtaking. I've stayed in other Hamilton Cove units and this unit has the best view. The bed and sleeper sofa were both comfortable. The golf cart worked and didn't cause any trouble. The place was clean.
+        review: `Pros: Location, location, location! The view is breathtaking. I've stayed in other Hamilton Cove units and this unit has the best view. The place was clean.
 
-        Cons: This unit would be stellar if a few small touches/upgrades were made. For example, a few blinds were missing in the kitchen nook, and the ones that were there were old. There weren't any curtains in the living area where the sleeper sofa is located so it was hard to sleep once the sun started shining in. Some of the kitchen items (e.g., plastic wine glasses) were old. We were only provided a tiny bit of hand soap in the bathroom. We had to get our own hand soap.
-
-        Things to keep in mind: when you open the front door, you need to turn the key to the left (not right) to open the door. The balcony isn't completely private, but there's a planter placed there to provide a bit of a divide.`,
+        Cons: This unit would be stellar if a few small touches/upgrades were made. For example, a few blinds were missing in the kitchen nook, and the ones that were there were old. There weren't any curtains in the living area where the sleeper sofa is located so it was hard to sleep once the sun started shining in.`,
         stars: 2
       },
       //===============================
       {
         spotId: 10,
         userId: 1,
-        review: `We had a lovely stay in this home. It was very comfortable for our family vacation with 4 adults, 2 kids and our dogs. The living spaces were perfect for playing games, watching movies and enjoying the beautiful ocean through all of the windows. The yard is incredible and the view is amazing! The pool and jacuzzi was warm and ready for us. And it was close to restaurants, shopping and beach access. We all enjoyed it very much!`,
+        review: `We had a lovely stay in this home. It was very comfortable for our family vacation with 4 adults, 2 kids and our dogs. The living spaces were perfect for playing games, watching movies and enjoying the beautiful ocean through all of the windows. The yard is incredible and the view is amazing!`,
         stars: 4
       },
       {
@@ -93,7 +91,7 @@ module.exports = {
       {
         spotId: 11,
         userId: 1,
-        review: `The place has glorious views and is spacious very nice if a little dated and that is the initial distraction to the other issues. The beds SO uncomfortable we couldn't sleep. Big problem. Large jacuzzi tubs awesome except they don't work. Mold in the shower floor. Screens ripped and doors don't work well. Only two towels per bathroom. We are 4 what about the pool?? No dishwasher detergent had to handwash dishes. Some lights in kitchen didnt work. Bottomline can't sleep can't stay.`,
+        review: `The beds SO uncomfortable we couldn't sleep. Big problem. Large jacuzzi tubs awesome except they don't work. Mold in the shower floor. Screens ripped and doors don't work well. Only two towels per bathroom. We are 4 what about the pool?? No dishwasher detergent had to handwash dishes. Some lights in kitchen didnt work. Bottomline can't sleep can't stay.`,
         stars: 2
       },
       {
@@ -118,8 +116,7 @@ module.exports = {
       {
         spotId: 5,
         userId: 1,
-        review: `This mansion was great. The pictures really represent what is actually there. The bedrooms were large and complete with nice furnishings. Each bedroom had an attached full bathroom with everything you could need. The kitchen and living areas were also great. The pool is heated but with the wind at the end of December it was a little cool to swim a lot. But when it warms up it would be fantastic. A large hot tub would be a great addition for the cooler months.
-        Lagos and area was also very peaceful and great to visit.`,
+        review: `This mansion was great. The pictures really represent what is actually there. The bedrooms were large and complete with nice furnishings. Each bedroom had an attached full bathroom with everything you could need. The kitchen and living areas were also great.`,
         stars: 5
       },
       {
