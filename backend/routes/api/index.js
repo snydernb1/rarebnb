@@ -13,8 +13,6 @@ const { User } = require('../../db/models');
 
 router.use(restoreUser);
 
-// console.log('in api router');
-
 
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
@@ -47,7 +45,6 @@ router.use('/review-images', reviewImagesRouter);
 
 
 router.post('/test', (req, res) => {
-    console.log('are we hitting test')
     res.json({ requestBody: req.body });
 });
 

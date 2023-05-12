@@ -55,7 +55,6 @@ export const fetchNewReview = (data) => async (dispatch) => {
     if (response.ok) {
         const newUserReview = await response.json();
         newUserReview.User = data.reviewData.frontend.user
-        console.log('is response okay?', newUserReview)
         dispatch(newReview(newUserReview));
         return newUserReview;
     } else {

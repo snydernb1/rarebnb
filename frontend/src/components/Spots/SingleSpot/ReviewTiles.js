@@ -24,7 +24,7 @@ export default function ReviewTiles ({review}) {
     const month = monthNames[date.getMonth()]
 
 
-    console.log('reviewTile checking data structure and who has user attached', review)
+
     if (!review.User) return false //state changes and causes rerender but doesn't have user info like when request reviews from db so new review hits false here... || solved by re-fetching reviews on review length change
 
     return (

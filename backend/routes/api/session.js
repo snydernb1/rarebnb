@@ -9,7 +9,7 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
-// console.log('in session');
+
 
 const validateLogin = [
     check('credential')

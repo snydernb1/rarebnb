@@ -96,7 +96,7 @@ export default function SpotForm({spot, formType}) {
 
             if (formType === 'Create') {
                             const newSpot = await dispatch(fetchNewSpot(spotData))
-                            // console.log('new Spot from component',newSpot)
+
 
                             const preview = {
                                 spotId: newSpot.id, url: prevImg, preview: true
@@ -105,10 +105,10 @@ export default function SpotForm({spot, formType}) {
                             await dispatch(fetchNewSpotImgs(preview))
 
                             const images = Object.values(imgs)
-                            console.log('there should be tile images here?', images)
+
                             for (let image of images) {
 
-                                console.log('what is image?', image)
+
                                 if (image.url.length > 0) {
                                     const tileImg = {
                                         spotId: newSpot.id, url: image.url, preview: false
