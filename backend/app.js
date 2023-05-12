@@ -43,7 +43,7 @@ app.use(
   );
 
   app.use(routes); // all routes go here
-  // console.log('in app');
+
 
 
   // Error Handlers ----------------------------------------------
@@ -57,7 +57,6 @@ app.use(
 
   // for catching sequelize errors
   app.use((err, req, res, next) => {
-    console.log('in sequelize errors')
     if (err instanceof ValidationError) {
       let errors = {};
       for (let error of err.errors) {

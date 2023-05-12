@@ -85,7 +85,6 @@ router.post('/:reviewId/images', requireAuth, reqReviewAuth, async (req, res, ne
             reviewId: review.id
         }
     });
-    // console.log(reviewImages)
 
     if (reviewImages.length > 10) {
         const err = new Error();
