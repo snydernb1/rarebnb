@@ -67,7 +67,7 @@ const validateBooking = [
 ]
 
 
-// console.log('in spots router');
+
 // Helper function to get avgRating and numReviews
 const avgRating = async (id) => {
 
@@ -156,12 +156,12 @@ router.get('/:spotId', async (req, res, next) => {
     const spotId = req.params.spotId;
     const spot = await Spot.findByPk(spotId);
 
-    console.log(spot)
+
     if (spot) {
         const objSpot = spot.toJSON();
 
         const avgObj = await avgRating(spotId);
-        // console.log('avgobj test', avgObj);
+
 
         const SpotImages = await SpotImage.findAll({
             where: {
@@ -266,7 +266,7 @@ router.get('/', async (req, res, next) => {
     query.limit = size
     query.offset = size * (page - 1)
 
-console.log('minprice', minPrice)
+
 
     if (minLat) {
         query.where.lat = { [Op.gte]: `${minLat}`}
@@ -376,7 +376,7 @@ router.post('/:spotId/images', requireAuth, reqSpotAuth, async (req, res) => {
 //GET all reviews by spot id
 router.get('/:spotId/reviews', async (req, res, next) => {
 
-    // console.log("in /:spotId/reviews")
+
     const spotId = req.params.spotId;
     let reviews = []
 
@@ -394,16 +394,16 @@ router.get('/:spotId/reviews', async (req, res, next) => {
             let reviewId = reviewData[i].id;
             let newReview = reviewData[i].toJSON();
 
-        console.log("test", newReview)
+
 
     //     //-------------------------------- Get User
-            console.log('for loop')
+
 
             let userData = await User.findByPk(reviewData[i].userId, {
                 attributes: ['id', 'firstName', 'lastName']
             });
 
-            console.log(userData)
+
        newReview.User = userData;
 
        //-------------------------------- Get ReviewImages
