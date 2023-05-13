@@ -64,6 +64,18 @@ export default function GetSingleSpot() {
 
     if (!reviews) return false
 
+    //============================== Calculating review number and avg rating
+
+    let totalRating = 0;
+    let reviewNum = reviews.length;
+
+    reviews.forEach(review => {
+        totalRating += review.stars
+    });
+
+    let avgRating = totalRating / reviewNum;
+
+    //============================== Calculating review number and avg rating
 
     const hasReview = reviews.find((review) => review.userId === sessionUser?.id)
 
@@ -102,21 +114,21 @@ export default function GetSingleSpot() {
 
                         <div id='revInfoBox'>
                         {
-                            spot.numReviews === 0 ? false :
+                            reviewNum === 0 ? false :
                             <div className='starRating'>
                             <i class="fa-sharp fa-solid fa-star"></i>
-                            <h4>{spot.avgStarRating?.toFixed(1)}</h4>
+                            <h4>{avgRating.toFixed(1)}</h4>
                         </div>
                         }
 
                         {
-                        spot.numReviews === 0 ? false :
+                        reviewNum === 0 ? false :
                         <i class="fa-sharp fa-solid fa-circle"></i>
                         }
 
                         <div className='review'>
-                            {spot.numReviews === 0 ? <div className='noRevs'><i class="fa-sharp fa-solid fa-star"></i><h4>New</h4></div> : <h4>{spot.numReviews}</h4>}
-                            {spot.numReviews === 0 ? false : <p>{spot.numReviews === 1 ? 'Review' : 'Reviews'}</p>}
+                            {reviewNum === 0 ? <div className='noRevs'><i class="fa-sharp fa-solid fa-star"></i><h4>New</h4></div> : <h4>{reviewNum}</h4>}
+                            {reviewNum === 0 ? false : <p>{reviewNum === 1 ? 'Review' : 'Reviews'}</p>}
                         </div>
                         </div>
 
@@ -131,19 +143,19 @@ export default function GetSingleSpot() {
             <div className='reviewData'>
                 <div className='starRating'>
                     <i class="fa-sharp fa-solid fa-star"></i>
-                    {spot.numReviews === 0 ? <h4>New</h4> : <h4>{spot.avgStarRating.toFixed(1)}</h4>}
+                    {reviewNum === 0 ? <h4>New</h4> : <h4>{avgRating.toFixed(1)}</h4>}
                 </div>
 
                 {
-                spot.numReviews === 0 ? false :
+                reviewNum === 0 ? false :
                 <i class="fa-sharp fa-solid fa-circle"></i>
                 }
 
                 {
-                spot.numReviews === 0 ? false :
+                reviewNum === 0 ? false :
                 <div className='review'>
-                    <h4>{spot.numReviews}</h4>
-                    <p>{spot.numReviews === 1 ? 'Review' : 'Reviews'}</p>
+                    <h4>{reviewNum}</h4>
+                    <p>{reviewNum === 1 ? 'Review' : 'Reviews'}</p>
                 </div>
                 }
 
