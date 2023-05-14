@@ -31,14 +31,16 @@ export default function GetSingleSpot() {
     // }, [dispatch, reviews.length])
 
     useEffect(() => {
-        dispatch(fetchSpot(spotId))
         dispatch(fetchReviews(spotId))
 
+        return () => dispatch(fetchClearReviews())
+    }, [dispatch])
 
-        return () => {
-            dispatch(fetchClearSpot())
-            dispatch(fetchClearReviews())
-        }
+
+    useEffect(() => {
+        dispatch(fetchSpot(spotId))
+
+        return () => dispatch(fetchClearSpot())
     }, [dispatch])
 
 

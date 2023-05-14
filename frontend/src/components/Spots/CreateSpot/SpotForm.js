@@ -216,7 +216,7 @@ export default function SpotForm({spot, formType}) {
                 type="text"
                 value={state}
                 placeholder="Ohio"
-                maxLength='13'
+                maxLength='16'
                 className='spotFormInput'
                 onChange={(e) => setState(e.target.value)}
                 />
@@ -232,6 +232,7 @@ export default function SpotForm({spot, formType}) {
             type="text"
             value={description}
             id='formDesc'
+            maxLength='255'
             placeholder="Please write at least 30 characters"
             onChange={(e) => setDescription(e.target.value)}
             />
