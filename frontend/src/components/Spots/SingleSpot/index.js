@@ -53,9 +53,11 @@ export default function GetSingleSpot() {
 
         const images = spot.SpotImages.slice(1)
 
+        console.log('images with no tiles', images)
+
 
         if (images.length < 4) {
-            for (let i = 0; i < 4; i++) {
+            for (let i = images.length; i < 4; i++) {
                 images[i] = {
                     url: 'blank'
                 }
