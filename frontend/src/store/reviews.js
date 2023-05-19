@@ -5,6 +5,7 @@ const NEW_REVIEW = "reviews/newReview";
 const DELETE_REVIEW = "reviews/deleteReview";
 const CLEAR_REVIEWS = "reviews/clearReviews";
 const USER_REVIEWS = "reviews/userReviews"
+const EDIT_REVIEW = "reviews/editReview"
 
 //====ACTION CREATORS=======================================
 
@@ -42,6 +43,13 @@ const getUserReviews = (reviews) => {
     }
 }
 
+const editUserReview = (review) => {
+    return {
+        type: EDIT_REVIEW,
+        review
+    }
+}
+
 //====THUNKS=======================================
 
 export const fetchReviews = (id) => async (dispatch) => {
@@ -60,6 +68,24 @@ export const fetchUserReviews = () => async (dispatch) => {
     const reviews = await response.json()
     dispatch(getUserReviews(reviews));
     } //might need an else for errors?
+}
+
+export const fetchEditReview = (data) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${data.revId}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data.reviewData.backend)
+    });
+
+    if (response.ok) {
+        const editedUserReview = await response.json();
+        editedUserReview.User = data.reviewData.frontend.user
+        dispatch(newReview(editedUserReview));
+        return editedUserReview;
+    } else {
+        const errors = await response.json();
+        return response;
+    }
 }
 
 export const fetchNewReview = (data) => async (dispatch) => {
@@ -129,6 +155,14 @@ const reviewsReducer = (state = initialState, action) => {
             reviewState = {...state, spot: {...state.spot}, user: {...state.user}}
 
             reviewState.spot[newUserReview.id] = newUserReview
+
+            return reviewState;
+
+        case EDIT_REVIEW:
+            const editedUserReview = action.review
+            reviewState = {...state, spot: {...state.spot}, user: {...state.user}}
+
+            reviewState.spot[editedUserReview.id] = editedUserReview
 
             return reviewState;
 

@@ -2,17 +2,19 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../../../context/Modal";
 import { useEffect, useState } from "react";
 
-import { fetchNewReview } from "../../../../store/reviews";
+import { fetchNewReview, fetchEditReview } from "../../../../store/reviews";
 
 import './ReviewModal.css'
 
 
-export default function CreateReview({spotId, sessionUser}) {
+export default function CreateReview({spotId, sessionUser, existReview, reviewType}) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
-    const [review, setReview] = useState("");
-    const [rating, setRating] = useState(0);
+    console.log('how is review structured?', existReview.Spot.id)
+
+    const [review, setReview] = useState(existReview?.review || "");
+    const [rating, setRating] = useState(existReview?.stars || 0);
     const [errors, setErrors] = useState({});
 
 
@@ -30,6 +32,7 @@ export default function CreateReview({spotId, sessionUser}) {
 
         const reviewData = {
             spotId: spotId,
+            revId: existReview.id,
             reviewData: {
                 backend: {review, stars: rating},
                 frontend: {user: {
@@ -39,13 +42,20 @@ export default function CreateReview({spotId, sessionUser}) {
             }
         }
 
-        const newReview = await dispatch(fetchNewReview(reviewData))
-
-        if (newReview.id) {
+        if (reviewType === "edit") {
+            const editedReview = await dispatch(fetchEditReview(reviewData))
             closeModal();
         } else {
-            setErrors(newReview.errors)
+            const newReview = await dispatch(fetchNewReview(reviewData))
+            closeModal();
         }
+
+
+        // if (newReview.id) {
+        //     closeModal();
+        // } else {
+        //     setErrors(newReview.errors)
+        // }
 
 
     }

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 import './ReviewTiles.css'
+import CreateReview from "./CreateReviewModal";
 
 export default function ReviewTiles ({review, spotName}) {
     const [showMenu, setShowMenu] = useState(false);
@@ -54,7 +55,8 @@ export default function ReviewTiles ({review, spotName}) {
         <OpenModalMenuItem
             itemText="Update"
             onItemClick={closeMenu}
-            modalComponent={<UpdateReview id={review.id} deleteType='review'/>}
+            modalComponent={<CreateReview id={review.id} existReview={review} sessionUser={sessionUser} reviewType={'edit'} spotId={review.Spot.id}
+            />}
             />
     </div>
 
