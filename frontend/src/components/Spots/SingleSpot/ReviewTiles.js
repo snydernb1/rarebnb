@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 import './ReviewTiles.css'
 
-export default function ReviewTiles ({review}) {
+export default function ReviewTiles ({review, spotName}) {
     const [showMenu, setShowMenu] = useState(false);
 
     const sessionUser = useSelector(state => state.session.user);
@@ -23,13 +23,15 @@ export default function ReviewTiles ({review}) {
     const year = date.getFullYear()
     const month = monthNames[date.getMonth()]
 
+    // console.log('this is the spotNAme',spotName)
+    // console.log('this is the review',review)
 
 
     if (!review.User) return false //state changes and causes rerender but doesn't have user info like when request reviews from db so new review hits false here... || solved by re-fetching reviews on review length change
 
     return (
     <section className="reviewTile">
-    <h4>{review.User.firstName}</h4>
+    <h4>{spotName ? spotName : review.User.firstName}</h4>
 
     <div id="date">
         <h4>{month}</h4>
@@ -46,5 +48,15 @@ export default function ReviewTiles ({review}) {
             />
     </div>
     }
+
+    {/* //Working on update review button here */}
+    <div id='editReview'>
+        <OpenModalMenuItem
+            itemText="Update"
+            onItemClick={closeMenu}
+            modalComponent={<UpdateReview id={review.id} deleteType='review'/>}
+            />
+    </div>
+
     </section>);
 };
