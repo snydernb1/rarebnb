@@ -21,7 +21,7 @@ export default function ManageReviews() {
 
     return (
     <section className="manageReviews">
-        <h1>Manage Your Reviews</h1>
+        <h1 id='reviewHeader'>Manage Your Reviews</h1>
 
         <div className="reviewCards">
                 {reviews.length > 0 && reviews.map((review)=> (

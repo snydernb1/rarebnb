@@ -84,7 +84,7 @@ export default function CreateReview({spotId, sessionUser, existReview, reviewTy
       }
 
     return (<section id="reviewModal">
-    <h1 id="reviewHeader">How was your stay?</h1>
+    <h1 id="reviewHeader">How was your stay {existReview ? "at " + existReview.Spot.name : null}?</h1>
 
     <form onSubmit={handleSubmit} id='reviewForm'>
 
