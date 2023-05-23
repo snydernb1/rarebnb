@@ -11,8 +11,6 @@ export default function CreateReview({spotId, sessionUser, existReview, reviewTy
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
-    console.log('how is review structured?', existReview.Spot.id)
-
     const [review, setReview] = useState(existReview?.review || "");
     const [rating, setRating] = useState(existReview?.stars || 0);
     const [errors, setErrors] = useState({});
@@ -32,15 +30,21 @@ export default function CreateReview({spotId, sessionUser, existReview, reviewTy
 
         const reviewData = {
             spotId: spotId,
-            revId: existReview.id,
             reviewData: {
                 backend: {review, stars: rating},
                 frontend: {user: {
                     id: sessionUser.id,
                     firstName: sessionUser.firstName,
-                    lastName: sessionUser.lastName}}
+                    lastName: sessionUser.lastName}
+                }
             }
         }
+
+        if (existReview) {
+            reviewData.reviewData.frontend.spot =  existReview.Spot
+            reviewData.revId = existReview.id
+        }
+
 
         if (reviewType === "edit") {
             const editedReview = await dispatch(fetchEditReview(reviewData))
@@ -50,14 +54,11 @@ export default function CreateReview({spotId, sessionUser, existReview, reviewTy
             closeModal();
         }
 
-
         // if (newReview.id) {
         //     closeModal();
         // } else {
         //     setErrors(newReview.errors)
         // }
-
-
     }
 
     function starRating (num) {

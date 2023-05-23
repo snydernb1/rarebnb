@@ -55,7 +55,7 @@ export default function ReviewTiles ({review, spotName}) {
         <OpenModalMenuItem
             itemText="Update"
             onItemClick={closeMenu}
-            modalComponent={<CreateReview id={review.id} existReview={review} sessionUser={sessionUser} reviewType={'edit'} spotId={review.Spot.id}
+            modalComponent={<CreateReview id={review.id} existReview={review} sessionUser={sessionUser} reviewType={'edit'} spotId={review.Spot?.id}
             />}
             />
     </div>

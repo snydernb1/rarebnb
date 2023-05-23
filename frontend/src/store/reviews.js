@@ -80,7 +80,8 @@ export const fetchEditReview = (data) => async (dispatch) => {
     if (response.ok) {
         const editedUserReview = await response.json();
         editedUserReview.User = data.reviewData.frontend.user
-        dispatch(newReview(editedUserReview));
+        editedUserReview.Spot = data.reviewData.frontend.spot
+        dispatch(editUserReview(editedUserReview));
         return editedUserReview;
     } else {
         const errors = await response.json();
@@ -162,17 +163,29 @@ const reviewsReducer = (state = initialState, action) => {
             const editedUserReview = action.review
             reviewState = {...state, spot: {...state.spot}, user: {...state.user}}
 
-            reviewState.spot[editedUserReview.id] = editedUserReview
+            reviewState.user[editedUserReview.id] = editedUserReview
 
             return reviewState;
 
         case DELETE_REVIEW:
-            const currState = Object.values(state.spot)
-            reviewState = {spot: {}, user: {...state.user}}
+            const currState = Object.values(state)
+
+            console.log('in delete reducer', action)
+            console.log('in delete reducer, state', currState[1])
+
+            reviewState = {...state, spot: {}, user: {}}
+
             currState.forEach((review) => {
                 if (review.id !== action.review)
                 reviewState.spot[review.id] = review;
             });
+
+            currState.forEach((review) => {
+                console.log('in for each user reviews', review)
+                if (review.id !== action.review)
+                reviewState.user[review.id] = review;
+            });
+
             return reviewState;
 
         case CLEAR_REVIEWS:

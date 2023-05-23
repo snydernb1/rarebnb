@@ -11,9 +11,7 @@ export default function ManageReviews() {
     const reviewsRev = Object.values(reviewObj);
     const reviews = reviewsRev.reverse();
 
-
-
-    console.log('this is the review',reviews)
+    // console.log('in manage reviews before review tiles', reviews)
 
     useEffect(() => {
         dispatch(fetchUserReviews())
