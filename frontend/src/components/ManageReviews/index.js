@@ -4,6 +4,8 @@ import { fetchUserReviews } from "../../store/reviews"
 
 import ReviewTiles from "../Spots/SingleSpot/ReviewTiles"
 
+import './ManageReviews.css'
+
 export default function ManageReviews() {
     const reviewObj = useSelector(state => state.reviews.user);
     const dispatch = useDispatch();
@@ -18,7 +20,7 @@ export default function ManageReviews() {
     }, [dispatch])
 
     return (
-    <section>
+    <section className="manageReviews">
         <h1>Manage Your Reviews</h1>
 
         <div className="reviewCards">

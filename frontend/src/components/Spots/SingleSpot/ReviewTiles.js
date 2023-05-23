@@ -39,25 +39,31 @@ export default function ReviewTiles ({review, spotName}) {
         <h4>{year}</h4>
     </div>
 
-    <p>{review.review}</p>
-        {hasReview &&
-    <div id='deleteReview'>
-        <OpenModalMenuItem
-            itemText="Delete"
-            onItemClick={closeMenu}
-            modalComponent={<DeleteConfirm id={review.id} deleteType='review'/>}
-            />
-    </div>
-    }
 
-    {/* //Working on update review button here */}
-    <div id='editReview'>
-        <OpenModalMenuItem
-            itemText="Update"
-            onItemClick={closeMenu}
-            modalComponent={<CreateReview id={review.id} existReview={review} sessionUser={sessionUser} reviewType={'edit'} spotId={review.Spot?.id}
-            />}
-            />
+        <p>{review.review}</p>
+    <div id='manageReviewButtons'>
+
+        {hasReview &&
+        <div id='editDeleteReview'>
+            <OpenModalMenuItem
+                itemText="Update"
+                onItemClick={closeMenu}
+                modalComponent={<CreateReview id={review.id} existReview={review} sessionUser={sessionUser} reviewType={'edit'} spotId={review.Spot?.id}
+                />}
+                />
+        </div>
+        }
+
+        {hasReview &&
+        <div id='editDeleteReview'>
+            <OpenModalMenuItem
+                itemText="Delete"
+                onItemClick={closeMenu}
+                modalComponent={<DeleteConfirm id={review.id} deleteType='review'/>}
+                />
+        </div>
+        }
+
     </div>
 
     </section>);

@@ -55,7 +55,7 @@ export default function GetSingleSpot() {
 
         const images = spot.SpotImages.slice(1)
 
-        console.log('images with no tiles', images)
+
 
 
         if (images.length < 4) {

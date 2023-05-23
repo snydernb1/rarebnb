@@ -168,23 +168,12 @@ const reviewsReducer = (state = initialState, action) => {
             return reviewState;
 
         case DELETE_REVIEW:
-            const currState = Object.values(state)
 
-            console.log('in delete reducer', action)
-            console.log('in delete reducer, state', currState[1])
+            reviewState = {...state, spot: {...state.spot}, user: {...state.user}};
+            const reviewNum = action.review.toString();
 
-            reviewState = {...state, spot: {}, user: {}}
-
-            currState.forEach((review) => {
-                if (review.id !== action.review)
-                reviewState.spot[review.id] = review;
-            });
-
-            currState.forEach((review) => {
-                console.log('in for each user reviews', review)
-                if (review.id !== action.review)
-                reviewState.user[review.id] = review;
-            });
+            delete reviewState.spot[reviewNum];
+            delete reviewState.user[reviewNum];
 
             return reviewState;
 
