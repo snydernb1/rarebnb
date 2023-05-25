@@ -10,7 +10,7 @@
     gap: .2em;
 }
 
-#deleteReview {
+#editDeleteReview {
     border-radius: none;
     border: 1px solid black;
     width: 65px;
@@ -21,4 +21,9 @@
     align-items: center;
     box-shadow: 1px 1px 3px 1px grey;
     margin-top: .5em;
+}
+
+#manageReviewButtons {
+    display: flex;
+    gap: 1em;
 }

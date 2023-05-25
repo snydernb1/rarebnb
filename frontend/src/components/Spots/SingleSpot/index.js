@@ -24,12 +24,6 @@ export default function GetSingleSpot() {
 
     const closeMenu = () => setShowMenu(false);
 
-    // useEffect(() => {
-    //     dispatch(fetchReviews(spotId))
-
-    //     // return () => dispatch(fetchClearReviews())
-    // }, [dispatch, reviews.length])
-
     useEffect(() => {
         dispatch(fetchReviews(spotId))
 
@@ -55,7 +49,7 @@ export default function GetSingleSpot() {
 
         const images = spot.SpotImages.slice(1)
 
-        console.log('images with no tiles', images)
+
 
 
         if (images.length < 4) {
@@ -82,6 +76,7 @@ export default function GetSingleSpot() {
     //============================== Calculating review number and avg rating
 
     const hasReview = reviews.find((review) => review.userId === sessionUser?.id)
+
 
     return(
         <section className='spot'>
@@ -185,6 +180,7 @@ export default function GetSingleSpot() {
                     review={review}
                     key={review.id}
                     hasReview={hasReview}
+                    spotName = {spot.name}
                     />
                     ))}
             </div>

@@ -1,9 +1,11 @@
 import { csrfFetch } from "./csrf";
 
-const ALL_REVIEWS = "spots/getReviews";
-const NEW_REVIEW = "spots/newReview";
-const DELETE_REVIEW = "spots/deleteReview";
-const CLEAR_REVIEWS = "spots/clearReviews";
+const ALL_REVIEWS = "reviews/getReviews";
+const NEW_REVIEW = "reviews/newReview";
+const DELETE_REVIEW = "reviews/deleteReview";
+const CLEAR_REVIEWS = "reviews/clearReviews";
+const USER_REVIEWS = "reviews/userReviews"
+const EDIT_REVIEW = "reviews/editReview"
 
 //====ACTION CREATORS=======================================
 
@@ -34,6 +36,20 @@ const clearSpotReviews = () => {
     }
 }
 
+const getUserReviews = (reviews) => {
+    return {
+        type: USER_REVIEWS,
+        reviews
+    }
+}
+
+const editUserReview = (review) => {
+    return {
+        type: EDIT_REVIEW,
+        review
+    }
+}
+
 //====THUNKS=======================================
 
 export const fetchReviews = (id) => async (dispatch) => {
@@ -43,6 +59,34 @@ export const fetchReviews = (id) => async (dispatch) => {
     const reviews = await response.json()
     dispatch(getReviews(reviews));
     } //might need an else for errors?
+}
+
+export const fetchUserReviews = () => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/current`)
+
+    if (response.ok) {
+    const reviews = await response.json()
+    dispatch(getUserReviews(reviews));
+    } //might need an else for errors?
+}
+
+export const fetchEditReview = (data) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${data.revId}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data.reviewData.backend)
+    });
+
+    if (response.ok) {
+        const editedUserReview = await response.json();
+        editedUserReview.User = data.reviewData.frontend.user
+        editedUserReview.Spot = data.reviewData.frontend.spot
+        dispatch(editUserReview(editedUserReview));
+        return editedUserReview;
+    } else {
+        const errors = await response.json();
+        return response;
+    }
 }
 
 export const fetchNewReview = (data) => async (dispatch) => {
@@ -99,6 +143,14 @@ const reviewsReducer = (state = initialState, action) => {
             });
             return reviewState;
 
+        case USER_REVIEWS:
+            const userReviews = action.reviews.Reviews
+            reviewState = {...state, spot: {...state.spot}, user: {}}
+            userReviews.forEach((review) => {
+                reviewState.user[review.id] = review;
+            });
+            return reviewState;
+
         case NEW_REVIEW:
             const newUserReview = action.review
             reviewState = {...state, spot: {...state.spot}, user: {...state.user}}
@@ -107,13 +159,23 @@ const reviewsReducer = (state = initialState, action) => {
 
             return reviewState;
 
+        case EDIT_REVIEW:
+            const editedUserReview = action.review
+            reviewState = {...state, spot: {...state.spot}, user: {...state.user}}
+
+            reviewState.user[editedUserReview.id] = editedUserReview
+            reviewState.spot[editedUserReview.id] = editedUserReview
+
+            return reviewState;
+
         case DELETE_REVIEW:
-            const currState = Object.values(state.spot)
-            reviewState = {spot: {}, user: {...state.user}}
-            currState.forEach((review) => {
-                if (review.id !== action.review)
-                reviewState.spot[review.id] = review;
-            });
+
+            reviewState = {...state, spot: {...state.spot}, user: {...state.user}};
+            const reviewNum = action.review.toString();
+
+            delete reviewState.spot[reviewNum];
+            delete reviewState.user[reviewNum];
+
             return reviewState;
 
         case CLEAR_REVIEWS:

@@ -10,6 +10,7 @@ import CreateSpot from "./components/Spots/CreateSpot";
 import ManageSpots from "./components/Spots/ManageSpots";
 import EditSpot from "./components/Spots/EditSpot";
 import FourOhFour from "./components/FourOhFour";
+import ManageReviews from "./components/ManageReviews";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,8 +33,12 @@ function App() {
             <CreateSpot />
           </Route>
 
-          <Route path='/users/:userId'>
+          <Route path='/users/:userId/spots'>
             <ManageSpots />
+          </Route>
+
+          <Route path='/users/:userId/reviews'>
+            <ManageReviews />
           </Route>
 
           <Route path='/spot/:spotId/edit'>

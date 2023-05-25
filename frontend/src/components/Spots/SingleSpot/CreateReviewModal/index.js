@@ -2,17 +2,17 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../../../context/Modal";
 import { useEffect, useState } from "react";
 
-import { fetchNewReview } from "../../../../store/reviews";
+import { fetchNewReview, fetchEditReview } from "../../../../store/reviews";
 
 import './ReviewModal.css'
 
 
-export default function CreateReview({spotId, sessionUser}) {
+export default function CreateReview({spotId, sessionUser, existReview, reviewType, spotName}) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
-    const [review, setReview] = useState("");
-    const [rating, setRating] = useState(0);
+    const [review, setReview] = useState(existReview?.review || "");
+    const [rating, setRating] = useState(existReview?.stars || 0);
     const [errors, setErrors] = useState({});
 
 
@@ -35,19 +35,30 @@ export default function CreateReview({spotId, sessionUser}) {
                 frontend: {user: {
                     id: sessionUser.id,
                     firstName: sessionUser.firstName,
-                    lastName: sessionUser.lastName}}
+                    lastName: sessionUser.lastName}
+                }
             }
         }
 
-        const newReview = await dispatch(fetchNewReview(reviewData))
-
-        if (newReview.id) {
-            closeModal();
-        } else {
-            setErrors(newReview.errors)
+        if (existReview) {
+            reviewData.reviewData.frontend.spot =  existReview.Spot
+            reviewData.revId = existReview.id
         }
 
 
+        if (reviewType === "edit") {
+            const editedReview = await dispatch(fetchEditReview(reviewData))
+            closeModal();
+        } else {
+            const newReview = await dispatch(fetchNewReview(reviewData))
+            closeModal();
+        }
+
+        // if (newReview.id) {
+        //     closeModal();
+        // } else {
+        //     setErrors(newReview.errors)
+        // }
     }
 
     function starRating (num) {
@@ -72,8 +83,9 @@ export default function CreateReview({spotId, sessionUser}) {
         makeDisabled = true
       }
 
+
     return (<section id="reviewModal">
-    <h1 id="reviewHeader">How was your stay?</h1>
+    <h1 id="reviewHeader">How was your stay {existReview ? "at " + spotName : null}?</h1>
 
     <form onSubmit={handleSubmit} id='reviewForm'>
 
