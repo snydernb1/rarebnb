@@ -164,6 +164,7 @@ const reviewsReducer = (state = initialState, action) => {
             reviewState = {...state, spot: {...state.spot}, user: {...state.user}}
 
             reviewState.user[editedUserReview.id] = editedUserReview
+            reviewState.spot[editedUserReview.id] = editedUserReview
 
             return reviewState;
 

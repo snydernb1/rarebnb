@@ -7,7 +7,7 @@ import { fetchNewReview, fetchEditReview } from "../../../../store/reviews";
 import './ReviewModal.css'
 
 
-export default function CreateReview({spotId, sessionUser, existReview, reviewType}) {
+export default function CreateReview({spotId, sessionUser, existReview, reviewType, spotName}) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
@@ -83,8 +83,9 @@ export default function CreateReview({spotId, sessionUser, existReview, reviewTy
         makeDisabled = true
       }
 
+
     return (<section id="reviewModal">
-    <h1 id="reviewHeader">How was your stay {existReview ? "at " + existReview.Spot.name : null}?</h1>
+    <h1 id="reviewHeader">How was your stay {existReview ? "at " + spotName : null}?</h1>
 
     <form onSubmit={handleSubmit} id='reviewForm'>
 

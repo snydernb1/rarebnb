@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchUserReviews } from "../../store/reviews"
+import { fetchUserReviews, fetchClearReviews } from "../../store/reviews"
 
 import ReviewTiles from "../Spots/SingleSpot/ReviewTiles"
 
@@ -13,11 +13,14 @@ export default function ManageReviews() {
     const reviewsRev = Object.values(reviewObj);
     const reviews = reviewsRev.reverse();
 
-    // console.log('in manage reviews before review tiles', reviews)
+    console.log('reviews in manage index', reviews)
 
     useEffect(() => {
         dispatch(fetchUserReviews())
+
+        return () => dispatch(fetchClearReviews())
     }, [dispatch])
+
 
     return (
     <section className="manageReviews">
@@ -28,7 +31,7 @@ export default function ManageReviews() {
                     <ReviewTiles
                     review={review}
                     key={review.id}
-                    spotName = {review.Spot.name}
+                    spotName = {review.Spot?.name}
                     />
                     ))}
             </div>
