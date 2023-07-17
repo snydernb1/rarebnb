@@ -9,6 +9,7 @@ import OpenModalMenuItem from '../../Navigation/OpenModalMenuItem'
 import CreateReview from './CreateReviewModal'
 import { fetchClearSpot } from '../../../store/spots'
 import { fetchClearReviews } from '../../../store/reviews'
+import Bookings from '../../Bookings'
 
 export default function GetSingleSpot() {
     const {spotId} = useParams();
@@ -132,9 +133,23 @@ export default function GetSingleSpot() {
                         </div>
 
                     </section>
-                    <button className='reserveButton' onClick={handleReserve}
+
+
+                    {/* <button className='reserveButton' onClick={handleReserve}
                     id='reserve'
-                    >Reserve</button>
+                    >Reserve</button> */}
+
+                    {/* modal goes here with additional button type */}
+                    {/* design the modal component form */}
+                    <OpenModalMenuItem
+                    itemText="Reserve"
+                    onItemClick={closeMenu}
+                    modalComponent={<Bookings spot={spot} sessionUser={sessionUser}/>}
+                    modalType='reserve'
+                    />
+
+
+
                 </div>
 
             </div>
