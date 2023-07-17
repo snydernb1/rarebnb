@@ -5,6 +5,8 @@ import { fetchSpots } from "../../store/spots"
 import BookingTiles from "./BookingTiles"
 import BookingTilesPast from "./BookingTilesPast"
 
+import './ManageBookings.css'
+
 
 export default function ManageBookings () {
     const dispatch = useDispatch()
@@ -28,11 +30,11 @@ export default function ManageBookings () {
     if (Object.keys(spotsObj).length === 0) return
 
     return (
-        <>
+        <section className="manageBookingsContainer">
             <h1 id='reviewHeader'>Manage Your Trips</h1>
 
 
-            <h2>Upcoming Trips</h2>
+            <h3 className="bookingSubHeader">Upcoming Trips</h3>
 
             <div className="reviewCards">
                 {bookings.length > 0 && bookings.map((booking)=> (
@@ -44,7 +46,7 @@ export default function ManageBookings () {
                     ))}
             </div>
 
-            <h2>Past Trips</h2>
+            <h3 className="bookingSubHeader" id="bookingSubHeader">Past Trips</h3>
 
             <div className="reviewCards">
                 {bookings.length > 0 && bookings.reverse().map((booking)=> (
@@ -55,6 +57,6 @@ export default function ManageBookings () {
                     />
                     ))}
             </div>
-        </>
+        </section>
     )
 }

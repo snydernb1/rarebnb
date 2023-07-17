@@ -1,0 +1,18 @@
+.manageBookingsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-self: center;
+    max-width: 1424px;
+    margin: auto;
+    padding: 2em 4em 2em 4em;
+}
+
+.bookingSubHeader {
+    font-size: 1.3em;
+    margin: 0 0 2em 0;
+}
+
+#bookingSubHeader {
+    margin-top: 2em;
+}

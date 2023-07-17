@@ -12,12 +12,14 @@
 .bookingImgContainer {
     height: 12em;
     width: 16em;
+    cursor: pointer;
 }
 
 .bookingImg {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    border-radius: 8px;
 }
 
 #cancelTrip {
