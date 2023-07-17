@@ -1,0 +1,34 @@
+.bookingDetails {
+    display: flex;
+    flex-direction: column;
+    gap: .7em;
+}
+
+.bookingTileContainer {
+    display: flex;
+    gap: 1em;
+}
+
+.bookingImgContainer {
+    height: 12em;
+    width: 16em;
+}
+
+.bookingImg {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+#cancelTrip {
+    border-radius: none;
+    border: 1px solid black;
+    width: 6.4em;
+    background-color: rgb(88, 88, 88);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 3px 1px grey;
+    margin-top: .5em;
+}

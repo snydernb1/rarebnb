@@ -5,6 +5,7 @@ import { useModal } from "../../context/Modal";
 // import { Redirect } from "react-router-dom";
 import "./LoginForm.css";
 import { useHistory } from "react-router-dom";
+import { fetchUserTrips } from "../../store/bookings";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -16,21 +17,22 @@ function LoginFormModal() {
   const history = useHistory()
 
 
-  const demoOne = (e) => {
+  const demoOne = async (e) => {
     e.preventDefault();
-    dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
+    await dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
+    await dispatch(fetchUserTrips())
     closeModal();
     history.push('/');
   }
 
-  const demoTwo = (e) => {
+  const demoTwo = async (e) => {
     e.preventDefault();
-    dispatch(sessionActions.login({ credential: 'FakeUser1', password: 'password1' }))
+    await dispatch(sessionActions.login({ credential: 'FakeUser1', password: 'password1' }))
     closeModal();
     history.push('/');
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
     return dispatch(sessionActions.login({ credential, password }))

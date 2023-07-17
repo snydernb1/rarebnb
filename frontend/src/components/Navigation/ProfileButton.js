@@ -59,6 +59,7 @@ function ProfileButton({ user }) {
             <li>Hello, {user.firstName}</li>
             <li id="underlineEmail">{user.email}</li>
             <li><NavLink to={`/users/${user.id}/spots`} onClick={closeMenu} id='manageSpots'>Manage Spots</NavLink></li>
+            <li><NavLink to={`/users/${user.id}/trips`} onClick={closeMenu} id='manageSpots'>Manage Trips</NavLink></li>
             <li id='underlineEmail'><NavLink to={`/users/${user.id}/reviews`} onClick={closeMenu} id='manageSpots'>Manage Reviews</NavLink></li>
             <li>
               <button onClick={logout} id='logoutButton'>Log Out</button>

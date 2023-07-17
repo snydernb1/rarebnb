@@ -1,10 +1,26 @@
 import { csrfFetch } from "./csrf";
 
 const CREATE_BOOKING = 'bookings/CREATE_BOOKING';
+const USER_BOOKING = 'bookings/USER_BOOKING';
+const CANCEL_BOOKING = 'bookings/CANCEL_BOOKING';
 
 const createBooking = (booking) => {
     return {
         type: CREATE_BOOKING,
+        booking
+    };
+};
+
+const userBooking = (bookings) => {
+    return {
+        type: USER_BOOKING,
+        bookings
+    };
+};
+
+const cancelBooking = (booking) => {
+    return {
+        type: CANCEL_BOOKING,
         booking
     };
 };
@@ -27,8 +43,43 @@ export const newBookingThunk = (bookingData) => async (dispatch) => {
     }
 }
 
+export const fetchUserTrips = () => async (dispatch) => {
+    const response = await csrfFetch(`/api/bookings/current`);
+
+
+    if (response.ok) {
+        const bookings = await response.json();
+        dispatch(userBooking(bookings))
+        return null
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+}
+
+export const cancelBookingThunk = (id) => async (dispatch) => {
+    const response = await csrfFetch(`/api/bookings/${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+    });
+
+
+    if (response.ok) {
+        const res = await response.json();
+        dispatch(cancelBooking(id))
+        return null
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+}
+
+
+
+///////////////////////////////////////////////////////////////////////
 const initialState = {
-    bookings: {}
+    spotBookings: {},
+    userBookings: {},
 }
 
 
@@ -39,9 +90,31 @@ const bookingsReducer = (state = initialState, action) => {
         case CREATE_BOOKING:
             const newBooking = action.booking;
 
-            bookingState = {...state, bookings: {...state.bookings}};
+            bookingState = {...state, spotBookings: {...state.spotBookings}, userBookings: {...state.userBookings}};
 
-            bookingState.bookings[newBooking.id] = newBooking
+            bookingState.spotBookings[newBooking.id] = newBooking
+            bookingState.userBookings[newBooking.id] = newBooking
+
+            return bookingState;
+
+        case USER_BOOKING:
+            const bookings = action.bookings.Bookings;
+
+            bookingState = {...state, spotBookings: {...state.spotBookings}, userBookings: {...state.userBookings}};
+
+            bookings.forEach(booking => {
+                bookingState.userBookings[booking.id] = booking
+            });
+
+            return bookingState;
+
+        case CANCEL_BOOKING:
+            const id = action.booking;
+
+            bookingState = {...state, spotBookings: {...state.spotBookings}, userBookings: {...state.userBookings}};
+
+            delete bookingState.spotBookings[id]
+            delete bookingState.userBookings[id]
 
             return bookingState;
 

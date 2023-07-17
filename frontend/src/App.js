@@ -11,6 +11,7 @@ import ManageSpots from "./components/Spots/ManageSpots";
 import EditSpot from "./components/Spots/EditSpot";
 import FourOhFour from "./components/FourOhFour";
 import ManageReviews from "./components/ManageReviews";
+import ManageBookings from "./components/Bookings/ManageBookings";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,10 @@ function App() {
 
           <Route path='/users/:userId/reviews'>
             <ManageReviews />
+          </Route>
+
+          <Route path='/users/:userId/trips'>
+            <ManageBookings />
           </Route>
 
           <Route path='/spot/:spotId/edit'>

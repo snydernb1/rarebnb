@@ -65,7 +65,6 @@ app.use(
       err.title = 'Validation error';
       err.errors = errors;
     }
-    console.log('=======================> Are we hitting the formatter?', err)
     next(err);
   });
 
@@ -75,13 +74,13 @@ app.use(
 
     res.status(err.status || 500);
     console.error(err);
-    console.log('==================> are we getting into the final error return ?', err)
     return res.json({
       title: err.title || 'Server Error',
       message: err.message,
       errors: err.errors,
       stack: isProduction ? null : err.stack
     });
+
   });
 
 
