@@ -34,7 +34,6 @@ export default function Bookings ({spot, sessionUser}) {
 
     }, [startDate, endDate])
 
-    console.log('front end errors', errors)
 
 
 

@@ -28,7 +28,6 @@ export default function ManageBookings () {
     }, [])
 
     if (Object.keys(spotsObj).length === 0) return
-    console.log()
 
     return (
         <section className="manageBookingsContainer">

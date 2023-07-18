@@ -14,6 +14,8 @@ export default function BookingTiles ({booking, spot}) {
 
     if (Date.parse(booking.startDate) < Date.parse(today)) return
 
+    if (!spot.previewImage) return
+
     const handleRedirect = () => {
         history.push(`/spot/${spot.id}`)
     }
