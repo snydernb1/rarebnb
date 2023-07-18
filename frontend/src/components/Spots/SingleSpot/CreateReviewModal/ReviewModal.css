@@ -72,5 +72,7 @@
     height: 3em;
     font-family: 'Urbanist', sans-serif;
     align-self: center;
-    color: white;
+    color: black;
+    font-weight: 600;
+    cursor: not-allowed;
 }

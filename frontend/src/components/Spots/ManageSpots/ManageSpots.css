@@ -1,8 +1,6 @@
 #manageSpotsPage {
     display: flex;
     flex-direction: column;
-    justify-self: center;
-    align-self: center;
     max-width: 1424px;
     margin: auto;
     padding: 2em 4em 0 4em;
@@ -21,8 +19,9 @@
 
 .manageCards {
     width: 100%;
+    min-height: 53em;
     padding: 2em 0em 0 0em;
-    display: inline-flex;
+    display: flex;
     flex-wrap: wrap;
     gap: 2em;
     max-width: 1424px;

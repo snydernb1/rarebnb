@@ -10,8 +10,10 @@ import CreateReview from './CreateReviewModal'
 import { fetchClearSpot } from '../../../store/spots'
 import { fetchClearReviews } from '../../../store/reviews'
 import Bookings from '../../Bookings'
+import { useHistory } from 'react-router-dom'
 
 export default function GetSingleSpot() {
+    const history = useHistory()
     const {spotId} = useParams();
     const dispatch = useDispatch();
     const spot = useSelector(state => state.spots.singleSpot);
@@ -78,6 +80,10 @@ export default function GetSingleSpot() {
 
     const hasReview = reviews.find((review) => review.userId === sessionUser?.id)
 
+    const handleRedirect = () => {
+        history.push(`/spot/${spot.id}/edit`)
+    }
+
 
     return(
         <section className='spot'>
@@ -141,12 +147,25 @@ export default function GetSingleSpot() {
 
                     {/* modal goes here with additional button type */}
                     {/* design the modal component form */}
+
+
+                    {!sessionUser &&
+                    <button className='reserveDisabled'>Log in to reserve </button>
+                    }
+
+
+                    {sessionUser && sessionUser.id === spot.ownerId &&
+                    <button className='reserveButton' onClick={handleRedirect}>Update Listing</button>
+                    }
+
+                    {sessionUser && sessionUser.id !== spot.ownerId &&
                     <OpenModalMenuItem
                     itemText="Reserve"
                     onItemClick={closeMenu}
                     modalComponent={<Bookings spot={spot} sessionUser={sessionUser}/>}
                     modalType='reserve'
                     />
+                    }
 
 
 

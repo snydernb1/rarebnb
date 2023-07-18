@@ -28,13 +28,14 @@ export default function ManageBookings () {
     }, [])
 
     if (Object.keys(spotsObj).length === 0) return
+    console.log()
 
     return (
         <section className="manageBookingsContainer">
             <h1 id='reviewHeader'>Manage Your Trips</h1>
 
 
-            <h3 className="bookingSubHeader">Upcoming Trips</h3>
+            <h3 className="bookingSubHeader">Upcoming Trips:</h3>
 
             <div className="reviewCards">
                 {bookings.length > 0 && bookings.map((booking)=> (
@@ -44,9 +45,10 @@ export default function ManageBookings () {
                     spot = {spotsObj[booking.spotId]}
                     />
                     ))}
+
             </div>
 
-            <h3 className="bookingSubHeader" id="bookingSubHeader">Past Trips</h3>
+            <h3 className="bookingSubHeader" id="bookingSubHeader">Past Trips:</h3>
 
             <div className="reviewCards">
                 {bookings.length > 0 && bookings.reverse().map((booking)=> (

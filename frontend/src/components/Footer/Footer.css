@@ -1,0 +1,30 @@
+.fa-globe {
+    font-size: .7em;
+}
+
+.footerBotBold {
+    font-weight: 600;
+}
+
+.footerContainer {
+    width: 100%;
+    padding: 0 2.6em 0 2.6em;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px rgba(211, 211, 211, 0.541) solid;
+    height: 3em;
+    background-color: white;
+    position: sticky;
+    bottom: 0;
+}
+
+.footerDiv {
+    display: flex;
+    gap: .8em;
+    align-items: center;
+}
+
+.techLinks {
+    color: black;
+    text-decoration: none;
+}

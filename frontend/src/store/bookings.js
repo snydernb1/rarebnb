@@ -100,7 +100,7 @@ const bookingsReducer = (state = initialState, action) => {
         case USER_BOOKING:
             const bookings = action.bookings.Bookings;
 
-            bookingState = {...state, spotBookings: {...state.spotBookings}, userBookings: {...state.userBookings}};
+            bookingState = {...state, spotBookings: {...state.spotBookings}, userBookings: {}};
 
             bookings.forEach(booking => {
                 bookingState.userBookings[booking.id] = booking

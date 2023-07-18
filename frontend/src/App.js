@@ -12,6 +12,7 @@ import EditSpot from "./components/Spots/EditSpot";
 import FourOhFour from "./components/FourOhFour";
 import ManageReviews from "./components/ManageReviews";
 import ManageBookings from "./components/Bookings/ManageBookings";
+import Footer from "./components/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ function App() {
 
         </Switch>
       )}
+      <Footer/>
     </>
   );
 }

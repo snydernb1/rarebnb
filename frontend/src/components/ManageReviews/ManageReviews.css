@@ -6,6 +6,7 @@
     max-width: 1424px;
     margin: auto;
     padding: 2em 4em 2em 4em;
+    min-height: 53em;
 }
 
 #reviewHeader {
