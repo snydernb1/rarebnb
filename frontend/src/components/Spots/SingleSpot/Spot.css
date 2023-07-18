@@ -72,6 +72,19 @@ li {
     font-size: medium;
 }
 
+.reserveButton {
+    width: 100%;
+    background-color: rgba(255, 56, 96, 1);
+    border: 1px solid black;
+    box-shadow: 2px 2px 4px 1px grey;
+    height: 3em;
+    font-family: 'Urbanist', sans-serif;
+    align-self: center;
+    color: white;
+    cursor: pointer;
+    font-size: medium;
+}
+
 #revInfoBox{
     display: flex;
 }
@@ -112,6 +125,21 @@ li {
     width: 95%;
 }
 
+.reserveDisabled {
+    margin-top: .5em;
+    width: 100%;
+    background-color: rgba(187, 187, 187, 0.541);
+    border: 1px solid black;
+    box-shadow: 2px 2px 4px 1px grey;
+    height: 3em;
+    cursor: not-allowed;
+    font-family: 'Urbanist', sans-serif;
+    align-self: center;
+    color: black;
+    font-weight: 600;
+    cursor: not-allowed;
+}
+
 .review {
     display: flex;
     gap: 5px;
@@ -146,6 +174,7 @@ li {
     max-width: 1000px;
     justify-self: center;
     margin: auto;
+    min-height: 53em;
 }
 
 .spotData {

@@ -528,6 +528,7 @@ router.post('/:spotId/bookings', requireAuth, reqBookAuth, validateBooking, asyn
     const spot = await Spot.findByPk(spotId);
     const { startDate, endDate } = req.body;
     const { user } = req;
+    console.log('========================> are we getting into the backend route?')
 
     const bookings = await Booking.findAll({
         where: {

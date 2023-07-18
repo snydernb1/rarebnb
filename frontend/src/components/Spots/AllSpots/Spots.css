@@ -9,6 +9,7 @@
     justify-self: center;
     align-self: center;
     margin: auto;
+    min-height: 53em;
 }
 
 .cards {
